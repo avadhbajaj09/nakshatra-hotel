@@ -159,3 +159,17 @@ test("renders the cinematic property hero and simplified responsive header", asy
   assert.match(styles, /nav-book\{display:none!important/);
   assert.match(styles, /@media\(max-width:700px\)\{\.hero-slider-nav\{display:none!important\}\}/);
 });
+
+test("keeps separate production builds for Sites and Vercel", async () => {
+  const [packageJson, vercelConfig] = await Promise.all([
+    readFile(new URL("../package.json", import.meta.url), "utf8"),
+    readFile(new URL("../vercel.json", import.meta.url), "utf8"),
+  ]);
+  const scripts = JSON.parse(packageJson).scripts;
+  const vercel = JSON.parse(vercelConfig);
+
+  assert.match(scripts.build, /vinext build/);
+  assert.equal(scripts["build:vercel"], "next build");
+  assert.equal(vercel.framework, "nextjs");
+  assert.equal(vercel.buildCommand, "npm run build:vercel");
+});
