@@ -17,6 +17,8 @@ test("server-renders the finished Nakshatra homepage", async () => {
   assert.match(html, /Nakshatra Hotel &amp; Resort/i);
   assert.match(html, /Ethereal stay/i);
   assert.match(html, /Check availability/i);
+  assert.match(html, /main-front-facade\.webp/i);
+  assert.match(html, /nakshatra-logo-gold-transparent-v2\.png/i);
   assert.match(html, /53/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Your site is taking shape/i);
 });

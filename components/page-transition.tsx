@@ -29,5 +29,5 @@ export function PageTransition() {
     return () => document.removeEventListener("click", onClick);
   }, [router]);
 
-  return <div className={`page-transition ${phase}`} aria-hidden="true"><div className="transition-panel transition-panel-left"/><div className="transition-panel transition-panel-right"/><div className="transition-mark"><img src="/images/nakshatra-official-logo.jpg" alt=""/><span>Khargone · Madhya Pradesh</span></div></div>;
+  return <div className={`page-transition ${phase}`} aria-hidden="true"><div className="transition-panel transition-panel-left"/><div className="transition-panel transition-panel-right"/><div className="transition-mark"><img src="/images/nakshatra-logo-gold-transparent-v2.png" alt=""/><span>Khargone · Madhya Pradesh</span></div></div>;
 }

@@ -17,7 +17,7 @@ export function HomePage() {
   const textY = useTransform(scrollYProgress, [0, 1], [0, -50]);
   return <main>
     <section className="hero" ref={heroRef}>
-      <motion.div className="hero-image" style={{ y: imageY }}><img src="/images/hero-resort.jpg" alt="Nakshatra Hotel & Resort rooftop pool and property at dusk"/></motion.div>
+      <motion.div className="hero-image hero-facade" style={{ y: imageY }}><img src="/images/main-front-facade.webp" alt="Main front façade and arrival entrance of Nakshatra Hotel & Resort at sunset"/></motion.div>
       <div className="hero-vignette"/><div className="hero-rays"/>
       <div className="orbital-art" aria-hidden="true"><span className="orbit orbit-one"/><span className="orbit orbit-two"/><span className="floating-star">✦</span></div>
       <motion.div className="hero-content" style={{ y: textY }}>
