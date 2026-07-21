@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, ChevronDown, MapPin, Star, Waves, UtensilsCrossed, PartyPopper, Wifi, Car, Flower2, Baby, Presentation, Gamepad2, Clock3, Sparkles, Coffee, Quote } from "lucide-react";
+import { ArrowRight, ChevronDown, MapPin, Star, Waves, UtensilsCrossed, PartyPopper, Wifi, Car, Flower2, Baby, Presentation, Gamepad2, Clock3, Sparkles, Coffee, Quote, Building2, Trees, BriefcaseBusiness, CarFront } from "lucide-react";
 import { useRef } from "react";
 import { amenities, rooms } from "@/lib/content";
 import { BookingWidget } from "./booking-widget";
@@ -36,8 +36,13 @@ export function HomePage() {
         <p className="kicker">A SANCTUARY IN KHARGONE</p>
         <h2>Where every arrival<br/>feels <em>written in the stars.</em></h2>
       </motion.div>
-      <div className="intro-aside"><p>Just ~3 km from Khargone Bus Stand, Nakshatra brings together 53 rooms, generous leisure spaces and thoughtful hospitality in one serene address.</p><Link className="arrow-link" href="/about">Our story <ArrowRight/></Link></div>
+      <div className="intro-aside"><p>Just ~3 km from Khargone Bus Stand, Nakshatra brings together 53 rooms, generous leisure spaces and thoughtful hospitality in one serene address.</p><Link className="arrow-link" href="/our-story">Our story <ArrowRight/></Link></div>
       <div className="stats-row"><div><b>53</b><span>ROOMS &amp; SUITES</span></div><div><b>5,500</b><span>SQ FT BANQUET HALL</span></div><div><b>3</b><span>KM FROM BUS STAND</span></div><div><b>24/7</b><span>FRONT DESK</span></div></div>
+    </section>
+
+    <section className="home-story section-shell">
+      <div className="home-story-image"><img src="/images/story-resort.jpg" alt="Generic resort exterior placeholder" loading="lazy"/><span className="image-label">GENERIC IMAGE · NEED NAKSHATRA ARRIVAL / EXTERIOR</span><div className="story-number glass-panel"><b>53</b><span>ROOMS<br/>ONE COMPLETE ADDRESS</span></div></div>
+      <div className="home-story-copy"><p className="kicker">OUR STORY</p><h2>Many reasons<br/>to <em>arrive.</em></h2><p>Nakshatra is designed to be useful in many different ways: a restful stop in Khargone, a comfortable business stay, a family meal, a wedding destination or a full day of celebration.</p><p>Rooms, dining, pools, lawns, meeting spaces, event venues and expansive parking come together so hosts and guests can spend less time moving between places—and more time in the moment.</p><Link className="gold-button" href="/our-story">Discover our story <ArrowRight/></Link></div>
     </section>
 
     <section className="experience-showcase">
@@ -52,6 +57,16 @@ export function HomePage() {
       <Link className="outline-button" href="/rooms">View all rooms <ArrowRight/></Link>
     </section>
 
+    <section className="celebrations-home">
+      <div className="section-shell"><div className="celebrations-head"><div><p className="kicker">VENUES FOR EVERY OCCASION</p><h2>Celebrate your way.<br/><em>We have the setting.</em></h2></div><p>Choose a grand indoor hall, an open wedding garden, a focused meeting setting or bring everything together with a complete event-planning conversation.</p></div>
+      <div className="venue-home-grid">
+        <Link href="/wedding-hall"><img src="/images/wedding.jpg" alt="Generic wedding hall placeholder" loading="lazy"/><div><span><Building2/>01</span><h3>Wedding Hall</h3><p>Approximately 5,500 sq ft for indoor celebrations.</p><b>Explore the hall <ArrowRight/></b></div></Link>
+        <Link href="/wedding-garden"><img src="/images/wedding-garden.jpg" alt="Generic wedding garden placeholder" loading="lazy"/><div><span><Trees/>02</span><h3>Wedding Garden</h3><p>Lush outdoor space for ceremonies and receptions.</p><b>Explore the garden <ArrowRight/></b></div></Link>
+        <Link href="/business-meetings"><img src="/images/business-meeting.jpg" alt="Generic business meeting placeholder" loading="lazy"/><div><span><BriefcaseBusiness/>03</span><h3>Business Meetings</h3><p>Meet, dine and stay within one Khargone address.</p><b>Plan a meeting <ArrowRight/></b></div></Link>
+        <Link href="/event-planning"><img src="/images/party.jpg" alt="Generic event planning placeholder" loading="lazy"/><div><span><PartyPopper/>04</span><h3>Full Event Planning</h3><p>Weddings, birthdays, parties and group gatherings.</p><b>Plan your event <ArrowRight/></b></div></Link>
+      </div></div>
+    </section>
+
     <section className="amenities-section">
       <div className="section-shell"><p className="kicker">EVERYTHING, CONSIDERED</p><div className="amenities-title"><h2>More than a stay.<br/><em>A world within.</em></h2><p>Spaces for stillness, play, celebration and connection—gathered in one verdant retreat.</p></div>
       <div className="amenities-grid">{amenities.map(([icon, label], i) => { const Icon = icons[icon as keyof typeof icons]; return <motion.div key={label} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(i * .035, .3) }} viewport={{ once: true }} className="amenity"><span className="gold-icon"><Icon/></span><span>{label}</span></motion.div>; })}</div>
@@ -61,6 +76,11 @@ export function HomePage() {
     <section className="dual-experience section-shell">
       <Link href="/wedding" className="editorial-card"><img src="/images/wedding.jpg" alt="Generic luxury wedding placeholder" loading="lazy"/><span className="image-label">GENERIC IMAGE · NEED NAKSHATRA WEDDING / BANQUET</span><div><p className="kicker">CELEBRATE</p><h3>Make it<br/><em>unforgettable.</em></h3><span>Weddings &amp; occasions <ArrowRight/></span></div></Link>
       <Link href="/restaurant" className="editorial-card"><img src="/images/restaurant.jpg" alt="Generic restaurant placeholder" loading="lazy"/><span className="image-label">GENERIC IMAGE · NEED RESTAURANT AMBIENCE / SIGNATURE DISH</span><div><p className="kicker">DINE</p><h3>Flavours worth<br/><em>lingering over.</em></h3><span>Discover our restaurant <ArrowRight/></span></div></Link>
+    </section>
+
+    <section className="parking-home">
+      <div className="parking-home-image"><img src="/images/parking.jpg" alt="Generic parking placeholder" loading="lazy"/><span className="image-label">GENERIC IMAGE · NEED REAL NAKSHATRA PARKING WIDE VIEW</span></div>
+      <div className="parking-home-copy"><span className="parking-icon"><CarFront/></span><p className="kicker">ARRIVE WITH EASE</p><h2>Expansive parking<br/>for <em>big occasions.</em></h2><p>Free on-site self-parking is one of Nakshatra’s most valuable practical advantages—especially for weddings, business meetings, parties and group stays.</p><p>For a larger gathering, share your approximate vehicle expectations and arrival windows so parking can be considered as part of the event plan.</p><Link className="arrow-link light" href="/parking">Explore parking & arrivals <ArrowRight/></Link></div>
     </section>
 
     <section className="review-section section-shell">

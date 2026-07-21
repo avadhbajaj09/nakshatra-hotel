@@ -12,16 +12,16 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://nakshatrahotel.in"),
   title: { default: "Nakshatra Hotel & Resort", template: "%s | Nakshatra Hotel & Resort" },
   description: "Ethereal stay in the lap of luxury — wedding, stay and restaurant in Khargone, Madhya Pradesh.",
-  openGraph: { title: "Nakshatra Hotel & Resort", description: "Ethereal stay in the lap of luxury.", type: "website", images: ["/og.png"] },
-  twitter: { card: "summary_large_image", images: ["/og.png"] },
+  openGraph: { title: "Nakshatra Hotel & Resort", description: "Stay, celebrate and gather in Khargone.", type: "website", images: ["/og-events.png"] },
+  twitter: { card: "summary_large_image", images: ["/og-events.png"] },
   icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
 };
 
 const hotelSchema = {
   "@context": "https://schema.org", "@type": "Hotel", name: "Nakshatra Hotel & Resort",
-  description: "Resort-style hotel with 53 rooms, pools, multi-cuisine restaurant, banquet hall and event facilities.",
+  description: "Resort-style hotel with 53 rooms, pools, multi-cuisine restaurant, wedding hall, wedding garden, business facilities, event planning and expansive parking.",
   telephone: "+91-94250-88369", address: { "@type": "PostalAddress", streetAddress: "Sanawad Rd, Jaitapur", addressLocality: "Khargone", addressRegion: "Madhya Pradesh", postalCode: "451001", addressCountry: "IN" },
-  amenityFeature: ["Outdoor pool", "Children's pool", "Restaurant", "Banquet hall", "Free WiFi", "Free parking"].map(name => ({ "@type": "LocationFeatureSpecification", name, value: true })),
+  amenityFeature: ["Outdoor pool", "Children's pool", "Restaurant", "Wedding hall", "Wedding garden", "Conference facilities", "Free WiFi", "Free parking"].map(name => ({ "@type": "LocationFeatureSpecification", name, value: true })),
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

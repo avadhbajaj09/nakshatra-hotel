@@ -61,4 +61,12 @@ Use folders or filenames like:
 - Confirmed Facebook, YouTube and Tripadvisor URLs
 - Check-in/check-out, deposit and cancellation rules approved by the hotel
 
+## New event-page photography needed
+
+- Wedding hall: 4 wide images — empty hall, fully dressed hall, stage view, dining layout
+- Wedding garden: 4 wide images — daytime lawn, sunset ceremony, evening lighting, reception layout
+- Parking: 2 very wide images showing the full real parking area and arrival entrance
+- Business meetings: 3 images — meeting layout, presentation view, tea/meal setup
+- Full event planning: 4 images — birthday, personal party, poolside event and event-team/service moment
+
 The live site keeps each image container’s dimensions fixed, so these replacements will not shift the layout.

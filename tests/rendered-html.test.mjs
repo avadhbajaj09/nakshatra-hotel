@@ -28,8 +28,18 @@ test("ships brand metadata and no starter preview", async () => {
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
   assert.match(layout, /Nakshatra Hotel & Resort/);
-  assert.match(layout, /og\.png/);
+  assert.match(layout, /og-events\.png/);
   assert.match(page, /Stay, Weddings & Dining in Khargone/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(layout + page, /codex-preview|_sites-preview/);
+});
+
+test("renders expanded story and event destinations", async () => {
+  for (const route of ["/our-story", "/wedding-hall", "/wedding-garden", "/parking", "/event-planning", "/business-meetings"]) {
+    const response = await render(route);
+    assert.equal(response.status, 200, route);
+    const html = await response.text();
+    assert.match(html, /DISCOVER THE DETAILS/i, route);
+    assert.match(html, /HOW TO PLAN/i, route);
+  }
 });
