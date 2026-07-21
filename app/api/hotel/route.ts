@@ -1,6 +1,12 @@
 import { getSupabaseAdmin, jsonError, throwIfSupabaseError } from "@/lib/supabase-admin";
 import { bookedRoomsOnDate, calculateStayAvailability, stayDates } from "@/lib/room-availability";
 
+const noStoreHeaders = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+  Pragma: "no-cache",
+  Expires: "0",
+};
+
 type AdminAction =
   | "save-room"
   | "save-meal"
@@ -35,7 +41,7 @@ export async function GET(request: Request) {
       throwIfSupabaseError(inventoryResult.error);
       throwIfSupabaseError(occupancyResult.error);
       const inventory = dates.length ? rooms.map((room) => calculateStayAvailability(room, inventoryResult.data || [], occupancyResult.data || [], checkIn, checkOut)) : [];
-      return Response.json({ rooms, meals, availability: inventory });
+      return Response.json({ rooms, meals, availability: inventory }, { headers: noStoreHeaders });
     }
 
     const [bookingsResult, availabilityResult, enquiriesResult] = await Promise.all([
@@ -59,7 +65,7 @@ export async function GET(request: Request) {
       const inventoryRooms = Math.min(rule.available_rooms, categoryCapacity);
       return { ...rule, inventory_rooms: inventoryRooms, booked_rooms: bookedRooms, available_rooms: Math.max(0, inventoryRooms - bookedRooms) };
     });
-    return Response.json({ rooms, meals, bookings: bookingsResult.data || [], availability, enquiries: enquiriesResult.data || [] });
+    return Response.json({ rooms, meals, bookings: bookingsResult.data || [], availability, enquiries: enquiriesResult.data || [] }, { headers: noStoreHeaders });
   } catch (error) {
     return jsonError(error);
   }
