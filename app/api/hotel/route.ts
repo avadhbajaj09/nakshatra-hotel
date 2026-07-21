@@ -1,4 +1,5 @@
 import { getSupabaseAdmin, jsonError, throwIfSupabaseError } from "@/lib/supabase-admin";
+import { bookedRoomsOnDate, calculateStayAvailability, stayDates } from "@/lib/room-availability";
 
 type AdminAction =
   | "save-room"
@@ -26,15 +27,14 @@ export async function GET(request: Request) {
     if (mode === "public") {
       const checkIn = url.searchParams.get("in") || "";
       const checkOut = url.searchParams.get("out") || checkIn;
-      const inventoryResult = checkIn
-        ? await supabase.from("availability").select("room_slug, available_rooms, price_override").gte("date", checkIn).lt("date", checkOut || checkIn)
-        : { data: [], error: null };
+      const dates = stayDates(checkIn, checkOut);
+      const [inventoryResult, occupancyResult] = dates.length ? await Promise.all([
+        supabase.from("availability").select("room_slug, date, available_rooms, price_override").gte("date", checkIn).lt("date", checkOut),
+        supabase.from("bookings").select("room_slug, check_in, check_out, status").neq("status", "cancelled").lt("check_in", checkOut).gt("check_out", checkIn),
+      ]) : [{ data: [], error: null }, { data: [], error: null }];
       throwIfSupabaseError(inventoryResult.error);
-      const inventory = Array.from((inventoryResult.data || []).reduce((map, item) => {
-        const current = map.get(item.room_slug);
-        map.set(item.room_slug, { room_slug: item.room_slug, available_rooms: Math.min(current?.available_rooms ?? Number.MAX_SAFE_INTEGER, item.available_rooms), price_override: Math.max(current?.price_override ?? 0, item.price_override ?? 0) || null });
-        return map;
-      }, new Map<string, { room_slug: string; available_rooms: number; price_override: number | null }>()).values());
+      throwIfSupabaseError(occupancyResult.error);
+      const inventory = dates.length ? rooms.map((room) => calculateStayAvailability(room, inventoryResult.data || [], occupancyResult.data || [], checkIn, checkOut)) : [];
       return Response.json({ rooms, meals, availability: inventory });
     }
 
@@ -46,7 +46,20 @@ export async function GET(request: Request) {
     throwIfSupabaseError(bookingsResult.error);
     throwIfSupabaseError(availabilityResult.error);
     throwIfSupabaseError(enquiriesResult.error);
-    return Response.json({ rooms, meals, bookings: bookingsResult.data || [], availability: availabilityResult.data || [], enquiries: enquiriesResult.data || [] });
+    const availabilityRules = availabilityResult.data || [];
+    const firstRuleDate = availabilityRules.reduce((first, item) => !first || item.date < first ? item.date : first, "");
+    const lastRuleDate = availabilityRules.reduce((last, item) => !last || item.date > last ? item.date : last, "");
+    const occupancyResult = availabilityRules.length
+      ? await supabase.from("bookings").select("room_slug, check_in, check_out, status").neq("status", "cancelled").lte("check_in", lastRuleDate).gt("check_out", firstRuleDate)
+      : { data: [], error: null };
+    throwIfSupabaseError(occupancyResult.error);
+    const availability = availabilityRules.map((rule) => {
+      const bookedRooms = bookedRoomsOnDate(occupancyResult.data || [], rule.room_slug, rule.date);
+      const categoryCapacity = rooms.find((room) => room.slug === rule.room_slug)?.total_rooms ?? rule.available_rooms;
+      const inventoryRooms = Math.min(rule.available_rooms, categoryCapacity);
+      return { ...rule, inventory_rooms: inventoryRooms, booked_rooms: bookedRooms, available_rooms: Math.max(0, inventoryRooms - bookedRooms) };
+    });
+    return Response.json({ rooms, meals, bookings: bookingsResult.data || [], availability, enquiries: enquiriesResult.data || [] });
   } catch (error) {
     return jsonError(error);
   }
@@ -66,7 +79,14 @@ export async function POST(request: Request) {
     } else if (body.action === "save-meal") {
       ({ error } = await supabase.from("meal_options").update({ name: String(body.name), price_per_guest: Number(body.pricePerGuest), description: String(body.description || ""), active: Boolean(body.active), updated_at: new Date().toISOString() }).eq("slug", String(body.slug)));
     } else if (body.action === "save-availability") {
-      ({ error } = await supabase.from("availability").upsert({ room_slug: String(body.roomSlug), date: String(body.date), available_rooms: Number(body.availableRooms), price_override: body.priceOverride === null || body.priceOverride === "" ? null : Number(body.priceOverride), note: String(body.note || ""), updated_at: new Date().toISOString() }, { onConflict: "room_slug,date" }));
+      const requestedInventory = Number(body.availableRooms);
+      const roomResult = await supabase.from("room_categories").select("total_rooms").eq("slug", String(body.roomSlug)).maybeSingle();
+      throwIfSupabaseError(roomResult.error);
+      if (!roomResult.data) return Response.json({ error: "Room category not found." }, { status: 404 });
+      if (!Number.isInteger(requestedInventory) || requestedInventory < 0 || requestedInventory > roomResult.data.total_rooms) {
+        return Response.json({ error: `Inventory must be between 0 and ${roomResult.data.total_rooms} rooms for this category.` }, { status: 400 });
+      }
+      ({ error } = await supabase.from("availability").upsert({ room_slug: String(body.roomSlug), date: String(body.date), available_rooms: requestedInventory, price_override: body.priceOverride === null || body.priceOverride === "" ? null : Number(body.priceOverride), note: String(body.note || ""), updated_at: new Date().toISOString() }, { onConflict: "room_slug,date" }));
     } else if (body.action === "delete-availability") {
       ({ error } = await supabase.from("availability").delete().eq("id", Number(body.id)));
     } else if (body.action === "booking-status") {
