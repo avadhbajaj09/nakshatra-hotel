@@ -145,3 +145,16 @@ test("uses luxury icons and responsive swipe galleries", async () => {
   assert.match(styles, /property-gallery-grid\{display:flex/);
   assert.match(styles, /rooms-photo-band\{display:flex/);
 });
+
+test("renders the cinematic property hero and simplified responsive header", async () => {
+  const home = await render("/");
+  const html = await home.text();
+  assert.match(html, /private-pool-gallery\/nakshatra25\.jpeg/);
+  assert.match(html, /restaurant-gallery\/nakshatra18\.jpeg/);
+  assert.match(html, /main-front-facade\.webp/);
+  assert.match(html, /Choose hero image/);
+
+  const styles = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  assert.match(styles, /hero-slider-nav/);
+  assert.match(styles, /nav-book\{display:none!important/);
+});

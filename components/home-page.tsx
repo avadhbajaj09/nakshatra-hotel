@@ -2,29 +2,41 @@
 
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, ChevronDown, MapPin, Star, Waves, UtensilsCrossed, PartyPopper, Wifi, Car, Flower2, Baby, Presentation, Gamepad2, Clock3, Sparkles, Coffee, Quote, Building2, Trees, BriefcaseBusiness, CarFront } from "lucide-react";
-import { useRef } from "react";
+import { ArrowRight, ChevronDown, ChevronLeft, ChevronRight, MapPin, Star, Waves, UtensilsCrossed, PartyPopper, Wifi, Car, Flower2, Baby, Presentation, Gamepad2, Clock3, Sparkles, Coffee, Quote, Building2, Trees, BriefcaseBusiness, CarFront } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { amenities, rooms } from "@/lib/content";
 import { BookingWidget } from "./booking-widget";
 import { RoomCard } from "./room-card";
 
 const icons = { Waves, UtensilsCrossed, PartyPopper, Wifi, Car, Flower2, Baby, Presentation, Gamepad2, Clock3, Sparkles, Coffee };
+const heroSlides = [
+  { image: "/images/private-pool-gallery/nakshatra25.jpeg", alt: "Nakshatra private rooftop pool at golden hour", label: "Rooftop pool", eyebrow: "PRIVATE ESCAPES · GOLDEN HOUR", className: "hero-slide-pool" },
+  { image: "/images/restaurant-gallery/nakshatra18.jpeg", alt: "Elegant dining inside the Nakshatra restaurant", label: "Fine dining", eyebrow: "RESTAURANT · CELEBRATION DINING", className: "hero-slide-restaurant" },
+  { image: "/images/main-front-facade.webp", alt: "Main façade and arrival entrance of Nakshatra Hotel & Resort", label: "The resort", eyebrow: "WEDDING · STAY · RESTAURANT", className: "hero-slide-resort" },
+] as const;
 
 export function HomePage() {
   const heroRef = useRef<HTMLElement>(null);
+  const [activeHeroSlide, setActiveHeroSlide] = useState(0);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const imageY = useTransform(scrollYProgress, [0, 1], [0, 120]);
   const textY = useTransform(scrollYProgress, [0, 1], [0, -50]);
+  useEffect(() => {
+    const timer = window.setInterval(() => setActiveHeroSlide(current => (current + 1) % heroSlides.length), 6500);
+    return () => window.clearInterval(timer);
+  }, []);
+  const changeHeroSlide = (direction: number) => setActiveHeroSlide(current => (current + direction + heroSlides.length) % heroSlides.length);
   return <main>
     <section className="hero" ref={heroRef}>
-      <motion.div className="hero-image hero-facade" style={{ y: imageY }}><img src="/images/main-front-facade.webp" alt="Main front façade and arrival entrance of Nakshatra Hotel & Resort at sunset"/></motion.div>
+      <motion.div className="hero-image hero-slider" style={{ y: imageY }}>{heroSlides.map((slide, index) => <motion.figure className={`hero-slide ${slide.className}`} key={slide.image} aria-hidden={index !== activeHeroSlide} animate={{ opacity: index === activeHeroSlide ? 1 : 0, scale: index === activeHeroSlide ? 1.075 : 1.015 }} transition={{ opacity: { duration: 1.35, ease: "easeInOut" }, scale: { duration: 7.2, ease: "linear" } }}><img src={slide.image} alt={index === activeHeroSlide ? slide.alt : ""}/></motion.figure>)}</motion.div>
       <div className="hero-vignette"/><div className="hero-rays"/>
       <div className="orbital-art" aria-hidden="true"><span className="orbit orbit-one"/><span className="orbit orbit-two"/><span className="floating-star">✦</span></div>
       <motion.div className="hero-content" style={{ y: textY }}>
-        <p className="hero-eyebrow"><span/>WEDDING · STAY · RESTAURANT<span/></p>
+        <motion.p className="hero-eyebrow" key={heroSlides[activeHeroSlide].eyebrow} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .55 }}><span/>{heroSlides[activeHeroSlide].eyebrow}<span/></motion.p>
         <h1>Ethereal stay<br/>in the lap of <em>luxury.</em></h1>
         <p className="hero-copy">A resort-style retreat in Khargone, shaped for unhurried stays, luminous celebrations and memorable dining.</p>
         <div className="hero-actions"><a href="#book" className="gold-button">Reserve your escape <ArrowRight/></a><Link href="/experience" className="text-link">Discover Nakshatra <span>↗</span></Link></div>
+        <div className="hero-slider-nav" aria-label="Choose hero image"><button onClick={() => changeHeroSlide(-1)} aria-label="Previous hero image"><ChevronLeft/></button><div>{heroSlides.map((slide, index) => <button className={index === activeHeroSlide ? "active" : ""} key={slide.label} onClick={() => setActiveHeroSlide(index)} aria-label={`Show ${slide.label} image`}><span/>{slide.label}</button>)}</div><button onClick={() => changeHeroSlide(1)} aria-label="Next hero image"><ChevronRight/></button></div>
       </motion.div>
       <div className="hero-location"><MapPin/>Sanawad Road · Jaitapur · Khargone</div>
       <a className="scroll-cue" href="#book" aria-label="Scroll to booking"><span>SCROLL</span><ChevronDown/></a>
