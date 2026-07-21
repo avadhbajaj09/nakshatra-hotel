@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 
-export type PublicRoomConfig = { slug: string; name: string; description: string; base_price: number; total_rooms: number; max_guests: number; active: number };
-export type PublicMealConfig = { slug: string; name: string; price_per_guest: number; description: string; active: number };
+export type PublicRoomConfig = { slug: string; name: string; description: string; base_price: number; total_rooms: number; max_guests: number; active: boolean };
+export type PublicMealConfig = { slug: string; name: string; price_per_guest: number; description: string; active: boolean };
 export type PublicAvailability = { room_slug: string; available_rooms: number; price_override: number | null };
 type PublicHotelConfig = { rooms: PublicRoomConfig[]; meals: PublicMealConfig[]; availability: PublicAvailability[] };
 

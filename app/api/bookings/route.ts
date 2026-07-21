@@ -1,4 +1,4 @@
-import { ensureHotelDatabase, jsonError } from "@/lib/hotel-db";
+import { getSupabaseAdmin, jsonError, throwIfSupabaseError } from "@/lib/supabase-admin";
 
 export async function POST(request: Request) {
   try {
@@ -7,18 +7,11 @@ export async function POST(request: Request) {
     if (required.some((key) => !String(body[key] ?? "").trim())) {
       return Response.json({ error: "Please complete all required booking details." }, { status: 400 });
     }
-    const db = await ensureHotelDatabase();
-    await db.prepare(
-      `INSERT INTO bookings
-        (reference, source, room_slug, room_name, guest_name, phone, email, check_in, check_out,
-         guests, meal_plan, total, arrival, requests, payment_method)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-    ).bind(
-      body.reference, body.source || "Website", body.roomSlug, body.roomName, body.guestName,
-      body.phone, body.email || "", body.checkIn, body.checkOut, Number(body.guests),
-      body.mealPlan || "Room only", Number(body.total || 0), body.arrival || "",
-      body.requests || "", "Pay at hotel"
-    ).run();
+    const supabase = getSupabaseAdmin();
+    const { error } = await supabase.from("bookings").insert({
+      reference: String(body.reference), source: String(body.source || "Website Direct"), room_slug: String(body.roomSlug), room_name: String(body.roomName), guest_name: String(body.guestName), phone: String(body.phone), email: String(body.email || ""), check_in: String(body.checkIn), check_out: String(body.checkOut), guests: Number(body.guests), meal_plan: String(body.mealPlan || "Room only"), total: Number(body.total || 0), arrival: String(body.arrival || ""), requests: String(body.requests || ""), payment_method: "Pay at hotel",
+    });
+    throwIfSupabaseError(error);
     return Response.json({ ok: true, reference: body.reference }, { status: 201 });
   } catch (error) {
     return jsonError(error);

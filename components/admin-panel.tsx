@@ -3,8 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { BedDouble, CalendarRange, Check, ChevronRight, IndianRupee, LayoutDashboard, LoaderCircle, Mail, MessageSquareText, Phone, RefreshCw, Search, Settings2, Trash2, UtensilsCrossed } from "lucide-react";
 
-type RoomRow = { id: number; slug: string; name: string; description: string; base_price: number; total_rooms: number; max_guests: number; active: number };
-type MealRow = { id: number; slug: string; name: string; price_per_guest: number; description: string; active: number };
+type RoomRow = { id: number; slug: string; name: string; description: string; base_price: number; total_rooms: number; max_guests: number; active: boolean };
+type MealRow = { id: number; slug: string; name: string; price_per_guest: number; description: string; active: boolean };
 type BookingRow = { id: number; reference: string; status: string; source: string; room_slug: string; room_name: string; guest_name: string; phone: string; email: string; check_in: string; check_out: string; guests: number; meal_plan: string; total: number; arrival: string; requests: string; payment_method: string; created_at: string };
 type AvailabilityRow = { id: number; room_slug: string; date: string; available_rooms: number; price_override: number | null; note: string };
 type EnquiryRow = { id: number; type: string; name: string; phone: string; email: string; preferred_date: string; message: string; status: string; source: string; created_at: string };
