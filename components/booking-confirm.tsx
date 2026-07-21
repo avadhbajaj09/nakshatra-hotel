@@ -34,13 +34,13 @@ export function BookingConfirm() {
           const reference = `NKS-${Date.now().toString().slice(-6)}`;
           router.push(`/booking/thank-you?reference=${reference}&room=${room.slug}&in=${checkIn}&out=${checkOut}&guests=${guests}&plan=${plan.slug}&poolHours=${poolHours}&total=${total}`);
         }}>
-          <section><div className="checkout-section-title"><span>01</span><div><h2>Guest details</h2><p>Who should the hotel contact about this stay?</p></div></div>
+          <section><div className="checkout-section-title"><span><UserRound/></span><div><h2>Guest details</h2><p>Who should the hotel contact about this stay?</p></div></div>
             <div className="checkout-fields two"><label><span>Full name</span><div><UserRound/><input name="name" required autoComplete="name" placeholder="Primary guest name"/></div></label><label><span>Mobile number</span><div><Phone/><input name="phone" required autoComplete="tel" inputMode="tel" placeholder="+91"/></div></label></div>
             <div className="checkout-fields two"><label><span>Email address</span><div><Mail/><input name="email" type="email" autoComplete="email" placeholder="you@email.com"/></div></label><label><span>Expected arrival</span><div><Clock3/><select name="arrival" defaultValue="12:00–14:00"><option>12:00–14:00</option><option>14:00–17:00</option><option>17:00–20:00</option><option>After 20:00</option></select></div></label></div>
             <label className="checkout-request"><span>Special requests</span><textarea name="requests" rows={4} placeholder="Meal preferences, accessibility needs, celebration notes or anything else the hotel should know."/></label>
           </section>
 
-          <section><div className="checkout-section-title"><span>02</span><div><h2>Payment method</h2><p>Online payments can be added later. Cash payment is available for this request.</p></div></div>
+          <section><div className="checkout-section-title"><span><Banknote/></span><div><h2>Payment method</h2><p>Online payments can be added later. Cash payment is available for this request.</p></div></div>
             <div className="cash-option selected"><div className="cash-icon"><Banknote/></div><div><b>Cash on arrival · Pay at hotel</b><p>No charge today. The hotel confirms the reservation and final applicable taxes before arrival.</p></div><span><Check/></span></div>
           </section>
 

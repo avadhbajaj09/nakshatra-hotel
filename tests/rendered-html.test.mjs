@@ -128,3 +128,20 @@ test("renders the room product, checkout and pay-at-hotel thank-you flow", async
   assert.match(thankYouHtml, /Thank you/i);
   assert.match(thankYouHtml, /NKS-123456/);
 });
+
+test("uses luxury icons and responsive swipe galleries", async () => {
+  const home = await render("/");
+  const homeHtml = await home.text();
+  assert.match(homeHtml, /GRAND INDOOR VENUE/);
+  assert.doesNotMatch(homeHtml, /01 · INCLUDED|02 · ₹2,000/);
+
+  const amenities = await render("/amenities");
+  const amenitiesHtml = await amenities.text();
+  assert.match(amenitiesHtml, /luxury-icon/);
+  assert.doesNotMatch(amenitiesHtml, />01<|>02<|>03</);
+
+  const styles = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  assert.match(styles, /scroll-snap-type:x mandatory/);
+  assert.match(styles, /property-gallery-grid\{display:flex/);
+  assert.match(styles, /rooms-photo-band\{display:flex/);
+});

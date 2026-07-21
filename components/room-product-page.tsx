@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
 import { addDays, differenceInCalendarDays, format } from "date-fns";
-import { ArrowRight, Bath, BedDouble, CalendarDays, Check, ChevronLeft, ChevronRight, Coffee, Minus, Plus, ShieldCheck, Sparkles, Users, Waves, Wifi } from "lucide-react";
+import { ArrowRight, Bath, BedDouble, CalendarDays, Camera, Check, ChevronLeft, ChevronRight, Coffee, Minus, Plus, ShieldCheck, Sparkles, Users, Waves, Wifi } from "lucide-react";
 import { mealPlans, roomAmenities, type Room } from "@/lib/content";
 
 export function RoomProductPage({ room }: { room: Room }) {
@@ -44,7 +44,7 @@ export function RoomProductPage({ room }: { room: Room }) {
           <section className="room-gallery" aria-label={`${room.name} photo gallery`}>
             <div className="room-gallery-stage" onTouchStart={(event) => { touchStart.current = event.touches[0].clientX; }} onTouchEnd={(event) => { if (touchStart.current === null) return; const distance = event.changedTouches[0].clientX - touchStart.current; if (Math.abs(distance) > 45) showImage(distance > 0 ? -1 : 1); touchStart.current = null; }}>
               <img src={room.gallery[activeImage]} alt={`${room.name} photo ${activeImage + 1} of ${room.gallery.length}`}/>
-              <div className="gallery-count">{String(activeImage + 1).padStart(2, "0")} / {String(room.gallery.length).padStart(2, "0")}</div>
+              <div className="gallery-count"><Camera/> PHOTO GALLERY</div>
               <button type="button" className="gallery-prev" onClick={() => showImage(-1)} aria-label="Previous room photo"><ChevronLeft/></button>
               <button type="button" className="gallery-next" onClick={() => showImage(1)} aria-label="Next room photo"><ChevronRight/></button>
             </div>
