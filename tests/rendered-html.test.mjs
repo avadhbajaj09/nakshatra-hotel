@@ -28,7 +28,7 @@ test("ships brand metadata and no starter preview", async () => {
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
   assert.match(layout, /Nakshatra Hotel & Resort/);
-  assert.match(layout, /og-booking-v3\.png/);
+  assert.match(layout, /og-glass-v4\.png/);
   assert.match(page, /Stay, Weddings & Dining in Khargone/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(layout + page, /codex-preview|_sites-preview/);
@@ -50,6 +50,23 @@ test("publishes the confirmed two-pool offer", async () => {
   assert.match(html, /₹2,000/);
   assert.match(html, /third.floor/i);
   assert.match(html, /with(?:out)? a room|without a stay/i);
+});
+
+test("renders the expanded rooms and amenities stories", async () => {
+  const rooms = await render("/rooms");
+  assert.equal(rooms.status, 200);
+  const roomsHtml = await rooms.text();
+  assert.match(roomsHtml, /YOUR STAY, YOUR WAY/i);
+  assert.match(roomsHtml, /COMFORT, INCLUDED/i);
+  assert.match(roomsHtml, /GUEST-BASED DINING/i);
+  assert.match(roomsHtml, /₹2,000 per hour/i);
+
+  const amenities = await render("/amenities");
+  assert.equal(amenities.status, 200);
+  const amenitiesHtml = await amenities.text();
+  assert.match(amenitiesHtml, /Ground-floor pool/i);
+  assert.match(amenitiesHtml, /Rooftop pool/i);
+  assert.match(amenitiesHtml, /MORE THAN A ROOM/i);
 });
 
 test("renders the room product, checkout and pay-at-hotel thank-you flow", async () => {

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { GlobalDiscovery } from "@/components/global-discovery";
+import { PageTransition } from "@/components/page-transition";
 import { MessageCircle } from "lucide-react";
 import "./globals.css";
 
@@ -12,8 +14,8 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://nakshatrahotel.in"),
   title: { default: "Nakshatra Hotel & Resort", template: "%s | Nakshatra Hotel & Resort" },
   description: "Luxury stays, two swimming pools, private rooftop pool bookings, weddings, dining and events in Khargone, Madhya Pradesh.",
-  openGraph: { title: "Nakshatra Hotel & Resort", description: "Explore real room galleries, choose a dining package and request your stay directly.", type: "website", images: ["/og-booking-v3.png"] },
-  twitter: { card: "summary_large_image", images: ["/og-booking-v3.png"] },
+  openGraph: { title: "Nakshatra Hotel & Resort", description: "Explore real room galleries, choose a dining package and request your stay directly.", type: "website", images: ["/og-glass-v4.png"] },
+  twitter: { card: "summary_large_image", images: ["/og-glass-v4.png"] },
   icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
 };
 
@@ -26,7 +28,7 @@ const hotelSchema = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html lang="en"><body className={`${inter.variable} ${playfair.variable}`}>
-    <SiteHeader/>{children}<SiteFooter/>
+    <PageTransition/><SiteHeader/>{children}<GlobalDiscovery/><SiteFooter/>
     <a className="whatsapp" href="https://wa.me/919770370076?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%27d%20like%20to%20plan%20a%20stay." target="_blank" rel="noreferrer" aria-label="Chat with Nakshatra Hotel on WhatsApp"><MessageCircle/><span>WhatsApp</span></a>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(hotelSchema) }}/>
   </body></html>;
