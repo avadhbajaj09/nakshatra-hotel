@@ -157,4 +157,5 @@ test("renders the cinematic property hero and simplified responsive header", asy
   const styles = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
   assert.match(styles, /hero-slider-nav/);
   assert.match(styles, /nav-book\{display:none!important/);
+  assert.match(styles, /@media\(max-width:700px\)\{\.hero-slider-nav\{display:none!important\}\}/);
 });
