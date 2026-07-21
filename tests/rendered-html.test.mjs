@@ -42,12 +42,31 @@ test("ships brand metadata and no starter preview", async () => {
 });
 
 test("renders expanded story and event destinations", async () => {
-  for (const route of ["/our-story", "/wedding-hall", "/wedding-garden", "/parking", "/event-planning", "/business-meetings", "/private-rooftop-pool"]) {
+  for (const route of ["/our-story", "/wedding-hall", "/wedding-garden", "/parking", "/event-planning", "/business-meetings", "/private-rooftop-pool", "/ground-floor-pool"]) {
     const response = await render(route);
     assert.equal(response.status, 200, route);
     const html = await response.text();
     assert.match(html, /DISCOVER THE DETAILS/i, route);
     assert.match(html, /HOW TO PLAN/i, route);
+  }
+});
+
+test("uses every supplied pool and restaurant gallery image", async () => {
+  const gallerySource = await readFile(new URL("../lib/galleries.ts", import.meta.url), "utf8");
+  assert.equal([...gallerySource.matchAll(/\/images\/private-pool-gallery\//g)].length, 11);
+  assert.equal([...gallerySource.matchAll(/\/images\/ground-floor-pool-gallery\//g)].length, 10);
+  assert.equal([...gallerySource.matchAll(/\/images\/restaurant-gallery\//g)].length, 12);
+
+  for (const [route, firstImage, countLabel] of [
+    ["/private-rooftop-pool", "private-pool-gallery/nakshatra25.jpeg", "11 REAL PROPERTY PHOTOGRAPHS"],
+    ["/ground-floor-pool", "ground-floor-pool-gallery/nakshatra10.jpeg", "10 REAL PROPERTY PHOTOGRAPHS"],
+    ["/restaurant", "restaurant-gallery/nakshatra18.jpeg", "12 REAL RESTAURANT PHOTOGRAPHS"],
+  ]) {
+    const response = await render(route);
+    assert.equal(response.status, 200, route);
+    const html = await response.text();
+    assert.match(html, new RegExp(firstImage.replaceAll("/", "\\/")), route);
+    assert.match(html, new RegExp(countLabel), route);
   }
 });
 

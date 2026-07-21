@@ -160,7 +160,7 @@ export const detailPages: Record<string, DetailPage> = {
   restaurant: {
     introTitle: "A welcoming table for hotel guests and local gatherings.",
     intro: ["Nakshatra’s in-house multi-cuisine restaurant brings familiar favourites and varied flavours together in a comfortable resort setting.", "Begin the day with complimentary breakfast, meet over a meal, or include dining as part of a wedding, party, conference or group stay.", "The full digital menu will be added when the hotel supplies the current item list, descriptions and approved prices."],
-    image2: "/images/restaurant.jpg", image3: "/images/celebration-table.jpg",
+    image2: "/images/restaurant-gallery/nakshatra18.jpeg", image3: "/images/restaurant-gallery/nakshatra13.jpeg",
     highlights: [{ value: "Multi-cuisine", label: "In-house restaurant" }, { value: "Included", label: "Complimentary breakfast" }, { value: "Groups", label: "Event and meeting dining" }],
     features: [{ title: "Breakfast at Nakshatra", text: "Start the day at the resort with the breakfast inclusion attached to the relevant room plan." }, { title: "Everyday dining", text: "A convenient in-house option for staying guests, local visitors and family meals." }, { title: "Occasion dining", text: "Discuss meal service for weddings, conferences, celebrations and group stays." }],
     journey: [{ title: "Choose the occasion", text: "A quiet meal, group lunch, event dinner or breakfast during your stay." }, { title: "Share dietary needs", text: "Discuss menu preferences and dietary requirements directly with the restaurant team." }, { title: "Gather at the table", text: "Good food gives every stay, meeting and celebration a natural place to come together." }],
@@ -205,12 +205,22 @@ export const detailPages: Record<string, DetailPage> = {
   "private-rooftop-pool": {
     introTitle: "Your own private pool above the resort.",
     intro: ["On the third floor, Nakshatra’s private rooftop swimming pool creates an exclusive setting for quiet swims, family time, couples, small celebrations or a few unhurried hours beneath the open sky.", "The rooftop pool may be reserved with a room stay or booked independently. The confirmed booking price is ₹2,000 per hour.", "This is separate from the ground-floor swimming pool, which is open to guests staying at the hotel. Rooftop bookings are personal-use reservations and should be confirmed with the hotel in advance."],
-    image2: "/images/private-rooftop-pool-night.jpg", image3: "/images/private-rooftop-pool-day.jpg",
+    image2: "/images/private-pool-gallery/nakshatra25.jpeg", image3: "/images/private-pool-gallery/nakshatra21.jpeg",
     highlights: [{ value: "₹2,000", label: "Per hour" }, { value: "Third floor", label: "Private rooftop setting" }, { value: "Room optional", label: "Book with or without a stay" }],
     features: [{ title: "Reserved just for you", text: "The third-floor pool is offered for exclusive personal use during the confirmed reservation window." }, { title: "A flexible booking", text: "Reserve it alongside your room or enjoy the rooftop pool as a standalone visit at ₹2,000 per hour." }, { title: "Made for private moments", text: "Plan a quiet swim, family time, a couple’s escape or a small personal occasion in a rooftop setting." }],
     journey: [{ title: "Choose your date and hours", text: "Share the preferred date, start time and number of hours you would like to reserve." }, { title: "Add your visit details", text: "Tell the hotel whether the booking is with a room or without a stay, plus the expected number of guests." }, { title: "Receive confirmation", text: "The hotel will confirm availability, access instructions, pool rules and the final reservation details." }],
-    related: [{ label: "Ground-floor Guest Pool", href: "/amenities", image: "/images/ground-floor-pool.jpg" }, { label: "Pool Parties", href: "/pool-party", image: "/images/rooftop-pool-family.jpg" }, { label: "Rooms & Suites", href: "/rooms", image: "/images/room-luxury.jpg" }], formType: "private rooftop pool booking at ₹2,000 per hour",
+    related: [{ label: "Ground-floor Guest Pool", href: "/ground-floor-pool", image: "/images/ground-floor-pool-gallery/nakshatra10.jpeg" }, { label: "Pool Parties", href: "/pool-party", image: "/images/rooftop-pool-family.jpg" }, { label: "Rooms & Suites", href: "/rooms", image: "/images/room-luxury.jpg" }], formType: "private rooftop pool booking at ₹2,000 per hour",
   },
+};
+
+detailPages["ground-floor-pool"] = {
+  introTitle: "An easy poolside escape, included with your room stay.",
+  intro: ["Nakshatra’s ground-floor swimming pool is the shared guest pool available to registered room-booking visitors during their stay.", "Set within the resort grounds, it offers a relaxed place for a refreshing swim, poolside downtime and unhurried family moments without leaving the property.", "Pool hours, supervision requirements and operating rules are confirmed by the hotel. This guest pool is separate from the private third-floor rooftop pool, which requires an exclusive hourly booking."],
+  image2: "/images/ground-floor-pool-gallery/nakshatra10.jpeg", image3: "/images/ground-floor-pool-gallery/nakshatra24.jpeg",
+  highlights: [{ value: "Included", label: "For registered room guests" }, { value: "Ground floor", label: "Convenient resort access" }, { value: "10", label: "Real pool photographs" }],
+  features: [{ title: "Part of your stay", text: "Registered room guests can use the ground-floor pool according to the hotel’s confirmed operating hours and rules." }, { title: "Relax within the resort", text: "Move easily between your room, breakfast, dining and time beside the water." }, { title: "Separate from the private pool", text: "For exclusive personal use, the third-floor rooftop pool is available separately at ₹2,000 per hour." }],
+  journey: [{ title: "Choose your room", text: "Select from six room styles and the meal package that suits your visit." }, { title: "Confirm pool access", text: "Ask the hotel team about current pool hours and guest-use requirements at check-in." }, { title: "Enjoy an easy resort day", text: "Settle into your room, enjoy breakfast and make time for a refreshing swim." }],
+  related: [{ label: "Rooms & Suites", href: "/rooms", image: "/images/rooms/nakshatra1.jpeg" }, { label: "Private Rooftop Pool", href: "/private-rooftop-pool", image: "/images/private-pool-gallery/nakshatra25.jpeg" }, { label: "Restaurant", href: "/restaurant", image: "/images/restaurant-gallery/nakshatra18.jpeg" }],
 };
 
 detailPages["conference-and-meetings"] = detailPages["business-meetings"];

@@ -76,7 +76,7 @@ function answerFor(raw: string): Omit<ChatMessage, "id" | "role"> {
   if (/pool|swim|swimming|rooftop|पूल/.test(query)) return {
     text: "Nakshatra has two separate pools. The ground-floor pool is included for registered room guests. The private third-floor rooftop pool is reserved exclusively at ₹2,000 per hour and can be booked with or without a room.",
     cards: [
-      { title: "Ground-floor guest pool", copy: "Open to registered staying guests during their visit.", image: "/images/ground-floor-pool.jpg", href: "/amenities" },
+      { title: "Ground-floor guest pool", copy: "Open to registered staying guests during their visit.", image: "/images/ground-floor-pool-gallery/nakshatra10.jpeg", href: "/ground-floor-pool" },
       { title: "Private rooftop pool", copy: "Exclusive personal use · ₹2,000 per hour.", image: "/images/private-rooftop-pool.jpg", href: "/private-rooftop-pool" },
     ],
     actions: [{ label: "Book private pool", href: "/private-rooftop-pool" }],
