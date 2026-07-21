@@ -18,7 +18,7 @@ export const rooms: Room[] = [
 ];
 
 export const amenities = [
-  ["Waves", "Infinity-edge outdoor pool"], ["Baby", "Indoor & children’s pool"],
+  ["Waves", "Ground-floor pool · included for staying guests"], ["Waves", "Private rooftop pool · ₹2,000 per hour"],
   ["UtensilsCrossed", "Multi-cuisine restaurant"], ["PartyPopper", "5,500 sq ft banquet hall"],
   ["Flower2", "Wedding venue & lush lawns"], ["Presentation", "Conference facilities"],
   ["Wifi", "Free WiFi · 50+ Mbps"], ["Car", "Free self-parking"],
@@ -28,6 +28,7 @@ export const amenities = [
 
 export const nav = [
   { label: "Stay", href: "/rooms" },
+  { label: "Private Pool", href: "/private-rooftop-pool" },
   { label: "Celebrate", href: "/wedding" },
   { label: "Dine", href: "/restaurant" },
   { label: "Our Story", href: "/our-story" },
@@ -155,11 +156,11 @@ export const detailPages: Record<string, DetailPage> = {
   experience: {
     introTitle: "Build the day around your own rhythm.",
     intro: ["Nakshatra combines the ease of a hotel with the breathing room of a resort-style property.", "Move from breakfast to the pools, outdoor sports, kids’ play, lawns, dining and a comfortable room without needing to plan every hour.", "For families, business travellers and celebration guests, the best part of the experience is having many useful spaces within one address."],
-    image2: "/images/pool.jpg", image3: "/images/story-resort.jpg",
-    highlights: [{ value: "3", label: "Pool experiences listed" }, { value: "50+ Mbps", label: "Free WiFi" }, { value: "Indoor + outdoor", label: "Ways to spend the day" }],
-    features: [{ title: "Time by the water", text: "Enjoy the infinity-edge outdoor pool plus separate indoor and children’s pool facilities." }, { title: "Space to move", text: "Lush lawns, outdoor sports and a kids’ play area add room for recreation." }, { title: "Everything close", text: "Restaurant, parking, breakfast, housekeeping and a 24-hour front desk support the stay." }],
+    image2: "/images/private-rooftop-pool.jpg", image3: "/images/ground-floor-pool.jpg",
+    highlights: [{ value: "2", label: "Distinct swimming pools" }, { value: "₹2,000", label: "Private rooftop pool per hour" }, { value: "50+ Mbps", label: "Free WiFi" }],
+    features: [{ title: "Ground-floor guest pool", text: "The ground-floor swimming pool is open to staying guests with a room booking." }, { title: "Private rooftop pool", text: "Reserve the third-floor rooftop pool for exclusive personal use at ₹2,000 per hour, with or without a room booking." }, { title: "Everything close", text: "Restaurant, parking, breakfast, housekeeping and a 24-hour front desk support the stay." }],
     journey: [{ title: "A gentle morning", text: "Begin with breakfast and an unhurried start within the resort." }, { title: "An open afternoon", text: "Choose between the water, the lawns, outdoor play or time in your room." }, { title: "An easy evening", text: "Gather for dinner or let an event, celebration or quiet conversation shape the night." }],
-    related: [{ label: "Pools & Amenities", href: "/amenities", image: "/images/pool.jpg" }, { label: "Dining", href: "/restaurant", image: "/images/restaurant.jpg" }, { label: "Our Story", href: "/our-story", image: "/images/story-resort.jpg" }],
+    related: [{ label: "Private Rooftop Pool", href: "/private-rooftop-pool", image: "/images/private-rooftop-pool.jpg" }, { label: "Pools & Amenities", href: "/amenities", image: "/images/ground-floor-pool.jpg" }, { label: "Dining", href: "/restaurant", image: "/images/restaurant.jpg" }],
   },
   "personal-party": {
     introTitle: "A private celebration, made comfortably your own.",
@@ -181,12 +182,21 @@ export const detailPages: Record<string, DetailPage> = {
   },
   "pool-party": {
     introTitle: "A bright, relaxed celebration beside the water.",
-    intro: ["Use Nakshatra’s resort setting to plan a refreshing poolside gathering for friends, family or a personal occasion.", "Food, event timing, guest facilities and appropriate pool use should be agreed with the hotel in advance.", "The property also has separate indoor and children’s pool facilities; the team will confirm which setting is suitable for the requested event."],
-    image2: "/images/pool.jpg", image3: "/images/party.jpg",
-    highlights: [{ value: "Outdoor", label: "Infinity-edge pool" }, { value: "Separate", label: "Indoor and children’s pools" }, { value: "Resort", label: "Food, rooms and parking" }],
-    features: [{ title: "Daytime gatherings", text: "Plan a relaxed social occasion around the outdoor pool and resort atmosphere." }, { title: "Food & refreshment", text: "Discuss an appropriate meal or refreshment plan with the hotel." }, { title: "Responsible planning", text: "Confirm pool access, timings, supervision and event rules before inviting guests." }],
+    intro: ["Use Nakshatra’s resort setting to plan a refreshing poolside gathering for friends, family or a personal occasion.", "The third-floor private rooftop pool is available for exclusive personal use at ₹2,000 per hour, with or without a room booking.", "Food, event timing, guest count, safety requirements and all event inclusions should be agreed with the hotel in advance."],
+    image2: "/images/private-rooftop-pool-night.jpg", image3: "/images/rooftop-pool-family.jpg",
+    highlights: [{ value: "₹2,000", label: "Private rooftop pool per hour" }, { value: "Third floor", label: "Exclusive rooftop setting" }, { value: "Flexible", label: "With or without a room" }],
+    features: [{ title: "Private use", text: "Book the third-floor rooftop pool for personal use without sharing the space with other visitors during the reserved time." }, { title: "With or without a stay", text: "Add the pool to a room booking or reserve it independently for ₹2,000 per hour." }, { title: "Responsible planning", text: "Confirm pool access, timings, guest count, supervision and event rules before inviting guests." }],
     journey: [{ title: "Choose the date", text: "Share the preferred day, timing and approximate number of guests." }, { title: "Confirm pool suitability", text: "The hotel will confirm the appropriate setting and event-use conditions." }, { title: "Plan the gathering", text: "Align food, music, rooms, parking and safety expectations in advance." }],
-    related: [{ label: "Amenities", href: "/amenities", image: "/images/pool.jpg" }, { label: "Birthday Parties", href: "/birthday-party", image: "/images/party.jpg" }, { label: "Event Planning", href: "/event-planning", image: "/images/celebration-table.jpg" }], formType: "pool party",
+    related: [{ label: "Private Rooftop Pool", href: "/private-rooftop-pool", image: "/images/private-rooftop-pool.jpg" }, { label: "Birthday Parties", href: "/birthday-party", image: "/images/party.jpg" }, { label: "Event Planning", href: "/event-planning", image: "/images/celebration-table.jpg" }], formType: "pool party",
+  },
+  "private-rooftop-pool": {
+    introTitle: "Your own private pool above the resort.",
+    intro: ["On the third floor, Nakshatra’s private rooftop swimming pool creates an exclusive setting for quiet swims, family time, couples, small celebrations or a few unhurried hours beneath the open sky.", "The rooftop pool may be reserved with a room stay or booked independently. The confirmed booking price is ₹2,000 per hour.", "This is separate from the ground-floor swimming pool, which is open to guests staying at the hotel. Rooftop bookings are personal-use reservations and should be confirmed with the hotel in advance."],
+    image2: "/images/private-rooftop-pool-night.jpg", image3: "/images/private-rooftop-pool-day.jpg",
+    highlights: [{ value: "₹2,000", label: "Per hour" }, { value: "Third floor", label: "Private rooftop setting" }, { value: "Room optional", label: "Book with or without a stay" }],
+    features: [{ title: "Reserved just for you", text: "The third-floor pool is offered for exclusive personal use during the confirmed reservation window." }, { title: "A flexible booking", text: "Reserve it alongside your room or enjoy the rooftop pool as a standalone visit at ₹2,000 per hour." }, { title: "Made for private moments", text: "Plan a quiet swim, family time, a couple’s escape or a small personal occasion in a rooftop setting." }],
+    journey: [{ title: "Choose your date and hours", text: "Share the preferred date, start time and number of hours you would like to reserve." }, { title: "Add your visit details", text: "Tell the hotel whether the booking is with a room or without a stay, plus the expected number of guests." }, { title: "Receive confirmation", text: "The hotel will confirm availability, access instructions, pool rules and the final reservation details." }],
+    related: [{ label: "Ground-floor Guest Pool", href: "/amenities", image: "/images/ground-floor-pool.jpg" }, { label: "Pool Parties", href: "/pool-party", image: "/images/rooftop-pool-family.jpg" }, { label: "Rooms & Suites", href: "/rooms", image: "/images/room-luxury.jpg" }], formType: "private rooftop pool booking at ₹2,000 per hour",
   },
 };
 

@@ -28,18 +28,26 @@ test("ships brand metadata and no starter preview", async () => {
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
   assert.match(layout, /Nakshatra Hotel & Resort/);
-  assert.match(layout, /og-events\.png/);
+  assert.match(layout, /og-rooftop-v2\.png/);
   assert.match(page, /Stay, Weddings & Dining in Khargone/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(layout + page, /codex-preview|_sites-preview/);
 });
 
 test("renders expanded story and event destinations", async () => {
-  for (const route of ["/our-story", "/wedding-hall", "/wedding-garden", "/parking", "/event-planning", "/business-meetings"]) {
+  for (const route of ["/our-story", "/wedding-hall", "/wedding-garden", "/parking", "/event-planning", "/business-meetings", "/private-rooftop-pool"]) {
     const response = await render(route);
     assert.equal(response.status, 200, route);
     const html = await response.text();
     assert.match(html, /DISCOVER THE DETAILS/i, route);
     assert.match(html, /HOW TO PLAN/i, route);
   }
+});
+
+test("publishes the confirmed two-pool offer", async () => {
+  const response = await render("/private-rooftop-pool");
+  const html = await response.text();
+  assert.match(html, /₹2,000/);
+  assert.match(html, /third.floor/i);
+  assert.match(html, /with(?:out)? a room|without a stay/i);
 });

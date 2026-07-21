@@ -22,6 +22,6 @@ export function BookingConfirm() {
         <p className="secure-line"><ShieldCheck/> Payment is not live in this preview. No card details will be requested.</p>
       </form>
     </section>
-    <aside className="stay-summary glass-panel"><img src={room.image} alt="Generic room placeholder"/><div><p className="kicker">YOUR SELECTION</p><h3>{room.name}</h3><p>{params.get("in") || "Selected check-in"} → {params.get("out") || "Selected check-out"}</p><p>{params.get("guests") || 2} guests · 1 room</p><hr/><span><small>Preview rate</small><b>₹{total.toLocaleString("en-IN")}</b></span><span><small>Deposit today</small><b>₹{deposit.toLocaleString("en-IN")}</b></span><p className="rate-warning">Rates are placeholders pending confirmation by the hotel.</p></div></aside>
+    <aside className="stay-summary glass-panel"><img src={room.image} alt={`${room.name} at Nakshatra Hotel & Resort`}/><div><p className="kicker">YOUR SELECTION</p><h3>{room.name}</h3><p>{params.get("in") || "Selected check-in"} → {params.get("out") || "Selected check-out"}</p><p>{params.get("guests") || 2} guests · 1 room</p><hr/><span><small>Preview rate</small><b>₹{total.toLocaleString("en-IN")}</b></span><span><small>Deposit today</small><b>₹{deposit.toLocaleString("en-IN")}</b></span><p className="rate-warning">Rates are placeholders pending confirmation by the hotel.</p></div></aside>
   </div>;
 }

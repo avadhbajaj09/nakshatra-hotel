@@ -4,8 +4,7 @@ import type { Room } from "@/lib/content";
 
 export function RoomCard({ room, priority = false }: { room: Room; priority?: boolean }) {
   return <article className="room-card">
-    <img src={room.image} alt={`Generic placeholder for ${room.name}`} loading={priority ? "eager" : "lazy"}/>
-    <span className="image-label">GENERIC IMAGE · REPLACE WITH PROPERTY PHOTO</span>
+    <img src={room.image} alt={`${room.name} at Nakshatra Hotel & Resort`} loading={priority ? "eager" : "lazy"}/>
     <div className="room-overlay glass-panel">
       <p className="kicker">{room.eyebrow}</p><h3>{room.name}</h3><p>{room.description}</p>
       <div className="room-meta"><span><BedDouble/>Room</span><span><Wifi/>WiFi</span><span><Coffee/>Breakfast</span></div>
