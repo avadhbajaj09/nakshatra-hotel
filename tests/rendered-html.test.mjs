@@ -19,6 +19,9 @@ test("server-renders the finished Nakshatra homepage", async () => {
   assert.match(html, /Check availability/i);
   assert.match(html, /main-front-facade\.webp/i);
   assert.match(html, /nakshatra-logo-gold-transparent-v2\.png/i);
+  assert.match(html, /Ask me anything/i);
+  assert.match(html, /Nakshatra concierge/i);
+  assert.doesNotMatch(html, /wa\.me|WhatsApp/i);
   assert.match(html, /53/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Your site is taking shape/i);
 });
@@ -31,6 +34,8 @@ test("ships brand metadata and no starter preview", async () => {
   ]);
   assert.match(layout, /Nakshatra Hotel & Resort/);
   assert.match(layout, /og-glass-v4\.png/);
+  assert.match(layout, /HotelChatbot/);
+  assert.doesNotMatch(layout, /wa\.me|WhatsApp/);
   assert.match(page, /Stay, Weddings & Dining in Khargone/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(layout + page, /codex-preview|_sites-preview/);

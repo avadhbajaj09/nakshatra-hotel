@@ -4,7 +4,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { GlobalDiscovery } from "@/components/global-discovery";
 import { PageTransition } from "@/components/page-transition";
-import { MessageCircle } from "lucide-react";
+import { HotelChatbot } from "@/components/hotel-chatbot";
 import "./globals.css";
 
 const inter = Inter({ variable: "--font-sans", subsets: ["latin"], display: "swap" });
@@ -29,7 +29,7 @@ const hotelSchema = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html lang="en"><body className={`${inter.variable} ${playfair.variable}`}>
     <PageTransition/><SiteHeader/>{children}<GlobalDiscovery/><SiteFooter/>
-    <a className="whatsapp" href="https://wa.me/919770370076?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%27d%20like%20to%20plan%20a%20stay." target="_blank" rel="noreferrer" aria-label="Chat with Nakshatra Hotel on WhatsApp"><MessageCircle/><span>WhatsApp</span></a>
+    <HotelChatbot/>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(hotelSchema) }}/>
   </body></html>;
 }
