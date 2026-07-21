@@ -196,7 +196,7 @@ export const detailPages: Record<string, DetailPage> = {
   "pool-party": {
     introTitle: "A bright, relaxed celebration beside the water.",
     intro: ["Use Nakshatra’s resort setting to plan a refreshing poolside gathering for friends, family or a personal occasion.", "The third-floor private rooftop pool is available for exclusive personal use at ₹2,000 per hour, with or without a room booking.", "Food, event timing, guest count, safety requirements and all event inclusions should be agreed with the hotel in advance."],
-    image2: "/images/private-rooftop-pool-night.jpg", image3: "/images/rooftop-pool-family.jpg",
+    image2: "/images/private-pool-gallery/nakshatra28.jpeg", image3: "/images/rooftop-pool-family.jpg",
     highlights: [{ value: "₹2,000", label: "Private rooftop pool per hour" }, { value: "Third floor", label: "Exclusive rooftop setting" }, { value: "Flexible", label: "With or without a room" }],
     features: [{ title: "Private use", text: "Book the third-floor rooftop pool for personal use without sharing the space with other visitors during the reserved time." }, { title: "With or without a stay", text: "Add the pool to a room booking or reserve it independently for ₹2,000 per hour." }, { title: "Responsible planning", text: "Confirm pool access, timings, guest count, supervision and event rules before inviting guests." }],
     journey: [{ title: "Choose the date", text: "Share the preferred day, timing and approximate number of guests." }, { title: "Confirm pool suitability", text: "The hotel will confirm the appropriate setting and event-use conditions." }, { title: "Plan the gathering", text: "Align food, music, rooms, parking and safety expectations in advance." }],

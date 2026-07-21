@@ -55,7 +55,7 @@ export function HomePage() {
       <div className="pool-duo-head"><p className="kicker">TWO WAYS TO SWIM</p><h2>Shared ease.<br/><em>Private escape.</em></h2><p>Nakshatra has two separate swimming experiences, each designed for a different kind of visit.</p></div>
       <div className="pool-duo-grid">
         <article><div><img src="/images/ground-floor-pool-gallery/nakshatra10.jpeg" alt="Ground-floor swimming pool for staying guests" loading="lazy"/></div><span>01 · INCLUDED WITH YOUR STAY</span><h3>Ground-floor guest pool</h3><p>Open to room-booking visitors during their stay—a relaxed place to swim, unwind and spend time together.</p><Link className="arrow-link" href="/ground-floor-pool">View pool gallery <ArrowRight/></Link></article>
-        <article><div><img src="/images/private-rooftop-pool-night.jpg" alt="Private rooftop swimming pool illuminated at night" loading="lazy"/></div><span>02 · ₹2,000 PER HOUR</span><h3>Third-floor private pool</h3><p>Reserve the rooftop exclusively for personal use. Book it with a room or independently, subject to availability.</p><Link className="arrow-link" href="/private-rooftop-pool">Book the private pool <ArrowRight/></Link></article>
+        <article><div><img src="/images/private-pool-gallery/nakshatra28.jpeg" alt="Nakshatra third-floor private rooftop pool illuminated at night" loading="lazy"/></div><span>02 · ₹2,000 PER HOUR</span><h3>Third-floor private pool</h3><p>Reserve the rooftop exclusively for personal use. Book it with a room or independently, subject to availability.</p><Link className="arrow-link" href="/private-rooftop-pool">Book the private pool <ArrowRight/></Link></article>
       </div>
     </section>
 

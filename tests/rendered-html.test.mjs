@@ -80,6 +80,13 @@ test("publishes the confirmed two-pool offer", async () => {
   assert.match(html, /with(?:out)? a room|without a stay/i);
 });
 
+test("uses the real rooftop night image for the private pool", async () => {
+  const home = await render("/");
+  const html = await home.text();
+  assert.match(html, /private-pool-gallery\/nakshatra28\.jpeg/);
+  assert.doesNotMatch(html, /private-rooftop-pool-night\.jpg/);
+});
+
 test("renders the expanded rooms and amenities stories", async () => {
   const rooms = await render("/rooms");
   assert.equal(rooms.status, 200);

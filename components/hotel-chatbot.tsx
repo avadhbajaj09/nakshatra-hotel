@@ -81,7 +81,7 @@ function answerFor(raw: string): Omit<ChatMessage, "id" | "role"> {
     text: "Birthday celebrations can be planned around an indoor venue, lawn, restaurant or private rooftop pool, with food, rooms and parking discussed together. Final space, timing and inclusions are confirmed for your date and guest count.",
     cards: [
       { title: "Birthday celebrations", copy: "Family birthdays, children’s celebrations and milestone evenings.", image: "/images/party.jpg", href: "/birthday-party" },
-      { title: "Private pool party", copy: "Third-floor rooftop pool at ₹2,000 per hour.", image: "/images/private-rooftop-pool-night.jpg", href: "/pool-party" },
+      { title: "Private pool party", copy: "Third-floor rooftop pool at ₹2,000 per hour.", image: "/images/private-pool-gallery/nakshatra28.jpeg", href: "/pool-party" },
     ],
     actions: [{ label: "Plan a birthday", href: "/birthday-party" }, { label: "Explore event planning", href: "/event-planning" }],
   };
