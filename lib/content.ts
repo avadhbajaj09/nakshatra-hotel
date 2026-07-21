@@ -36,3 +36,23 @@ export const nav = [
 ];
 
 export const address = "Sanawad Rd, Jaitapur, Khargone, Madhya Pradesh 451001";
+
+export const executiveRoomReference = {
+  name: "Executive Room",
+  sourceLabel: "OTA rate reference captured for 22–24 July 2026 · 1 room · 2 adults",
+  maxGuests: 3,
+  size: "324 sq ft (30 sq m)",
+  bed: "1 double bed",
+  bathrooms: 1,
+  amenities: ["Air conditioning", "In-room dining", "Heater", "Bathroom", "Housekeeping", "Smoking room"],
+  ratePlans: [
+    { name: "Room only", includes: "Free cancellation until check-in", rate: 2047, taxes: 288 },
+    { name: "Breakfast included", includes: "Complimentary breakfast · Free cancellation until check-in", rate: 2218, taxes: 312 },
+    { name: "Breakfast + one meal", includes: "Breakfast + lunch or dinner · Free cancellation until check-in", rate: 3113, taxes: 439 },
+  ],
+  rules: [
+    "Check-in: 12:00 PM", "Check-out: 10:00 AM", "Primary guest must be at least 18",
+    "Aadhaar accepted as ID proof", "Unmarried couples are not allowed", "Local IDs are not allowed",
+    "Groups with only male guests are allowed", "Pets are not allowed", "Outside food is not allowed",
+  ],
+} as const;
