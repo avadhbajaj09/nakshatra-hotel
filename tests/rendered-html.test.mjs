@@ -88,6 +88,9 @@ test("renders the expanded rooms and amenities stories", async () => {
   assert.match(roomsHtml, /COMFORT, INCLUDED/i);
   assert.match(roomsHtml, /GUEST-BASED DINING/i);
   assert.match(roomsHtml, /₹2,000 per hour/i);
+  assert.match(roomsHtml, /rooms\/nakshatra54\.jpeg/);
+  assert.match(roomsHtml, /rooms\/nakshatra55\.jpeg/);
+  assert.doesNotMatch(roomsHtml.match(/<section class="rooms-photo-band">[\s\S]*?<\/section>/)?.[0] || "", /nakshatra63|nakshatra65/);
 
   const amenities = await render("/amenities");
   assert.equal(amenities.status, 200);
