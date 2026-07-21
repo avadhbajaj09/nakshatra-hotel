@@ -5,9 +5,9 @@ import { usePathname } from "next/navigation";
 import { ArrowUpRight } from "lucide-react";
 
 const cards = [
-  { eyebrow: "STAY", title: "Rooms & dining plans", copy: "Six room styles, real galleries and guest-based breakfast, half-board and full-board choices.", href: "/rooms", image: "/images/rooms/nakshatra1.jpeg" },
-  { eyebrow: "ESCAPE", title: "Private rooftop pool", copy: "Reserve the third-floor pool exclusively for ₹2,000 per hour, with or without a room.", href: "/private-rooftop-pool", image: "/images/private-rooftop-pool.jpg" },
-  { eyebrow: "CELEBRATE", title: "Weddings & events", copy: "Banquet hall, garden, dining, rooms, expansive parking and one connected planning conversation.", href: "/wedding", image: "/images/wedding.jpg" },
+  { eyebrow: "STAY", title: "Rooms & dining plans", copy: "60 rooms across Executive, Deluxe, Family and Suite categories with flexible dining choices.", href: "/rooms", image: "/images/rooms/nakshatra1.jpeg" },
+  { eyebrow: "REFRESH", title: "Ground-floor guest pool", copy: "A relaxed swimming experience included for registered room guests.", href: "/ground-floor-pool", image: "/images/ground-floor-pool-gallery/nakshatra10.jpeg" },
+  { eyebrow: "CELEBRATE", title: "Weddings & events", copy: "Banquet hall, garden, dining, rooms, grand parking and one connected planning conversation.", href: "/wedding", image: "/images/wedding.jpg" },
 ];
 
 export function GlobalDiscovery() {

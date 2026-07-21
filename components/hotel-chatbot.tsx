@@ -15,10 +15,10 @@ const welcome: ChatMessage = {
   text: "Namaste! I’m your Nakshatra concierge. Ask me about rooms, prices, weddings, birthday parties, business meetings, pools, dining, parking or booking—and I can show you the right images too.",
 };
 
-const prompts = ["Private pool gallery", "Grand Hall photos", "Show room photos", "Plan my wedding", "Birthday party", "Business meeting", "Book a stay"];
+const prompts = ["Guest pool photos", "Grand Hall photos", "Show room photos", "Plan my wedding", "Birthday party", "Business meeting", "Book a stay"];
 
 const allOccasions: Card[] = [
-  { title: "Rooms & stays", copy: "Six room styles with real galleries and meal packages.", image: "/images/rooms/nakshatra1.jpeg", href: "/rooms" },
+  { title: "Rooms & stays", copy: "60 rooms across four categories with flexible meal packages.", image: "/images/rooms/nakshatra1.jpeg", href: "/rooms" },
   { title: "The Nakshatra Grand Hall", copy: "Grand Hall, garden, rooms, dining and parking together.", image: "/images/grand-hall-gallery/nakshatra69.jpeg", href: "/wedding-hall" },
   { title: "Birthday parties", copy: "Flexible indoor, lawn, restaurant and poolside possibilities.", image: "/images/party.jpg", href: "/birthday-party" },
   { title: "Business meetings", copy: "Meeting space, WiFi, dining, rooms and parking.", image: "/images/business-meeting.jpg", href: "/business-meetings" },
@@ -28,15 +28,10 @@ function answerFor(raw: string): Omit<ChatMessage, "id" | "role"> {
   const query = raw.toLowerCase();
   const wantsImages = /image|images|photo|photos|gallery|picture|pictures|फोटो/.test(query);
 
-  if (wantsImages && /private|rooftop/.test(query) && /pool|swim/.test(query)) return {
-    text: "Here is a private rooftop pool showcase with real Nakshatra photographs. The exclusive third-floor pool can be reserved with or without a room for ₹2,000 per hour; open the full gallery to explore all 11 images.",
-    cards: ["nakshatra25.jpeg", "nakshatra29.jpeg", "nakshatra27.jpeg", "nakshatra21.jpeg"].map((name, index) => ({
-      title: ["Private rooftop pool", "A pool reserved for you", "Third-floor escape", "Rooftop moments"][index],
-      copy: index === 0 ? "Exclusive private use · ₹2,000 per hour." : "A real view from the private pool collection.",
-      image: `/images/private-pool-gallery/${name}`,
-      href: "/private-rooftop-pool",
-    })),
-    actions: [{ label: "View all 11 pool photos", href: "/private-rooftop-pool" }, { label: "Book private pool", href: "/private-rooftop-pool#enquire" }],
+  if (wantsImages && /pool|swim/.test(query)) return {
+    text: "Here are real photographs of Nakshatra’s ground-floor guest pool, included for registered room guests during confirmed operating hours.",
+    cards: ["nakshatra10.jpeg", "nakshatra24.jpeg", "nakshatra43.jpeg", "nakshatra14.jpeg"].map((name) => ({ title: "Ground-floor guest pool", copy: "A refreshing resort moment included with your stay.", image: `/images/ground-floor-pool-gallery/${name}`, href: "/ground-floor-pool" })),
+    actions: [{ label: "View all guest pool photos", href: "/ground-floor-pool" }],
   };
 
   if (wantsImages && /wedding|banquet|hall|grand/.test(query)) return {
@@ -60,7 +55,7 @@ function answerFor(raw: string): Omit<ChatMessage, "id" | "role"> {
     text: "Here is a quick visual tour of Nakshatra. You can also open the full gallery for rooms, pools, dining, weddings and the resort grounds.",
     cards: [
       { title: "Hotel & resort", copy: "The main arrival façade in Khargone.", image: "/images/main-front-facade.webp", href: "/our-story" },
-      { title: "Private rooftop pool", copy: "Exclusive third-floor booking at ₹2,000 per hour.", image: "/images/private-pool-gallery/nakshatra25.jpeg", href: "/private-rooftop-pool" },
+      { title: "Guest pool", copy: "Included for registered room guests.", image: "/images/ground-floor-pool-gallery/nakshatra10.jpeg", href: "/ground-floor-pool" },
       { title: "The Nakshatra Grand Hall", copy: "Indoor celebrations and elegant event layouts.", image: "/images/grand-hall-gallery/nakshatra69.jpeg", href: "/wedding-hall" },
       { title: "Rooms", copy: "Real room galleries for every category.", image: "/images/rooms/nakshatra56.jpeg", href: "/rooms" },
     ],
@@ -68,7 +63,7 @@ function answerFor(raw: string): Omit<ChatMessage, "id" | "role"> {
   };
 
   if (/wedding|marriage|shaadi|shadi|वेडिंग|शादी/.test(query)) return {
-    text: "Nakshatra can bring your celebration together in one address: an approximately 5,500 sq ft banquet hall, wedding garden and lawns, 53 guest rooms, in-house dining, event planning and expansive free parking. Share your date and approximate guest count on the wedding enquiry page.",
+    text: "Nakshatra can bring your celebration together in one address: an approximately 5,500 sq ft banquet hall, wedding garden and lawns, 60 guest rooms, in-house dining, event planning and grand free parking. Share your date and approximate guest count on the wedding enquiry page.",
     cards: [
       { title: "The Nakshatra Grand Hall", copy: "Grand indoor celebrations in an approximately 5,500 sq ft setting.", image: "/images/grand-hall-gallery/nakshatra69.jpeg", href: "/wedding-hall" },
       { title: "Wedding garden", copy: "Open-air ceremonies, receptions and evening dining.", image: "/images/wedding-garden.jpg", href: "/wedding-garden" },
@@ -78,40 +73,37 @@ function answerFor(raw: string): Omit<ChatMessage, "id" | "role"> {
   };
 
   if (/birthday|anniversary|personal party|celebration|जन्मदिन/.test(query)) return {
-    text: "Birthday celebrations can be planned around an indoor venue, lawn, restaurant or private rooftop pool, with food, rooms and parking discussed together. Final space, timing and inclusions are confirmed for your date and guest count.",
+    text: "Birthday celebrations can be planned around an indoor venue, lawn, restaurant or a confirmed poolside setting, with food, rooms and parking discussed together. Final space, timing and inclusions are confirmed for your date and guest count.",
     cards: [
       { title: "Birthday celebrations", copy: "Family birthdays, children’s celebrations and milestone evenings.", image: "/images/party.jpg", href: "/birthday-party" },
-      { title: "Private pool party", copy: "Third-floor rooftop pool at ₹2,000 per hour.", image: "/images/private-pool-gallery/nakshatra28.jpeg", href: "/pool-party" },
+      { title: "Poolside celebration", copy: "Planned date-by-date with food and room options.", image: "/images/ground-floor-pool-gallery/nakshatra14.jpeg", href: "/pool-party" },
     ],
     actions: [{ label: "Plan a birthday", href: "/birthday-party" }, { label: "Explore event planning", href: "/event-planning" }],
   };
 
   if (/business|meeting|conference|corporate|training|मीटिंग/.test(query)) return {
-    text: "For business groups, Nakshatra combines meeting and conference facilities with 50+ Mbps WiFi, in-house dining, 53 rooms and free on-site parking. Tell the team your date, schedule, approximate attendance, room requirement and meal needs.",
+    text: "For business groups, Nakshatra combines meeting and conference facilities with 50+ Mbps WiFi, in-house dining, 60 rooms and free on-site parking. Tell the team your date, schedule, approximate attendance, room requirement and meal needs.",
     cards: [
       { title: "Meetings & conferences", copy: "Focused sessions, presentations, training and team gatherings.", image: "/images/business-meeting.jpg", href: "/business-meetings" },
-      { title: "Group accommodation", copy: "Six room styles with breakfast and dining packages.", image: "/images/rooms/nakshatra36.jpeg", href: "/rooms" },
+      { title: "Group accommodation", copy: "Four room categories with breakfast and dining packages.", image: "/images/rooms/nakshatra36.jpeg", href: "/rooms" },
     ],
     actions: [{ label: "Start meeting enquiry", href: "/business-meetings" }, { label: "View conference details", href: "/conference-and-meetings" }],
   };
 
-  if (/pool|swim|swimming|rooftop|पूल/.test(query)) return {
-    text: "Nakshatra has two separate pools. The ground-floor pool is included for registered room guests. The private third-floor rooftop pool is reserved exclusively at ₹2,000 per hour and can be booked with or without a room.",
-    cards: [
-      { title: "Ground-floor guest pool", copy: "Open to registered staying guests during their visit.", image: "/images/ground-floor-pool-gallery/nakshatra10.jpeg", href: "/ground-floor-pool" },
-      { title: "Private rooftop pool", copy: "Exclusive personal use · ₹2,000 per hour.", image: "/images/private-pool-gallery/nakshatra25.jpeg", href: "/private-rooftop-pool" },
-    ],
-    actions: [{ label: "Book private pool", href: "/private-rooftop-pool" }],
+  if (/pool|swim|swimming|पूल/.test(query)) return {
+    text: "Nakshatra’s ground-floor guest pool is included for registered room guests according to confirmed hotel operating hours and safety rules.",
+    cards: [{ title: "Ground-floor guest pool", copy: "Open to registered staying guests during their visit.", image: "/images/ground-floor-pool-gallery/nakshatra10.jpeg", href: "/ground-floor-pool" }],
+    actions: [{ label: "View guest pool", href: "/ground-floor-pool" }],
   };
 
   if (/room|stay|suite|hotel|accommodation|कमरा/.test(query) && !/book|booking|reserve|availability|बुक/.test(query)) return {
-    text: `Nakshatra offers 53 rooms across six styles. Preview rates begin at ₹${Math.min(...rooms.map(room => room.rate)).toLocaleString("en-IN")} per night. Every room includes practical comforts, and you can add breakfast, one daily meal or complete dining per registered guest.`,
+    text: `Nakshatra offers 60 rooms across four categories: Executive, Deluxe, Family and Suite. Rates begin at ₹${Math.min(...rooms.map(room => room.rate)).toLocaleString("en-IN")} per night. Every room includes practical comforts, and you can add breakfast, one daily meal or complete dining per registered guest.`,
     cards: rooms.slice(0, 3).map(room => ({ title: room.name, copy: `${room.bed} · up to ${room.maxGuests} guests · from ₹${room.rate.toLocaleString("en-IN")}`, image: room.image, href: `/rooms/${room.slug}` })),
     actions: [{ label: "Compare every room", href: "/rooms" }, { label: "Check room offers", href: "/offers" }],
   };
 
   if (/book|booking|reserve|availability|date|बुक/.test(query)) return {
-    text: "I can take you to the correct booking path. For a stay, choose a room, dates, guests and meal package, then complete the pay-at-hotel checkout. For weddings, parties, meetings or the private pool, open the matching planner below and send the hotel your date and guest details.",
+    text: "I can take you to the correct booking path. For a stay, choose a room, dates, guests and meal package, then complete the pay-at-hotel checkout. For weddings, parties or meetings, open the matching planner and send the hotel your date and guest details.",
     cards: allOccasions,
     actions: [{ label: "Book a room", href: "/rooms" }, { label: "Plan any event", href: "/event-planning" }],
   };
@@ -123,18 +115,18 @@ function answerFor(raw: string): Omit<ChatMessage, "id" | "role"> {
   };
 
   if (/parking|car|arrival|bus stand|location|address|where|पता/.test(query)) return {
-    text: "Nakshatra Hotel & Resort is on Sanawad Road, Jaitapur, Khargone, Madhya Pradesh 451001—approximately 3 km from Khargone Bus Stand. Expansive free self-parking supports hotel guests and large events.",
+    text: "Nakshatra Hotel & Resort is on Sanawad Road, Jaitapur, Khargone, Madhya Pradesh 451001—approximately 3 km from Khargone Bus Stand. Grand free self-parking—Khargone’s biggest parking area—supports hotel guests and large events.",
     cards: [{ title: "Parking & arrival", copy: "Free on-site parking for stays, weddings, parties and meetings.", image: "/images/parking.jpg", href: "/parking" }],
     actions: [{ label: "Open directions", href: "https://maps.google.com/?q=Nakshatra+Hotel+Resort+Khargone" }, { label: "Call +91 94250 88369", href: "tel:+919425088369" }],
   };
 
   if (/price|rate|cost|discount|offer|₹|कितना/.test(query)) return {
-    text: "Current preview room rates range from ₹2,999 for a Classic Room to ₹7,499 for a Family Room before selected meal add-ons. Direct-booking package discounts are shown during room selection. The private rooftop pool is ₹2,000 per hour. Event prices depend on date, venue, guests, food and inclusions.",
+    text: "Current room rates range from ₹2,999 for an Executive Room to ₹7,499 for a Family Room before selected meal add-ons. Direct-booking package discounts are shown during room selection. Event prices depend on date, venue, guests, food and inclusions.",
     actions: [{ label: "See room prices", href: "/rooms" }, { label: "View offers", href: "/offers" }, { label: "Request event pricing", href: "/event-planning" }],
   };
 
   return {
-    text: "I can help with room photos and prices, stay booking, weddings, birthday or pool parties, business meetings, dining, amenities, parking and directions. Choose one below, or ask a more specific question such as “show Luxury Room images” or “plan a wedding for 300 guests.”",
+    text: "I can help with room photos and prices, stay booking, weddings, birthday or poolside parties, business meetings, dining, amenities, parking and directions. Choose one below, or ask a more specific question such as “show Suite Room images” or “plan a wedding for 300 guests.”",
     cards: allOccasions,
   };
 }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { addDays, differenceInCalendarDays, format } from "date-fns";
 import { CalendarDays, Users, Minus, Plus, ArrowRight, Check, X } from "lucide-react";
 import { rooms } from "@/lib/content";
+import { useHotelConfig } from "@/lib/use-hotel-config";
 
 export function BookingWidget({ compact = false }: { compact?: boolean }) {
   const today = format(new Date(), "yyyy-MM-dd");
@@ -14,6 +15,7 @@ export function BookingWidget({ compact = false }: { compact?: boolean }) {
   const [guests, setGuests] = useState(2);
   const [showGuests, setShowGuests] = useState(false);
   const [results, setResults] = useState(false);
+  const config = useHotelConfig(checkIn, checkOut);
   const nights = useMemo(() => Math.max(1, differenceInCalendarDays(new Date(checkOut), new Date(checkIn))), [checkIn, checkOut]);
   return <>
     <div className={`booking-widget glass-panel ${compact ? "booking-compact" : ""}`} id="book">
@@ -30,9 +32,9 @@ export function BookingWidget({ compact = false }: { compact?: boolean }) {
       <section className="results-panel" aria-modal="true" role="dialog" aria-label="Available rooms">
         <button className="close-results" onClick={() => setResults(false)} aria-label="Close"><X/></button>
         <div className="results-head"><p className="kicker">YOUR STAY · {nights} {nights === 1 ? "NIGHT" : "NIGHTS"}</p><h2>Choose your <em>room.</em></h2><p>{format(new Date(checkIn), "dd MMM")} — {format(new Date(checkOut), "dd MMM yyyy")} · {guests} guests</p></div>
-        <p className="preview-note">Preview availability and rates — live inventory will activate when booking services are connected.</p>
+        <p className="preview-note">Live room inventory and direct prices for your selected dates.</p>
         <div className="result-list">{rooms.slice(0, 4).map((room, i) => <article key={room.slug}>
-          <img src={room.image} alt={`${room.name} at Nakshatra Hotel & Resort`}/><div><span className="availability-tag"><Check/> {6-i} preview rooms</span><h3>{room.name}</h3><p>{room.features.slice(0,2).join(" · ")}</p></div><div className="result-price"><small>Direct rate / night</small><b>₹{room.rate.toLocaleString("en-IN")}</b><Link className="gold-button" href={`/rooms/${room.slug}?in=${checkIn}&out=${checkOut}&guests=${Math.min(guests, room.maxGuests)}`}>View room</Link></div>
+          <img src={room.image} alt={`${room.name} at Nakshatra Hotel & Resort`}/><div><span className="availability-tag"><Check/> {config?.availability.find((item) => item.room_slug === room.slug)?.available_rooms ?? config?.rooms.find((item) => item.slug === room.slug)?.total_rooms ?? 15} rooms available</span><h3>{config?.rooms.find((item) => item.slug === room.slug)?.name || room.name}</h3><p>{room.features.slice(0,2).join(" · ")}</p></div><div className="result-price"><small>Direct rate / night</small><b>₹{(config?.availability.find((item) => item.room_slug === room.slug)?.price_override || config?.rooms.find((item) => item.slug === room.slug)?.base_price || room.rate).toLocaleString("en-IN")}</b><Link className="gold-button" href={`/rooms/${room.slug}?in=${checkIn}&out=${checkOut}&guests=${Math.min(guests, config?.rooms.find((item) => item.slug === room.slug)?.max_guests || room.maxGuests)}`}>View room</Link></div>
         </article>)}</div>
       </section>
     </div>}

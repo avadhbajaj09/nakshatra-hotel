@@ -15,8 +15,7 @@ export function BookingThankYou() {
   const checkIn = params.get("in") || format(new Date(), "yyyy-MM-dd");
   const checkOut = params.get("out") || format(new Date(Date.now() + 86400000), "yyyy-MM-dd");
   const total = Math.max(0, Number(params.get("total")) || room.rate);
-  const poolHours = Math.max(0, Number(params.get("poolHours")) || 0);
-  const message = encodeURIComponent(`Hello Nakshatra Hotel & Resort, I submitted booking request ${reference} for ${room.name}, ${format(new Date(checkIn), "dd MMM yyyy")} to ${format(new Date(checkOut), "dd MMM yyyy")}, ${guests} guest(s), ${plan.name}${poolHours ? `, private rooftop pool for ${poolHours} hour(s)` : ""}. Please confirm availability.`);
+  const message = encodeURIComponent(`Hello Nakshatra Hotel & Resort, I submitted booking request ${reference} for ${room.name}, ${format(new Date(checkIn), "dd MMM yyyy")} to ${format(new Date(checkOut), "dd MMM yyyy")}, ${guests} guest(s), ${plan.name}. Please confirm availability.`);
 
   return <main className="thank-you-page">
     <section className="thank-you-shell">
@@ -27,13 +26,13 @@ export function BookingThankYou() {
 
       <div className="thank-you-booking-card">
         <img src={room.gallery[0]} alt={`${room.name} at Nakshatra Hotel & Resort`}/>
-        <div><p className="kicker">STAY SUMMARY</p><h2>{room.name}</h2><p>{format(new Date(checkIn), "dd MMM yyyy")} → {format(new Date(checkOut), "dd MMM yyyy")} · {guests} {guests === 1 ? "guest" : "guests"}</p><p>{plan.name}{poolHours ? ` · Private pool ${poolHours}h` : ""}</p><span><small>Estimated total · taxes confirmed by hotel</small><b>₹{total.toLocaleString("en-IN")}</b></span></div>
+        <div><p className="kicker">STAY SUMMARY</p><h2>{room.name}</h2><p>{format(new Date(checkIn), "dd MMM yyyy")} → {format(new Date(checkOut), "dd MMM yyyy")} · {guests} {guests === 1 ? "guest" : "guests"}</p><p>{plan.name}</p><span><small>Estimated total · taxes confirmed by hotel</small><b>₹{total.toLocaleString("en-IN")}</b></span></div>
       </div>
 
       <div className="thank-you-next"><article><span><Clock3/></span><div><b>Hotel confirmation</b><p>The team confirms availability, final taxes and booking conditions by phone or WhatsApp.</p></div></article><article><span><Phone/></span><div><b>Keep your phone nearby</b><p>Use the mobile number entered at checkout when speaking with the hotel.</p></div></article><article><span><WalletCards/></span><div><b>Pay at the hotel</b><p>Bring cash for payment after your reservation has been confirmed.</p></div></article></div>
 
       <div className="thank-you-actions"><a className="gold-button" href={`https://wa.me/919770370076?text=${message}`} target="_blank" rel="noreferrer"><MessageCircle/> Confirm on WhatsApp <ArrowRight/></a><Link className="arrow-link" href="/rooms">Explore more rooms <ArrowRight/></Link></div>
-      <p className="thank-you-note">This website currently creates a reservation request on your device. WhatsApp or phone confirmation is required before travel.</p>
+      <p className="thank-you-note">Your booking is saved in the hotel control centre. WhatsApp or phone confirmation is still required before travel.</p>
     </section>
   </main>;
 }

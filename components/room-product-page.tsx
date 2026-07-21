@@ -4,8 +4,9 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
 import { addDays, differenceInCalendarDays, format } from "date-fns";
-import { ArrowRight, Bath, BedDouble, CalendarDays, Camera, Check, ChevronLeft, ChevronRight, Coffee, Minus, Plus, ShieldCheck, Sparkles, Users, Waves, Wifi } from "lucide-react";
+import { ArrowRight, Bath, BedDouble, CalendarDays, Camera, Check, ChevronLeft, ChevronRight, Coffee, Minus, Plus, ShieldCheck, Sparkles, Users, Wifi } from "lucide-react";
 import { mealPlans, roomAmenities, type Room } from "@/lib/content";
+import { configuredMealAddons, useHotelConfig } from "@/lib/use-hotel-config";
 
 export function RoomProductPage({ room }: { room: Room }) {
   const params = useSearchParams();
@@ -16,26 +17,28 @@ export function RoomProductPage({ room }: { room: Room }) {
   const [checkOut, setCheckOut] = useState(params.get("out") || defaultOut);
   const [guests, setGuests] = useState(Math.min(room.maxGuests, Math.max(1, Number(params.get("guests")) || 2)));
   const [planSlug, setPlanSlug] = useState(params.get("plan") || "breakfast");
-  const [poolHours, setPoolHours] = useState(Math.max(0, Number(params.get("poolHours")) || 0));
   const touchStart = useRef<number | null>(null);
+  const config = useHotelConfig(checkIn, checkOut);
+  const liveRoom = config?.rooms.find((item) => item.slug === room.slug);
+  const mealAddons = configuredMealAddons(config?.meals);
+  const effectiveRoom = { ...room, name: liveRoom?.name || room.name, description: liveRoom?.description || room.description, rate: config?.availability.find((item) => item.room_slug === room.slug)?.price_override || liveRoom?.base_price || room.rate, maxGuests: liveRoom?.max_guests || room.maxGuests };
+  const liveMealPlans = mealPlans.map((item) => ({ ...item, addonPerGuest: item.slug === "breakfast" ? mealAddons.breakfast ?? item.addonPerGuest : item.slug === "half-board" ? mealAddons.halfBoard ?? item.addonPerGuest : item.slug === "full-board" ? mealAddons.fullBoard ?? item.addonPerGuest : item.addonPerGuest }));
 
-  const plan = mealPlans.find((item) => item.slug === planSlug) || mealPlans[1];
+  const plan = liveMealPlans.find((item) => item.slug === planSlug) || liveMealPlans[1];
   const nights = useMemo(() => Math.max(1, differenceInCalendarDays(new Date(checkOut), new Date(checkIn))), [checkIn, checkOut]);
-  const nightly = room.rate + plan.addonPerGuest * guests;
+  const nightly = effectiveRoom.rate + plan.addonPerGuest * guests;
   const listNightly = Math.round(nightly / (1 - plan.discount / 100));
   const stayTotal = nightly * nights;
-  const poolTotal = poolHours * 2000;
-  const grandTotal = stayTotal + poolTotal;
 
   const showImage = (direction: number) => setActiveImage((current) => (current + direction + room.gallery.length) % room.gallery.length);
-  const checkoutHref = `/booking/checkout?room=${room.slug}&in=${checkIn}&out=${checkOut}&guests=${guests}&plan=${plan.slug}&poolHours=${poolHours}`;
+  const checkoutHref = `/booking/checkout?room=${room.slug}&in=${checkIn}&out=${checkOut}&guests=${guests}&plan=${plan.slug}`;
 
   return <main className="room-product">
     <section className="room-product-shell">
       <nav className="room-breadcrumb" aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><Link href="/rooms">Rooms</Link><span>/</span><b>{room.name}</b></nav>
 
       <div className="room-product-heading">
-        <div><p className="kicker">{room.eyebrow}</p><h1>{room.name}</h1><p>{room.description}</p></div>
+        <div><p className="kicker">{room.eyebrow}</p><h1>{effectiveRoom.name}</h1><p>{effectiveRoom.description}</p></div>
         <div className="room-photo-proof"><span>✦</span><div><b>{room.gallery.length} real photos</b><small>From Nakshatra Hotel &amp; Resort</small></div></div>
       </div>
 
@@ -55,7 +58,7 @@ export function RoomProductPage({ room }: { room: Room }) {
 
           <section className="room-facts-panel">
             <div><BedDouble/><span><small>BED</small><b>{room.bed}</b></span></div>
-            <div><Users/><span><small>OCCUPANCY</small><b>Up to {room.maxGuests} guests</b></span></div>
+            <div><Users/><span><small>OCCUPANCY</small><b>Up to {effectiveRoom.maxGuests} guests</b></span></div>
             <div><Sparkles/><span><small>SPACE</small><b>{room.size}</b></span></div>
             <div><Bath/><span><small>BATHROOM</small><b>Private bathroom</b></span></div>
           </section>
@@ -72,10 +75,6 @@ export function RoomProductPage({ room }: { room: Room }) {
             <div className="room-amenities-grid">{roomAmenities.map((amenity) => <span key={amenity}><Check/>{amenity}</span>)}</div>
           </section>
 
-          <section className="room-pool-addon">
-            <div><img src="/images/private-rooftop-pool.jpg" alt="Nakshatra private rooftop pool"/></div>
-            <div><p className="kicker">MAKE THE STAY YOURS</p><h2>Add the private rooftop pool.</h2><p>Reserve the third-floor pool exclusively with your room for ₹2,000 per hour.</p><div className="addon-stepper"><button type="button" onClick={() => setPoolHours(Math.max(0, poolHours - 1))} aria-label="Remove one pool hour"><Minus/></button><b>{poolHours}</b><span>{poolHours === 1 ? "hour" : "hours"}</span><button type="button" onClick={() => setPoolHours(Math.min(8, poolHours + 1))} aria-label="Add one pool hour"><Plus/></button></div></div>
-          </section>
         </div>
 
         <aside className="room-booking-card">
@@ -87,14 +86,14 @@ export function RoomProductPage({ room }: { room: Room }) {
             <label><span>Check out</span><div><CalendarDays/><input type="date" min={checkIn} value={checkOut} onChange={(event) => setCheckOut(event.target.value)}/></div></label>
           </div>
 
-          <div className="product-guests"><span>Guests</span><div><button type="button" onClick={() => setGuests(Math.max(1, guests - 1))} aria-label="Remove one guest"><Minus/></button><b>{guests}</b><button type="button" onClick={() => setGuests(Math.min(room.maxGuests, guests + 1))} aria-label="Add one guest"><Plus/></button><small>Maximum {room.maxGuests}</small></div></div>
+          <div className="product-guests"><span>Guests</span><div><button type="button" onClick={() => setGuests(Math.max(1, guests - 1))} aria-label="Remove one guest"><Minus/></button><b>{guests}</b><button type="button" onClick={() => setGuests(Math.min(effectiveRoom.maxGuests, guests + 1))} aria-label="Add one guest"><Plus/></button><small>Maximum {effectiveRoom.maxGuests}</small></div></div>
 
-          <fieldset className="meal-plan-picker"><legend>Choose your stay package</legend>{mealPlans.map((item) => {
-            const itemNightly = room.rate + item.addonPerGuest * guests;
+          <fieldset className="meal-plan-picker"><legend>Choose your stay package</legend>{liveMealPlans.map((item) => {
+            const itemNightly = effectiveRoom.rate + item.addonPerGuest * guests;
             return <button type="button" key={item.slug} className={plan.slug === item.slug ? "selected" : ""} onClick={() => setPlanSlug(item.slug)}><span className="plan-radio">{plan.slug === item.slug && <Check/>}</span><span><b>{item.shortName}</b><small>{item.addonPerGuest ? `+₹${item.addonPerGuest.toLocaleString("en-IN")} / guest / night` : "Room only"}</small></span><strong>₹{itemNightly.toLocaleString("en-IN")}</strong><em>Save {item.discount}%</em></button>;
           })}</fieldset>
 
-          <div className="booking-total-lines"><span><small>{nights} {nights === 1 ? "night" : "nights"} · {plan.shortName}</small><b>₹{stayTotal.toLocaleString("en-IN")}</b></span>{poolHours > 0 && <span><small>Private pool · {poolHours}h</small><b>₹{poolTotal.toLocaleString("en-IN")}</b></span>}<span className="grand-total"><small>Estimated total</small><b>₹{grandTotal.toLocaleString("en-IN")}</b></span></div>
+          <div className="booking-total-lines"><span><small>{nights} {nights === 1 ? "night" : "nights"} · {plan.shortName}</small><b>₹{stayTotal.toLocaleString("en-IN")}</b></span><span className="grand-total"><small>Estimated total</small><b>₹{stayTotal.toLocaleString("en-IN")}</b></span></div>
           <Link className="gold-button product-checkout" href={checkoutHref}>Continue to checkout <ArrowRight/></Link>
           <p className="product-assurance"><ShieldCheck/> No online payment required. Pay at the hotel after confirmation.</p>
         </aside>

@@ -10,7 +10,7 @@ import { RoomCard } from "./room-card";
 
 const icons = { Waves, UtensilsCrossed, PartyPopper, Wifi, Car, Flower2, Baby, Presentation, Gamepad2, Clock3, Sparkles, Coffee };
 const heroSlides = [
-  { image: "/images/private-pool-gallery/nakshatra25.jpeg", alt: "Nakshatra private rooftop pool at golden hour", label: "Rooftop pool", eyebrow: "PRIVATE ESCAPES · GOLDEN HOUR", className: "hero-slide-pool" },
+  { image: "/images/wedding-garden.jpg", alt: "Nakshatra wedding garden and resort lawns", label: "Wedding garden", eyebrow: "CELEBRATIONS · OPEN SKIES", className: "hero-slide-pool" },
   { image: "/images/restaurant-gallery/nakshatra18.jpeg", alt: "Elegant dining inside the Nakshatra restaurant", label: "Fine dining", eyebrow: "RESTAURANT · CELEBRATION DINING", className: "hero-slide-restaurant" },
   { image: "/images/main-front-facade.webp", alt: "Main façade and arrival entrance of Nakshatra Hotel & Resort", label: "The resort", eyebrow: "WEDDING · STAY · RESTAURANT", className: "hero-slide-resort" },
 ] as const;
@@ -48,31 +48,23 @@ export function HomePage() {
         <p className="kicker">A SANCTUARY IN KHARGONE</p>
         <h2>Where every arrival<br/>feels <em>written in the stars.</em></h2>
       </motion.div>
-      <div className="intro-aside"><p>Just ~3 km from Khargone Bus Stand, Nakshatra brings together 53 rooms, generous leisure spaces and thoughtful hospitality in one serene address.</p><Link className="arrow-link" href="/our-story">Our story <ArrowRight/></Link></div>
-      <div className="stats-row"><div><b>53</b><span>ROOMS &amp; SUITES</span></div><div><b>5,500</b><span>SQ FT BANQUET HALL</span></div><div><b>2</b><span>DISTINCT SWIMMING POOLS</span></div><div><b>24/7</b><span>FRONT DESK</span></div></div>
+      <div className="intro-aside"><p>Just ~3 km from Khargone Bus Stand, Nakshatra brings together 60 rooms, generous leisure spaces and thoughtful hospitality in one serene address.</p><Link className="arrow-link" href="/our-story">Our story <ArrowRight/></Link></div>
+      <div className="stats-row"><div><b>60</b><span>ROOMS &amp; SUITES</span></div><div><b>4</b><span>ROOM CATEGORIES</span></div><div><b>5,500</b><span>SQ FT BANQUET HALL</span></div><div><b>24/7</b><span>FRONT DESK</span></div></div>
     </section>
 
     <section className="home-story section-shell">
-      <div className="home-story-image"><img src="/images/story-resort.jpg" alt="Nakshatra Hotel & Resort exterior and lawns" loading="lazy"/><div className="story-number glass-panel"><b>53</b><span>ROOMS<br/>ONE COMPLETE ADDRESS</span></div></div>
-      <div className="home-story-copy"><p className="kicker">OUR STORY</p><h2>Many reasons<br/>to <em>arrive.</em></h2><p>Nakshatra is designed to be useful in many different ways: a restful stop in Khargone, a comfortable business stay, a family meal, a wedding destination or a full day of celebration.</p><p>Rooms, dining, pools, lawns, meeting spaces, event venues and expansive parking come together so hosts and guests can spend less time moving between places—and more time in the moment.</p><Link className="gold-button" href="/our-story">Discover our story <ArrowRight/></Link></div>
+      <div className="home-story-image"><img src="/images/story-resort.jpg" alt="Nakshatra Hotel & Resort exterior and lawns" loading="lazy"/><div className="story-number glass-panel"><b>60</b><span>ROOMS<br/>ONE COMPLETE ADDRESS</span></div></div>
+      <div className="home-story-copy"><p className="kicker">OUR STORY</p><h2>Many reasons<br/>to <em>arrive.</em></h2><p>Nakshatra is designed to be useful in many different ways: a restful stop in Khargone, a comfortable business stay, a family meal, a wedding destination or a full day of celebration.</p><p>Rooms, dining, a guest pool, lawns, meeting spaces, event venues and grand parking come together so hosts and guests can spend less time moving between places—and more time in the moment.</p><Link className="gold-button" href="/our-story">Discover our story <ArrowRight/></Link></div>
     </section>
 
     <section className="experience-showcase">
-      <div className="experience-image"><img src="/images/private-rooftop-pool.jpg" alt="Private rooftop pool on the third floor at Nakshatra" loading="lazy"/></div>
-      <div className="experience-card glass-panel"><p className="kicker">PRIVATE · THIRD FLOOR</p><h2>The rooftop pool,<br/><em>reserved for you.</em></h2><p>Book an exclusive rooftop pool experience with your room—or visit just for the pool—for ₹2,000 per hour.</p><Link className="gold-button" href="/private-rooftop-pool">Explore &amp; enquire <ArrowRight/></Link></div>
-      <div className="pool-stamp"><Waves/><span>PRIVATE POOL<br/>₹2,000 / HOUR</span></div>
-    </section>
-
-    <section className="pool-duo section-shell">
-      <div className="pool-duo-head"><p className="kicker">TWO WAYS TO SWIM</p><h2>Shared ease.<br/><em>Private escape.</em></h2><p>Nakshatra has two separate swimming experiences, each designed for a different kind of visit.</p></div>
-      <div className="pool-duo-grid">
-        <article><div><img src="/images/ground-floor-pool-gallery/nakshatra10.jpeg" alt="Ground-floor swimming pool for staying guests" loading="lazy"/></div><span><Waves/> INCLUDED WITH YOUR STAY</span><h3>Ground-floor guest pool</h3><p>Open to room-booking visitors during their stay—a relaxed place to swim, unwind and spend time together.</p><Link className="arrow-link" href="/ground-floor-pool">View pool gallery <ArrowRight/></Link></article>
-        <article><div><img src="/images/private-pool-gallery/nakshatra28.jpeg" alt="Nakshatra third-floor private rooftop pool illuminated at night" loading="lazy"/></div><span><Sparkles/> PRIVATE · ₹2,000 PER HOUR</span><h3>Third-floor private pool</h3><p>Reserve the rooftop exclusively for personal use. Book it with a room or independently, subject to availability.</p><Link className="arrow-link" href="/private-rooftop-pool">Book the private pool <ArrowRight/></Link></article>
-      </div>
+      <div className="experience-image"><img src="/images/ground-floor-pool-gallery/nakshatra10.jpeg" alt="Ground-floor guest pool at Nakshatra" loading="lazy"/></div>
+      <div className="experience-card glass-panel"><p className="kicker">INCLUDED WITH YOUR STAY</p><h2>A refreshing pause,<br/><em>inside the resort.</em></h2><p>Registered room guests can enjoy the ground-floor pool during confirmed hotel operating hours.</p><Link className="gold-button" href="/ground-floor-pool">Explore the guest pool <ArrowRight/></Link></div>
+      <div className="pool-stamp"><Waves/><span>GUEST POOL<br/>WITH YOUR STAY</span></div>
     </section>
 
     <section className="rooms-section section-shell">
-      <div className="section-head"><div><p className="kicker">SIX WAYS TO STAY</p><h2>Your room,<br/><em>your retreat.</em></h2></div><p>From efficient comfort to expansive family stays, discover a room thoughtfully matched to the way you travel.</p></div>
+      <div className="section-head"><div><p className="kicker">FOUR WAYS TO STAY</p><h2>Your room,<br/><em>your retreat.</em></h2></div><p>Choose an Executive, Deluxe, Family or Suite room thoughtfully matched to the way you travel.</p></div>
       <div className="room-grid">{rooms.map((room, i) => <RoomCard key={room.slug} room={room} priority={i === 0}/>)}</div>
       <Link className="outline-button" href="/rooms">View all rooms <ArrowRight/></Link>
     </section>
@@ -100,7 +92,7 @@ export function HomePage() {
 
     <section className="parking-home">
       <div className="parking-home-image"><img src="/images/parking.jpg" alt="Nakshatra Hotel & Resort arrival exterior" loading="lazy"/></div>
-      <div className="parking-home-copy"><span className="parking-icon"><CarFront/></span><p className="kicker">ARRIVE WITH EASE</p><h2>Expansive parking<br/>for <em>big occasions.</em></h2><p>Free on-site self-parking is one of Nakshatra’s most valuable practical advantages—especially for weddings, business meetings, parties and group stays.</p><p>For a larger gathering, share your approximate vehicle expectations and arrival windows so parking can be considered as part of the event plan.</p><Link className="arrow-link light" href="/parking">Explore parking & arrivals <ArrowRight/></Link></div>
+      <div className="parking-home-copy"><span className="parking-icon"><CarFront/></span><p className="kicker">ARRIVE WITH EASE</p><h2>Grand parking<br/>for <em>big occasions.</em></h2><p>Khargone’s biggest parking area is one of Nakshatra’s most valuable practical advantages—especially for weddings, business meetings, parties and group stays.</p><p>For a larger gathering, share your approximate vehicle expectations and arrival windows so parking can be considered as part of the event plan.</p><Link className="arrow-link light" href="/parking">Explore parking & arrivals <ArrowRight/></Link></div>
     </section>
 
     <section className="review-section section-shell">

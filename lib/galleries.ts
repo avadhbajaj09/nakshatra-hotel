@@ -19,14 +19,6 @@ export const propertyGalleries: Record<string, GallerySet> = {
       "/images/grand-hall-gallery/nakshatra41.jpeg",
     ],
   },
-  "private-rooftop-pool": {
-    eyebrow: "11 REAL PROPERTY PHOTOGRAPHS",
-    title: "See the rooftop, from every angle.",
-    copy: "Explore the private third-floor pool across open-sky afternoons, warm sunset light, intimate celebrations and relaxed personal time. Select any photograph for the full-screen gallery.",
-    images: [
-      "/images/private-pool-gallery/nakshatra25.jpeg", "/images/private-pool-gallery/nakshatra29.jpeg", "/images/private-pool-gallery/nakshatra27.jpeg", "/images/private-pool-gallery/nakshatra46.jpeg", "/images/private-pool-gallery/nakshatra17.jpeg", "/images/private-pool-gallery/nakshatra21.jpeg", "/images/private-pool-gallery/nakshatra23.jpeg", "/images/private-pool-gallery/nakshatra28.jpeg", "/images/private-pool-gallery/nakshatra45.jpeg", "/images/private-pool-gallery/nakshatra4.jpeg", "/images/private-pool-gallery/nakshatra22.jpeg",
-    ],
-  },
   "ground-floor-pool": {
     eyebrow: "10 REAL PROPERTY PHOTOGRAPHS",
     title: "A refreshing pause within the resort.",

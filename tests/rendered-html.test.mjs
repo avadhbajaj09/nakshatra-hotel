@@ -22,7 +22,7 @@ test("server-renders the finished Nakshatra homepage", async () => {
   assert.match(html, /Ask me anything/i);
   assert.match(html, /Nakshatra concierge/i);
   assert.doesNotMatch(html, /wa\.me|WhatsApp/i);
-  assert.match(html, /53/);
+  assert.match(html, /60/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Your site is taking shape/i);
 });
 
@@ -42,7 +42,7 @@ test("ships brand metadata and no starter preview", async () => {
 });
 
 test("renders expanded story and event destinations", async () => {
-  for (const route of ["/our-story", "/wedding-hall", "/wedding-garden", "/parking", "/event-planning", "/business-meetings", "/private-rooftop-pool", "/ground-floor-pool"]) {
+  for (const route of ["/our-story", "/wedding-hall", "/wedding-garden", "/parking", "/event-planning", "/business-meetings", "/ground-floor-pool"]) {
     const response = await render(route);
     assert.equal(response.status, 200, route);
     const html = await response.text();
@@ -51,15 +51,13 @@ test("renders expanded story and event destinations", async () => {
   }
 });
 
-test("uses every supplied pool, restaurant and Grand Hall gallery image", async () => {
+test("uses every supplied guest pool, restaurant and Grand Hall gallery image", async () => {
   const gallerySource = await readFile(new URL("../lib/galleries.ts", import.meta.url), "utf8");
-  assert.equal([...gallerySource.matchAll(/\/images\/private-pool-gallery\//g)].length, 11);
   assert.equal([...gallerySource.matchAll(/\/images\/ground-floor-pool-gallery\//g)].length, 10);
   assert.equal([...gallerySource.matchAll(/\/images\/restaurant-gallery\//g)].length, 12);
   assert.equal([...gallerySource.matchAll(/\/images\/grand-hall-gallery\//g)].length, 11);
 
   for (const [route, firstImage, countLabel] of [
-    ["/private-rooftop-pool", "private-pool-gallery/nakshatra25.jpeg", "11 REAL PROPERTY PHOTOGRAPHS"],
     ["/ground-floor-pool", "ground-floor-pool-gallery/nakshatra10.jpeg", "10 REAL PROPERTY PHOTOGRAPHS"],
     ["/restaurant", "restaurant-gallery/nakshatra18.jpeg", "12 REAL RESTAURANT PHOTOGRAPHS"],
     ["/wedding-hall", "grand-hall-gallery/nakshatra42.jpeg", "11 REAL GRAND HALL PHOTOGRAPHS"],
@@ -72,19 +70,11 @@ test("uses every supplied pool, restaurant and Grand Hall gallery image", async 
   }
 });
 
-test("publishes the confirmed two-pool offer", async () => {
-  const response = await render("/private-rooftop-pool");
+test("publishes the guest pool without the removed private-pool offer", async () => {
+  const response = await render("/ground-floor-pool");
   const html = await response.text();
-  assert.match(html, /₹2,000/);
-  assert.match(html, /third.floor/i);
-  assert.match(html, /with(?:out)? a room|without a stay/i);
-});
-
-test("uses the real rooftop night image for the private pool", async () => {
-  const home = await render("/");
-  const html = await home.text();
-  assert.match(html, /private-pool-gallery\/nakshatra28\.jpeg/);
-  assert.doesNotMatch(html, /private-rooftop-pool-night\.jpg/);
+  assert.match(html, /ground-floor/i);
+  assert.doesNotMatch(html, /private.{0,30}pool|₹2,000/i);
 });
 
 test("renders the expanded rooms and amenities stories", async () => {
@@ -94,7 +84,9 @@ test("renders the expanded rooms and amenities stories", async () => {
   assert.match(roomsHtml, /YOUR STAY, YOUR WAY/i);
   assert.match(roomsHtml, /COMFORT, INCLUDED/i);
   assert.match(roomsHtml, /GUEST-BASED DINING/i);
-  assert.match(roomsHtml, /₹2,000 per hour/i);
+  assert.match(roomsHtml, /60/);
+  assert.match(roomsHtml, /4.*room categories/i);
+  assert.doesNotMatch(roomsHtml, /private.{0,30}pool|₹2,000/i);
   assert.match(roomsHtml, /rooms\/nakshatra54\.jpeg/);
   assert.match(roomsHtml, /rooms\/nakshatra55\.jpeg/);
   assert.doesNotMatch(roomsHtml.match(/<section class="rooms-photo-band">[\s\S]*?<\/section>/)?.[0] || "", /nakshatra63|nakshatra65/);
@@ -103,26 +95,26 @@ test("renders the expanded rooms and amenities stories", async () => {
   assert.equal(amenities.status, 200);
   const amenitiesHtml = await amenities.text();
   assert.match(amenitiesHtml, /Ground-floor pool/i);
-  assert.match(amenitiesHtml, /Rooftop pool/i);
+  assert.match(amenitiesHtml, /Khargone’s biggest parking/i);
   assert.match(amenitiesHtml, /MORE THAN A ROOM/i);
 });
 
 test("renders the room product, checkout and pay-at-hotel thank-you flow", async () => {
-  const product = await render("/rooms/classic");
+  const product = await render("/rooms/executive");
   assert.equal(product.status, 200);
   const productHtml = await product.text();
   assert.match(productHtml, /Choose your stay package/i);
   assert.match(productHtml, /Breakfast \+ meal/i);
-  assert.match(productHtml, /private rooftop pool/i);
+  assert.doesNotMatch(productHtml, /private.{0,30}pool/i);
 
-  const checkout = await render("/booking/checkout?room=classic&in=2026-07-22&out=2026-07-24&guests=2&plan=breakfast&poolHours=1");
+  const checkout = await render("/booking/checkout?room=executive&in=2026-07-22&out=2026-07-24&guests=2&plan=breakfast");
   assert.equal(checkout.status, 200);
   const checkoutHtml = await checkout.text();
   assert.match(checkoutHtml, /Payment method/i);
   assert.match(checkoutHtml, /Pay at hotel/i);
   assert.match(checkoutHtml, /Cash/i);
 
-  const thankYou = await render("/booking/thank-you?reference=NKS-123456&room=classic&in=2026-07-22&out=2026-07-24&guests=2&plan=breakfast&total=9999");
+  const thankYou = await render("/booking/thank-you?reference=NKS-123456&room=executive&in=2026-07-22&out=2026-07-24&guests=2&plan=breakfast&total=9999");
   assert.equal(thankYou.status, 200);
   const thankYouHtml = await thankYou.text();
   assert.match(thankYouHtml, /Thank you/i);
@@ -149,7 +141,7 @@ test("uses luxury icons and responsive swipe galleries", async () => {
 test("renders the cinematic property hero and simplified responsive header", async () => {
   const home = await render("/");
   const html = await home.text();
-  assert.match(html, /private-pool-gallery\/nakshatra25\.jpeg/);
+  assert.match(html, /wedding-garden\.jpg/);
   assert.match(html, /restaurant-gallery\/nakshatra18\.jpeg/);
   assert.match(html, /main-front-facade\.webp/);
   assert.match(html, /Choose hero image/);
