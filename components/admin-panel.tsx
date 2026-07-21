@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { BedDouble, CalendarRange, Check, ChevronRight, IndianRupee, LayoutDashboard, LoaderCircle, Mail, MessageSquareText, Phone, RefreshCw, Search, Settings2, Trash2, UtensilsCrossed } from "lucide-react";
+import { BedDouble, CalendarRange, Check, ChevronRight, ImagePlus, IndianRupee, LayoutDashboard, LoaderCircle, Mail, MessageSquareText, Phone, RefreshCw, Search, Settings2, Trash2, Upload, UtensilsCrossed, X } from "lucide-react";
 
-type RoomRow = { id: number; slug: string; name: string; description: string; base_price: number; total_rooms: number; max_guests: number; active: boolean };
+type RoomRow = { id: number; slug: string; name: string; description: string; base_price: number; total_rooms: number; max_guests: number; active: boolean; featured_image_url: string; gallery_image_urls: string[] };
 type MealRow = { id: number; slug: string; name: string; price_per_guest: number; description: string; active: boolean };
 type BookingRow = { id: number; reference: string; status: string; source: string; room_slug: string; room_name: string; guest_name: string; phone: string; email: string; check_in: string; check_out: string; guests: number; meal_plan: string; total: number; arrival: string; requests: string; payment_method: string; created_at: string };
 type AvailabilityRow = { id: number; room_slug: string; date: string; available_rooms: number; price_override: number | null; note: string };
@@ -50,7 +50,7 @@ export function AdminPanel() {
     return () => controller.abort();
   }, []);
 
-  async function update(payload: Record<string, string | number | boolean | null>, success: string) {
+  async function update(payload: Record<string, string | number | boolean | string[] | null>, success: string) {
     setBusy(true);
     setNotice("");
     try {
@@ -65,6 +65,35 @@ export function AdminPanel() {
     } finally {
       setBusy(false);
     }
+  }
+
+  async function uploadRoomImages(room: RoomRow, kind: "featured" | "gallery", files: File[]) {
+    if (!files.length) return;
+    setBusy(true);
+    setError("");
+    try {
+      const form = new FormData();
+      form.set("roomSlug", room.slug);
+      form.set("kind", kind);
+      files.forEach((file) => form.append("files", file));
+      const response = await fetch("/api/uploads", { method: "POST", body: form });
+      const result = await response.json() as { urls?: string[]; error?: string };
+      if (!response.ok || !result.urls?.length) throw new Error(result.error || "The images could not be uploaded.");
+      await update({
+        action: "save-room-images",
+        slug: room.slug,
+        featuredImageUrl: kind === "featured" ? result.urls[0] : room.featured_image_url,
+        galleryImageUrls: kind === "gallery" ? [...room.gallery_image_urls, ...result.urls].slice(0, 12) : room.gallery_image_urls,
+      }, kind === "featured" ? `${room.name} featured image updated.` : `${result.urls.length} gallery image${result.urls.length === 1 ? "" : "s"} added.`);
+    } catch (uploadError) {
+      setError(uploadError instanceof Error ? uploadError.message : "The images could not be uploaded.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  function saveRoomImages(room: RoomRow, featuredImageUrl: string, galleryImageUrls: string[], success: string) {
+    return update({ action: "save-room-images", slug: room.slug, featuredImageUrl, galleryImageUrls }, success);
   }
 
   const filteredBookings = useMemo(() => {
@@ -105,7 +134,7 @@ export function AdminPanel() {
 
       {tab === "bookings" && <section className="admin-panel-card admin-full-card"><div className="admin-card-head bookings-head"><div><small>ALL RESERVATIONS</small><h2>Booking register</h2></div><label className="admin-search"><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search guest, phone or reference"/></label></div><div className="booking-table-wrap"><table className="admin-table"><thead><tr><th>Reference / Guest</th><th>Stay</th><th>Room</th><th>Source</th><th>Total</th><th>Status</th><th/></tr></thead><tbody>{filteredBookings.map((booking) => <tr key={booking.id} className={openBooking === booking.id ? "expanded" : ""}><td><b>{booking.reference}</b><span>{booking.guest_name}</span></td><td><b>{booking.check_in}</b><span>to {booking.check_out} · {booking.guests} guests</span></td><td><b>{booking.room_name}</b><span>{booking.meal_plan}</span></td><td><span className="source-pill">{booking.source}</span></td><td><b>₹{booking.total.toLocaleString("en-IN")}</b><span>{booking.payment_method}</span></td><td><select value={booking.status} onChange={(event) => void update({ action: "booking-status", id: booking.id, status: event.target.value }, "Booking status updated.")}>{bookingStatuses.map((status) => <option key={status}>{status}</option>)}</select></td><td><button className="detail-toggle" onClick={() => setOpenBooking(openBooking === booking.id ? null : booking.id)} aria-label="Show full booking details"><ChevronRight/></button></td></tr>)}{filteredBookings.length === 0 && <tr><td colSpan={7} className="admin-empty">No matching bookings yet.</td></tr>}</tbody></table></div>{openBooking && (() => { const booking = data.bookings.find((item) => item.id === openBooking); return booking ? <article className="booking-detail-drawer"><div><small>COMPLETE BOOKING DETAILS</small><h3>{booking.guest_name}</h3><p>{booking.reference} · received {new Date(booking.created_at).toLocaleString("en-IN")}</p></div><dl><div><dt>Phone</dt><dd><a href={`tel:${booking.phone}`}><Phone/>{booking.phone}</a></dd></div><div><dt>Email</dt><dd><a href={`mailto:${booking.email}`}><Mail/>{booking.email || "Not supplied"}</a></dd></div><div><dt>Arrival</dt><dd>{booking.arrival || "Not supplied"}</dd></div><div><dt>Booking source</dt><dd>{booking.source}</dd></div><div className="wide"><dt>Special requests</dt><dd>{booking.requests || "No special requests"}</dd></div></dl></article> : null; })()}</section>}
 
-      {tab === "rooms" && <section className="admin-edit-grid">{data.rooms.map((room) => <form className="admin-edit-card" key={room.slug} onSubmit={(event) => { event.preventDefault(); const form = new FormData(event.currentTarget); void update({ action: "save-room", slug: room.slug, name: String(form.get("name")), description: String(form.get("description")), basePrice: Number(form.get("basePrice")), totalRooms: Number(form.get("totalRooms")), maxGuests: Number(form.get("maxGuests")), active: form.get("active") === "on" }, `${room.name} updated.`); }}><div className="edit-card-number">{String(room.id).padStart(2, "0")}</div><label>Category name<input name="name" defaultValue={room.name} required/></label><label>Description<textarea name="description" defaultValue={room.description} rows={3}/></label><div className="admin-form-row"><label>Nightly price ₹<input name="basePrice" type="number" min="0" defaultValue={room.base_price} required/></label><label>Total rooms<input name="totalRooms" type="number" min="0" defaultValue={room.total_rooms} required/></label></div><div className="admin-form-row"><label>Maximum guests<input name="maxGuests" type="number" min="1" defaultValue={room.max_guests} required/></label><label className="admin-switch">Visible for booking<input name="active" type="checkbox" defaultChecked={Boolean(room.active)}/><span/></label></div><button className="admin-save" disabled={busy}>Save room category</button></form>)}</section>}
+      {tab === "rooms" && <section className="admin-edit-grid">{data.rooms.map((room) => <form className="admin-edit-card" key={room.slug} onSubmit={(event) => { event.preventDefault(); const form = new FormData(event.currentTarget); void update({ action: "save-room", slug: room.slug, name: String(form.get("name")), description: String(form.get("description")), basePrice: Number(form.get("basePrice")), totalRooms: Number(form.get("totalRooms")), maxGuests: Number(form.get("maxGuests")), active: form.get("active") === "on" }, `${room.name} updated.`); }}><div className="edit-card-number">{String(room.id).padStart(2, "0")}</div><section className="admin-room-images"><div className="admin-featured-image">{room.featured_image_url ? <img src={room.featured_image_url} alt={`${room.name} featured`}/> : <span><ImagePlus/></span>}<div><b>Featured image</b><p>Used on the room card and listing.</p><label className="admin-upload-control"><Upload/>Upload featured<input type="file" accept="image/jpeg,image/png,image/webp,image/gif" disabled={busy} onChange={(event) => { const file = event.target.files?.[0]; if (file) void uploadRoomImages(room, "featured", [file]); event.target.value = ""; }}/></label>{room.featured_image_url && <button type="button" className="admin-remove-featured" disabled={busy} onClick={() => void saveRoomImages(room, "", room.gallery_image_urls, "Featured image removed.")}><X/> Remove</button>}</div></div><div className="admin-gallery-manager"><div><span><b>Other room images</b><small>{room.gallery_image_urls.length}/12 images</small></span><label className="admin-upload-control"><ImagePlus/>Add images<input type="file" multiple accept="image/jpeg,image/png,image/webp,image/gif" disabled={busy || room.gallery_image_urls.length >= 12} onChange={(event) => { const files = Array.from(event.target.files || []).slice(0, 12 - room.gallery_image_urls.length); void uploadRoomImages(room, "gallery", files); event.target.value = ""; }}/></label></div><div className="admin-gallery-thumbs">{room.gallery_image_urls.map((image, index) => <figure key={`${image}-${index}`}><img src={image} alt={`${room.name} gallery ${index + 1}`}/><button type="button" disabled={busy} aria-label={`Remove gallery image ${index + 1}`} onClick={() => void saveRoomImages(room, room.featured_image_url, room.gallery_image_urls.filter((_, imageIndex) => imageIndex !== index), "Gallery image removed.")}><X/></button></figure>)}{room.gallery_image_urls.length === 0 && <p>No gallery images uploaded yet.</p>}</div></div></section><label>Category name<input name="name" defaultValue={room.name} required/></label><label>Description<textarea name="description" defaultValue={room.description} rows={3}/></label><div className="admin-form-row"><label>Nightly price ₹<input name="basePrice" type="number" min="0" defaultValue={room.base_price} required/></label><label>Total rooms<input name="totalRooms" type="number" min="0" defaultValue={room.total_rooms} required/></label></div><div className="admin-form-row"><label>Maximum guests<input name="maxGuests" type="number" min="1" defaultValue={room.max_guests} required/></label><label className="admin-switch">Visible for booking<input name="active" type="checkbox" defaultChecked={Boolean(room.active)}/><span/></label></div><button className="admin-save" disabled={busy}>Save room category</button></form>)}</section>}
 
       {tab === "meals" && <><section className="meal-admin-intro"><div><UtensilsCrossed/></div><p>Set simple per-person prices for breakfast, lunch and dinner. These values are available to the booking system and can be changed at any time.</p></section><section className="admin-edit-grid meals-grid">{data.meals.map((meal) => <form className="admin-edit-card" key={meal.slug} onSubmit={(event) => { event.preventDefault(); const form = new FormData(event.currentTarget); void update({ action: "save-meal", slug: meal.slug, name: String(form.get("name")), description: String(form.get("description")), pricePerGuest: Number(form.get("pricePerGuest")), active: form.get("active") === "on" }, `${meal.name} pricing updated.`); }}><span className="meal-icon"><UtensilsCrossed/></span><label>Meal name<input name="name" defaultValue={meal.name} required/></label><label>Price per guest ₹<input name="pricePerGuest" type="number" min="0" defaultValue={meal.price_per_guest} required/></label><label>Description<textarea name="description" defaultValue={meal.description} rows={3}/></label><label className="admin-switch">Offer this meal<input name="active" type="checkbox" defaultChecked={Boolean(meal.active)}/><span/></label><button className="admin-save" disabled={busy}>Save meal pricing</button></form>)}</section></>}
 

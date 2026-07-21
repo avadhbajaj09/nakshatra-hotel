@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { Room } from "@/lib/content";
 
-export type PublicRoomConfig = { slug: string; name: string; description: string; base_price: number; total_rooms: number; max_guests: number; active: boolean };
+export type PublicRoomConfig = { slug: string; name: string; description: string; base_price: number; total_rooms: number; max_guests: number; active: boolean; featured_image_url: string; gallery_image_urls: string[] };
 export type PublicMealConfig = { slug: string; name: string; price_per_guest: number; description: string; active: boolean };
 export type PublicAvailability = { room_slug: string; available_rooms: number; price_override: number | null };
 type PublicHotelConfig = { rooms: PublicRoomConfig[]; meals: PublicMealConfig[]; availability: PublicAvailability[] };
@@ -29,4 +30,18 @@ export function configuredMealAddons(meals: PublicMealConfig[] | undefined) {
   const lunch = price("lunch");
   const dinner = price("dinner");
   return { breakfast, halfBoard: breakfast !== undefined && (lunch !== undefined || dinner !== undefined) ? breakfast + Math.min(lunch ?? Infinity, dinner ?? Infinity) : undefined, fullBoard: breakfast !== undefined && lunch !== undefined && dinner !== undefined ? breakfast + lunch + dinner : undefined };
+}
+
+export function configuredRoom(room: Room, roomConfigs: PublicRoomConfig[] | undefined): Room {
+  const live = roomConfigs?.find((item) => item.slug === room.slug);
+  if (!live) return room;
+  return {
+    ...room,
+    name: live.name || room.name,
+    description: live.description || room.description,
+    rate: live.base_price || room.rate,
+    maxGuests: live.max_guests || room.maxGuests,
+    image: live.featured_image_url || room.image,
+    gallery: live.gallery_image_urls?.length ? live.gallery_image_urls : room.gallery,
+  };
 }

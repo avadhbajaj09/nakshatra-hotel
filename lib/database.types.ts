@@ -2,9 +2,9 @@ export type Database = {
   public: {
     Tables: {
       room_categories: {
-        Row: { id: number; slug: string; name: string; description: string; base_price: number; total_rooms: number; max_guests: number; active: boolean; sort_order: number; updated_at: string };
-        Insert: { id?: number; slug: string; name: string; description?: string; base_price: number; total_rooms?: number; max_guests?: number; active?: boolean; sort_order?: number; updated_at?: string };
-        Update: { name?: string; description?: string; base_price?: number; total_rooms?: number; max_guests?: number; active?: boolean; sort_order?: number; updated_at?: string };
+        Row: { id: number; slug: string; name: string; description: string; base_price: number; total_rooms: number; max_guests: number; active: boolean; sort_order: number; featured_image_url: string; gallery_image_urls: string[]; updated_at: string };
+        Insert: { id?: number; slug: string; name: string; description?: string; base_price: number; total_rooms?: number; max_guests?: number; active?: boolean; sort_order?: number; featured_image_url?: string; gallery_image_urls?: string[]; updated_at?: string };
+        Update: { name?: string; description?: string; base_price?: number; total_rooms?: number; max_guests?: number; active?: boolean; sort_order?: number; featured_image_url?: string; gallery_image_urls?: string[]; updated_at?: string };
         Relationships: [];
       };
       meal_options: {

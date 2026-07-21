@@ -4,9 +4,9 @@ import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, ChevronDown, ChevronLeft, ChevronRight, MapPin, Star, Waves, UtensilsCrossed, PartyPopper, Wifi, Car, Flower2, Baby, Presentation, Gamepad2, Clock3, Sparkles, Coffee, Quote, Building2, Trees, BriefcaseBusiness, CarFront } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { amenities, rooms } from "@/lib/content";
+import { amenities } from "@/lib/content";
 import { BookingWidget } from "./booking-widget";
-import { RoomCard } from "./room-card";
+import { LiveRoomGrid } from "./live-room-grid";
 
 const icons = { Waves, UtensilsCrossed, PartyPopper, Wifi, Car, Flower2, Baby, Presentation, Gamepad2, Clock3, Sparkles, Coffee };
 const heroSlides = [
@@ -65,7 +65,7 @@ export function HomePage() {
 
     <section className="rooms-section section-shell">
       <div className="section-head"><div><p className="kicker">FOUR WAYS TO STAY</p><h2>Your room,<br/><em>your retreat.</em></h2></div><p>Choose an Executive, Deluxe, Family or Suite room thoughtfully matched to the way you travel.</p></div>
-      <div className="room-grid">{rooms.map((room, i) => <RoomCard key={room.slug} room={room} priority={i === 0}/>)}</div>
+      <LiveRoomGrid priorityFirst/>
       <Link className="outline-button" href="/rooms">View all rooms <ArrowRight/></Link>
     </section>
 

@@ -6,7 +6,8 @@ type AdminAction =
   | "save-availability"
   | "delete-availability"
   | "booking-status"
-  | "enquiry-status";
+  | "enquiry-status"
+  | "save-room-images";
 
 export async function GET(request: Request) {
   try {
@@ -54,11 +55,14 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const supabase = getSupabaseAdmin();
-    const body = await request.json() as Record<string, string | number | boolean | null> & { action?: AdminAction };
+    const body = await request.json() as Record<string, string | number | boolean | string[] | null> & { action?: AdminAction };
     let error: { message: string } | null = null;
 
     if (body.action === "save-room") {
       ({ error } = await supabase.from("room_categories").update({ name: String(body.name), description: String(body.description || ""), base_price: Number(body.basePrice), total_rooms: Number(body.totalRooms), max_guests: Number(body.maxGuests), active: Boolean(body.active), updated_at: new Date().toISOString() }).eq("slug", String(body.slug)));
+    } else if (body.action === "save-room-images") {
+      const gallery = Array.isArray(body.galleryImageUrls) ? body.galleryImageUrls.filter((item): item is string => typeof item === "string" && item.length > 0).slice(0, 12) : [];
+      ({ error } = await supabase.from("room_categories").update({ featured_image_url: String(body.featuredImageUrl || ""), gallery_image_urls: gallery, updated_at: new Date().toISOString() }).eq("slug", String(body.slug)));
     } else if (body.action === "save-meal") {
       ({ error } = await supabase.from("meal_options").update({ name: String(body.name), price_per_guest: Number(body.pricePerGuest), description: String(body.description || ""), active: Boolean(body.active), updated_at: new Date().toISOString() }).eq("slug", String(body.slug)));
     } else if (body.action === "save-availability") {

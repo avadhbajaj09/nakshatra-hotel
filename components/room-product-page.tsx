@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { addDays, differenceInCalendarDays, format } from "date-fns";
 import { ArrowRight, Bath, BedDouble, CalendarDays, Camera, Check, ChevronLeft, ChevronRight, Coffee, Minus, Plus, ShieldCheck, Sparkles, Users, Wifi } from "lucide-react";
 import { mealPlans, roomAmenities, type Room } from "@/lib/content";
-import { configuredMealAddons, useHotelConfig } from "@/lib/use-hotel-config";
+import { configuredMealAddons, configuredRoom, useHotelConfig } from "@/lib/use-hotel-config";
 
 export function RoomProductPage({ room }: { room: Room }) {
   const params = useSearchParams();
@@ -21,8 +21,13 @@ export function RoomProductPage({ room }: { room: Room }) {
   const config = useHotelConfig(checkIn, checkOut);
   const liveRoom = config?.rooms.find((item) => item.slug === room.slug);
   const mealAddons = configuredMealAddons(config?.meals);
-  const effectiveRoom = { ...room, name: liveRoom?.name || room.name, description: liveRoom?.description || room.description, rate: config?.availability.find((item) => item.room_slug === room.slug)?.price_override || liveRoom?.base_price || room.rate, maxGuests: liveRoom?.max_guests || room.maxGuests };
+  const configured = configuredRoom(room, config?.rooms);
+  const effectiveRoom = { ...configured, rate: config?.availability.find((item) => item.room_slug === room.slug)?.price_override || liveRoom?.base_price || configured.rate };
   const liveMealPlans = mealPlans.map((item) => ({ ...item, addonPerGuest: item.slug === "breakfast" ? mealAddons.breakfast ?? item.addonPerGuest : item.slug === "half-board" ? mealAddons.halfBoard ?? item.addonPerGuest : item.slug === "full-board" ? mealAddons.fullBoard ?? item.addonPerGuest : item.addonPerGuest }));
+
+  useEffect(() => {
+    if (activeImage >= effectiveRoom.gallery.length) setActiveImage(0);
+  }, [activeImage, effectiveRoom.gallery.length]);
 
   const plan = liveMealPlans.find((item) => item.slug === planSlug) || liveMealPlans[1];
   const nights = useMemo(() => Math.max(1, differenceInCalendarDays(new Date(checkOut), new Date(checkIn))), [checkIn, checkOut]);
@@ -30,7 +35,7 @@ export function RoomProductPage({ room }: { room: Room }) {
   const listNightly = Math.round(nightly / (1 - plan.discount / 100));
   const stayTotal = nightly * nights;
 
-  const showImage = (direction: number) => setActiveImage((current) => (current + direction + room.gallery.length) % room.gallery.length);
+  const showImage = (direction: number) => setActiveImage((current) => (current + direction + effectiveRoom.gallery.length) % effectiveRoom.gallery.length);
   const checkoutHref = `/booking/checkout?room=${room.slug}&in=${checkIn}&out=${checkOut}&guests=${guests}&plan=${plan.slug}`;
 
   return <main className="room-product">
@@ -39,20 +44,20 @@ export function RoomProductPage({ room }: { room: Room }) {
 
       <div className="room-product-heading">
         <div><p className="kicker">{room.eyebrow}</p><h1>{effectiveRoom.name}</h1><p>{effectiveRoom.description}</p></div>
-        <div className="room-photo-proof"><span>✦</span><div><b>{room.gallery.length} real photos</b><small>From Nakshatra Hotel &amp; Resort</small></div></div>
+        <div className="room-photo-proof"><span>✦</span><div><b>{effectiveRoom.gallery.length} real photos</b><small>From Nakshatra Hotel &amp; Resort</small></div></div>
       </div>
 
       <div className="room-product-grid">
         <div className="room-product-main">
           <section className="room-gallery" aria-label={`${room.name} photo gallery`}>
             <div className="room-gallery-stage" onTouchStart={(event) => { touchStart.current = event.touches[0].clientX; }} onTouchEnd={(event) => { if (touchStart.current === null) return; const distance = event.changedTouches[0].clientX - touchStart.current; if (Math.abs(distance) > 45) showImage(distance > 0 ? -1 : 1); touchStart.current = null; }}>
-              <img src={room.gallery[activeImage]} alt={`${room.name} photo ${activeImage + 1} of ${room.gallery.length}`}/>
+              <img src={effectiveRoom.gallery[activeImage]} alt={`${effectiveRoom.name} photo ${activeImage + 1} of ${effectiveRoom.gallery.length}`}/>
               <div className="gallery-count"><Camera/> PHOTO GALLERY</div>
               <button type="button" className="gallery-prev" onClick={() => showImage(-1)} aria-label="Previous room photo"><ChevronLeft/></button>
               <button type="button" className="gallery-next" onClick={() => showImage(1)} aria-label="Next room photo"><ChevronRight/></button>
             </div>
             <div className="room-thumbnails" role="tablist" aria-label="Choose a room photo">
-              {room.gallery.map((image, index) => <button type="button" role="tab" aria-selected={activeImage === index} key={image} className={activeImage === index ? "active" : ""} onClick={() => setActiveImage(index)}><img src={image} alt=""/></button>)}
+              {effectiveRoom.gallery.map((image, index) => <button type="button" role="tab" aria-selected={activeImage === index} key={`${image}-${index}`} className={activeImage === index ? "active" : ""} onClick={() => setActiveImage(index)}><img src={image} alt=""/></button>)}
             </div>
           </section>
 
