@@ -15,11 +15,11 @@ const welcome: ChatMessage = {
   text: "Namaste! I’m your Nakshatra concierge. Ask me about rooms, prices, weddings, birthday parties, business meetings, pools, dining, parking or booking—and I can show you the right images too.",
 };
 
-const prompts = ["Show room photos", "Plan my wedding", "Birthday party", "Business meeting", "Book a stay", "Private pool"];
+const prompts = ["Private pool gallery", "Grand Hall photos", "Show room photos", "Plan my wedding", "Birthday party", "Business meeting", "Book a stay"];
 
 const allOccasions: Card[] = [
   { title: "Rooms & stays", copy: "Six room styles with real galleries and meal packages.", image: "/images/rooms/nakshatra1.jpeg", href: "/rooms" },
-  { title: "Weddings", copy: "Banquet hall, garden, rooms, dining and parking together.", image: "/images/wedding.jpg", href: "/wedding" },
+  { title: "The Nakshatra Grand Hall", copy: "Grand Hall, garden, rooms, dining and parking together.", image: "/images/grand-hall-gallery/nakshatra69.jpeg", href: "/wedding-hall" },
   { title: "Birthday parties", copy: "Flexible indoor, lawn, restaurant and poolside possibilities.", image: "/images/party.jpg", href: "/birthday-party" },
   { title: "Business meetings", copy: "Meeting space, WiFi, dining, rooms and parking.", image: "/images/business-meeting.jpg", href: "/business-meetings" },
 ];
@@ -27,6 +27,28 @@ const allOccasions: Card[] = [
 function answerFor(raw: string): Omit<ChatMessage, "id" | "role"> {
   const query = raw.toLowerCase();
   const wantsImages = /image|images|photo|photos|gallery|picture|pictures|फोटो/.test(query);
+
+  if (wantsImages && /private|rooftop/.test(query) && /pool|swim/.test(query)) return {
+    text: "Here is a private rooftop pool showcase with real Nakshatra photographs. The exclusive third-floor pool can be reserved with or without a room for ₹2,000 per hour; open the full gallery to explore all 11 images.",
+    cards: ["nakshatra25.jpeg", "nakshatra29.jpeg", "nakshatra27.jpeg", "nakshatra21.jpeg"].map((name, index) => ({
+      title: ["Private rooftop pool", "A pool reserved for you", "Third-floor escape", "Rooftop moments"][index],
+      copy: index === 0 ? "Exclusive private use · ₹2,000 per hour." : "A real view from the private pool collection.",
+      image: `/images/private-pool-gallery/${name}`,
+      href: "/private-rooftop-pool",
+    })),
+    actions: [{ label: "View all 11 pool photos", href: "/private-rooftop-pool" }, { label: "Book private pool", href: "/private-rooftop-pool#enquire" }],
+  };
+
+  if (wantsImages && /wedding|banquet|hall|grand/.test(query)) return {
+    text: "Welcome to The Nakshatra Grand Hall—an approximately 5,500 sq ft indoor setting for weddings, banquets and business gatherings. These are real photographs; open the hall page to browse all 11 images full screen.",
+    cards: ["nakshatra69.jpeg", "nakshatra42.jpeg", "nakshatra74.jpeg", "nakshatra73.jpeg"].map((name, index) => ({
+      title: ["Wedding celebration", "Elegant banquet dining", "Conference layout", "Grand Hall details"][index],
+      copy: "A real view of The Nakshatra Grand Hall.",
+      image: `/images/grand-hall-gallery/${name}`,
+      href: "/wedding-hall",
+    })),
+    actions: [{ label: "View all 11 Grand Hall photos", href: "/wedding-hall" }, { label: "Plan a wedding", href: "/wedding" }],
+  };
 
   if (wantsImages && /room|stay|suite|कमरा/.test(query)) return {
     text: "Here are real room photographs from Nakshatra. Open any room to view its complete slider gallery, amenities, guest count, meal packages and booking total.",
@@ -38,8 +60,8 @@ function answerFor(raw: string): Omit<ChatMessage, "id" | "role"> {
     text: "Here is a quick visual tour of Nakshatra. You can also open the full gallery for rooms, pools, dining, weddings and the resort grounds.",
     cards: [
       { title: "Hotel & resort", copy: "The main arrival façade in Khargone.", image: "/images/main-front-facade.webp", href: "/our-story" },
-      { title: "Private rooftop pool", copy: "Exclusive third-floor booking at ₹2,000 per hour.", image: "/images/private-rooftop-pool.jpg", href: "/private-rooftop-pool" },
-      { title: "Wedding spaces", copy: "Indoor hall and outdoor garden possibilities.", image: "/images/wedding.jpg", href: "/wedding" },
+      { title: "Private rooftop pool", copy: "Exclusive third-floor booking at ₹2,000 per hour.", image: "/images/private-pool-gallery/nakshatra25.jpeg", href: "/private-rooftop-pool" },
+      { title: "The Nakshatra Grand Hall", copy: "Indoor celebrations and elegant event layouts.", image: "/images/grand-hall-gallery/nakshatra69.jpeg", href: "/wedding-hall" },
       { title: "Rooms", copy: "Real room galleries for every category.", image: "/images/rooms/nakshatra56.jpeg", href: "/rooms" },
     ],
     actions: [{ label: "Open full gallery", href: "/gallery" }],
@@ -48,7 +70,7 @@ function answerFor(raw: string): Omit<ChatMessage, "id" | "role"> {
   if (/wedding|marriage|shaadi|shadi|वेडिंग|शादी/.test(query)) return {
     text: "Nakshatra can bring your celebration together in one address: an approximately 5,500 sq ft banquet hall, wedding garden and lawns, 53 guest rooms, in-house dining, event planning and expansive free parking. Share your date and approximate guest count on the wedding enquiry page.",
     cards: [
-      { title: "Wedding hall", copy: "Grand indoor celebrations in an approximately 5,500 sq ft setting.", image: "/images/wedding.jpg", href: "/wedding-hall" },
+      { title: "The Nakshatra Grand Hall", copy: "Grand indoor celebrations in an approximately 5,500 sq ft setting.", image: "/images/grand-hall-gallery/nakshatra69.jpeg", href: "/wedding-hall" },
       { title: "Wedding garden", copy: "Open-air ceremonies, receptions and evening dining.", image: "/images/wedding-garden.jpg", href: "/wedding-garden" },
       { title: "Complete planning", copy: "Bring venue, rooms, dining and arrival needs into one plan.", image: "/images/celebration-table.jpg", href: "/event-planning" },
     ],
@@ -77,7 +99,7 @@ function answerFor(raw: string): Omit<ChatMessage, "id" | "role"> {
     text: "Nakshatra has two separate pools. The ground-floor pool is included for registered room guests. The private third-floor rooftop pool is reserved exclusively at ₹2,000 per hour and can be booked with or without a room.",
     cards: [
       { title: "Ground-floor guest pool", copy: "Open to registered staying guests during their visit.", image: "/images/ground-floor-pool-gallery/nakshatra10.jpeg", href: "/ground-floor-pool" },
-      { title: "Private rooftop pool", copy: "Exclusive personal use · ₹2,000 per hour.", image: "/images/private-rooftop-pool.jpg", href: "/private-rooftop-pool" },
+      { title: "Private rooftop pool", copy: "Exclusive personal use · ₹2,000 per hour.", image: "/images/private-pool-gallery/nakshatra25.jpeg", href: "/private-rooftop-pool" },
     ],
     actions: [{ label: "Book private pool", href: "/private-rooftop-pool" }],
   };
@@ -167,7 +189,7 @@ export function HotelChatbot() {
         {message.role === "assistant" && <span className="assistant-glyph"><Sparkles/></span>}
         <div className="chat-message-body"><p>{message.text}</p>{message.cards && <div className="chat-card-rail">{message.cards.map(card => <Link href={card.href} key={`${message.id}-${card.href}`} onClick={() => setOpen(false)}><img src={card.image} alt={card.title}/><div><b>{card.title}</b><small>{card.copy}</small><span>Explore <ArrowRight/></span></div></Link>)}</div>}{message.actions && <div className="chat-actions">{message.actions.map(action => <a href={action.href} key={action.href} onClick={() => setOpen(false)}>{action.label}<ArrowRight/></a>)}</div>}</div>
       </div>)}{typing && <div className="chat-message assistant"><span className="assistant-glyph"><Sparkles/></span><div className="typing-dots"><i/><i/><i/></div></div>}</div>
-      <div className="chatbot-prompts">{prompts.map(prompt => <button key={prompt} onClick={() => send(prompt)}>{prompt.includes("photo") ? <ImageIcon/> : prompt.includes("Book") ? <CalendarDays/> : null}{prompt}</button>)}</div>
+      <div className="chatbot-prompts">{prompts.map(prompt => <button key={prompt} onClick={() => send(prompt)}>{/photo|gallery/i.test(prompt) ? <ImageIcon/> : prompt.includes("Book") ? <CalendarDays/> : null}{prompt}</button>)}</div>
       <form className="chatbot-input" onSubmit={submit}><input ref={inputRef} value={input} onChange={event => setInput(event.target.value)} placeholder="Ask about rooms, events, prices…" aria-label="Ask the Nakshatra concierge"/><button type="submit" disabled={!input.trim() || typing} aria-label="Send message"><Send/></button></form>
       <p className="chatbot-footnote">For final availability and event quotations, the hotel team confirms every request directly.</p>
     </aside>

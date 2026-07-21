@@ -51,16 +51,18 @@ test("renders expanded story and event destinations", async () => {
   }
 });
 
-test("uses every supplied pool and restaurant gallery image", async () => {
+test("uses every supplied pool, restaurant and Grand Hall gallery image", async () => {
   const gallerySource = await readFile(new URL("../lib/galleries.ts", import.meta.url), "utf8");
   assert.equal([...gallerySource.matchAll(/\/images\/private-pool-gallery\//g)].length, 11);
   assert.equal([...gallerySource.matchAll(/\/images\/ground-floor-pool-gallery\//g)].length, 10);
   assert.equal([...gallerySource.matchAll(/\/images\/restaurant-gallery\//g)].length, 12);
+  assert.equal([...gallerySource.matchAll(/\/images\/grand-hall-gallery\//g)].length, 11);
 
   for (const [route, firstImage, countLabel] of [
     ["/private-rooftop-pool", "private-pool-gallery/nakshatra25.jpeg", "11 REAL PROPERTY PHOTOGRAPHS"],
     ["/ground-floor-pool", "ground-floor-pool-gallery/nakshatra10.jpeg", "10 REAL PROPERTY PHOTOGRAPHS"],
     ["/restaurant", "restaurant-gallery/nakshatra18.jpeg", "12 REAL RESTAURANT PHOTOGRAPHS"],
+    ["/wedding-hall", "grand-hall-gallery/nakshatra42.jpeg", "11 REAL GRAND HALL PHOTOGRAPHS"],
   ]) {
     const response = await render(route);
     assert.equal(response.status, 200, route);

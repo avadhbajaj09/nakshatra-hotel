@@ -1,6 +1,24 @@
 export type GallerySet = { eyebrow: string; title: string; copy: string; images: string[] };
 
 export const propertyGalleries: Record<string, GallerySet> = {
+  "wedding-hall": {
+    eyebrow: "11 REAL GRAND HALL PHOTOGRAPHS",
+    title: "The Nakshatra Grand Hall, dressed your way.",
+    copy: "Explore the hall across banquet dining, wedding ceremonies, elegant stage arrangements and professional conference layouts. Select any photograph to experience the space full screen.",
+    images: [
+      "/images/grand-hall-gallery/nakshatra42.jpeg",
+      "/images/grand-hall-gallery/nakshatra74.jpeg",
+      "/images/grand-hall-gallery/nakshatra69.jpeg",
+      "/images/grand-hall-gallery/nakshatra73.jpeg",
+      "/images/grand-hall-gallery/nakshatra72.jpeg",
+      "/images/grand-hall-gallery/nakshatra68.jpeg",
+      "/images/grand-hall-gallery/nakshatra51.jpeg",
+      "/images/grand-hall-gallery/nakshatra71.jpeg",
+      "/images/grand-hall-gallery/nakshatra67.jpeg",
+      "/images/grand-hall-gallery/nakshatra70.jpeg",
+      "/images/grand-hall-gallery/nakshatra41.jpeg",
+    ],
+  },
   "private-rooftop-pool": {
     eyebrow: "11 REAL PROPERTY PHOTOGRAPHS",
     title: "See the rooftop, from every angle.",
