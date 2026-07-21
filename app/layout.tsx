@@ -12,8 +12,8 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://nakshatrahotel.in"),
   title: { default: "Nakshatra Hotel & Resort", template: "%s | Nakshatra Hotel & Resort" },
   description: "Luxury stays, two swimming pools, private rooftop pool bookings, weddings, dining and events in Khargone, Madhya Pradesh.",
-  openGraph: { title: "Nakshatra Hotel & Resort", description: "Stay, celebrate and reserve a private rooftop pool in Khargone.", type: "website", images: ["/og-rooftop-v2.png"] },
-  twitter: { card: "summary_large_image", images: ["/og-rooftop-v2.png"] },
+  openGraph: { title: "Nakshatra Hotel & Resort", description: "Explore real room galleries, choose a dining package and request your stay directly.", type: "website", images: ["/og-booking-v3.png"] },
+  twitter: { card: "summary_large_image", images: ["/og-booking-v3.png"] },
   icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
 };
 

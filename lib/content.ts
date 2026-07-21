@@ -4,18 +4,31 @@ export type Room = {
   eyebrow: string;
   description: string;
   image: string;
+  gallery: string[];
   features: string[];
+  maxGuests: number;
+  bed: string;
+  size: string;
   rate: number;
 };
 
 export const rooms: Room[] = [
-  { slug: "classic", name: "Classic Room", eyebrow: "Effortless comfort", description: "Efficient, stylish and thoughtfully composed for business or leisure travellers.", image: "/images/room-classic.jpg", features: ["Complimentary breakfast", "Fast WiFi", "Daily housekeeping"], rate: 2999 },
-  { slug: "deluxe", name: "Deluxe Room", eyebrow: "Room to unwind", description: "A spacious living area, richly designed interiors and attentive in-room service.", image: "/images/room-deluxe.jpg", features: ["Spacious living area", "Personalised service", "Breakfast included"], rate: 3799 },
-  { slug: "superior", name: "Superior Room", eyebrow: "A view to remember", description: "Modern furnishings, a lavish dressing area and a private balcony with scenic views.", image: "/images/room-superior.jpg", features: ["Private balcony", "Lavish dressing area", "Scenic views"], rate: 4499 },
-  { slug: "luxury", name: "Luxury Room", eyebrow: "Elevated indulgence", description: "Top-tier facilities and lavish comfort, designed for a quietly exceptional stay.", image: "/images/room-luxury.jpg", features: ["Top-tier facilities", "Premium comfort", "Breakfast included"], rate: 5299 },
-  { slug: "suite", name: "Suite Room", eyebrow: "Space, beautifully considered", description: "A large, thoughtfully designed retreat with customised amenities for longer stays.", image: "/images/room-suite.jpg", features: ["Expansive layout", "Customised amenities", "Separate living space"], rate: 6499 },
-  { slug: "family", name: "Family Room", eyebrow: "Together, comfortably", description: "An expansive multi-bed setting made for families and groups travelling together.", image: "/images/room-family.jpg", features: ["Multi-bed layout", "Group friendly", "Garden view"], rate: 7499 },
+  { slug: "classic", name: "Classic Room", eyebrow: "Effortless comfort", description: "Efficient, stylish and thoughtfully composed for business or leisure travellers.", image: "/images/rooms/rooms5.webp", gallery: ["/images/rooms/rooms5.webp", "/images/rooms/rooms6.jpg", "/images/rooms/rooms7.jpg", "/images/rooms/rooms8.jpg", "/images/rooms/nakshatra54.jpeg"], features: ["Fast WiFi", "Daily housekeeping", "Meal plans available"], maxGuests: 2, bed: "1 double bed", size: "Comfort layout", rate: 2999 },
+  { slug: "deluxe", name: "Deluxe Room", eyebrow: "Room to unwind", description: "A spacious living area, richly designed interiors and attentive in-room service.", image: "/images/rooms/nakshatra56.jpeg", gallery: ["/images/rooms/nakshatra56.jpeg", "/images/rooms/nakshatra57.jpeg", "/images/rooms/nakshatra58.jpeg", "/images/rooms/nakshatra75.jpeg", "/images/rooms/rooms2.jpg"], features: ["Spacious living area", "In-room dining", "Meal plans available"], maxGuests: 3, bed: "1 double bed", size: "Spacious layout", rate: 3799 },
+  { slug: "superior", name: "Superior Room", eyebrow: "A view to remember", description: "Modern furnishings, a generous dressing area and a restful setting for longer stays.", image: "/images/rooms/nakshatra36.jpeg", gallery: ["/images/rooms/nakshatra36.jpeg", "/images/rooms/nakshatra1.jpeg", "/images/rooms/rooms2.jpg", "/images/rooms/rooms3.jpg", "/images/rooms/rooms8.jpg"], features: ["Generous seating", "Premium bedding", "Meal plans available"], maxGuests: 3, bed: "1 double bed", size: "Generous layout", rate: 4499 },
+  { slug: "luxury", name: "Luxury Room", eyebrow: "Elevated indulgence", description: "Top-tier facilities and lavish comfort, designed for a quietly exceptional stay.", image: "/images/rooms/nakshatra1.jpeg", gallery: ["/images/rooms/nakshatra1.jpeg", "/images/rooms/nakshatra75.jpeg", "/images/rooms/nakshatra36.jpeg", "/images/rooms/nakshatra56.jpeg", "/images/rooms/rooms8.jpg"], features: ["Premium comfort", "In-room dining", "Meal plans available"], maxGuests: 3, bed: "1 double bed", size: "Premium layout", rate: 5299 },
+  { slug: "suite", name: "Suite Room", eyebrow: "Space, beautifully considered", description: "A large, thoughtfully designed retreat with a separate sitting area for longer stays.", image: "/images/rooms/nakshatra63.jpeg", gallery: ["/images/rooms/nakshatra63.jpeg", "/images/rooms/nakshatra65.jpeg", "/images/rooms/nakshatra55.jpeg", "/images/rooms/rooms1.jpg", "/images/rooms/nakshatra57.jpeg"], features: ["Expansive layout", "Separate living space", "Meal plans available"], maxGuests: 3, bed: "1 double bed", size: "Suite layout", rate: 6499 },
+  { slug: "family", name: "Family Room", eyebrow: "Together, comfortably", description: "An expansive setting made for families and small groups travelling together.", image: "/images/rooms/nakshatra65.jpeg", gallery: ["/images/rooms/nakshatra65.jpeg", "/images/rooms/nakshatra63.jpeg", "/images/rooms/nakshatra55.jpeg", "/images/rooms/nakshatra36.jpeg", "/images/rooms/nakshatra1.jpeg"], features: ["Family-friendly space", "Generous seating", "Meal plans available"], maxGuests: 4, bed: "Family sleeping layout", size: "Expansive layout", rate: 7499 },
 ];
+
+export const roomAmenities = ["Air conditioning", "Private bathroom", "Fast WiFi", "Television", "In-room dining", "Daily housekeeping", "Wardrobe & luggage space", "Power backup", "Hot water", "24-hour front desk"] as const;
+
+export const mealPlans = [
+  { slug: "room-only", name: "Flexible Room Only", shortName: "Room only", description: "The room with flexible cancellation until check-in.", addonPerGuest: 0, discount: 10, includes: ["Room stay", "Flexible cancellation"] },
+  { slug: "breakfast", name: "Breakfast Escape", shortName: "Breakfast", description: "Begin every morning with breakfast for each registered guest.", addonPerGuest: 166, discount: 12, includes: ["Daily breakfast", "Flexible cancellation"] },
+  { slug: "half-board", name: "Breakfast + One Meal", shortName: "Breakfast + meal", description: "Breakfast plus your choice of lunch or dinner for every registered guest.", addonPerGuest: 520, discount: 18, includes: ["Daily breakfast", "Lunch or dinner", "Flexible cancellation"] },
+  { slug: "full-board", name: "Complete Dining Stay", shortName: "All meals", description: "Breakfast, lunch and dinner for each registered guest throughout the stay.", addonPerGuest: 850, discount: 22, includes: ["Daily breakfast", "Lunch and dinner", "Flexible cancellation"] },
+] as const;
 
 export const amenities = [
   ["Waves", "Ground-floor pool · included for staying guests"], ["Waves", "Private rooftop pool · ₹2,000 per hour"],

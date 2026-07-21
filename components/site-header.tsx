@@ -18,8 +18,7 @@ export function SiteHeader() {
     <header className={`site-header ${compact ? "is-compact" : ""}`}>
       <div className="nav-shell glass-panel">
         <Link className="brand" href="/" aria-label="Nakshatra Hotel & Resort home">
-          <span className="brand-orbit" aria-hidden="true"><span>N</span></span>
-          <span><b>NAKSHATRA</b><small>HOTEL &amp; RESORT</small></span>
+          <img className="official-brand-logo" src="/images/nakshatra-official-logo.jpg" alt="Nakshatra Hotel & Resort"/>
         </Link>
         <nav className="desktop-nav" aria-label="Main navigation">
           {nav.map((item) => <Link key={item.href} href={item.href}>{item.label}</Link>)}

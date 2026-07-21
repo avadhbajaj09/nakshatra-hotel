@@ -32,7 +32,7 @@ export function BookingWidget({ compact = false }: { compact?: boolean }) {
         <div className="results-head"><p className="kicker">YOUR STAY · {nights} {nights === 1 ? "NIGHT" : "NIGHTS"}</p><h2>Choose your <em>room.</em></h2><p>{format(new Date(checkIn), "dd MMM")} — {format(new Date(checkOut), "dd MMM yyyy")} · {guests} guests</p></div>
         <p className="preview-note">Preview availability and rates — live inventory will activate when booking services are connected.</p>
         <div className="result-list">{rooms.slice(0, 4).map((room, i) => <article key={room.slug}>
-          <img src={room.image} alt={`${room.name} at Nakshatra Hotel & Resort`}/><div><span className="availability-tag"><Check/> {6-i} preview rooms</span><h3>{room.name}</h3><p>{room.features.slice(0,2).join(" · ")}</p></div><div className="result-price"><small>Preview rate / night</small><b>₹{room.rate.toLocaleString("en-IN")}</b><Link className="gold-button" href={`/booking/confirm?room=${room.slug}&in=${checkIn}&out=${checkOut}&guests=${guests}`}>Select</Link></div>
+          <img src={room.image} alt={`${room.name} at Nakshatra Hotel & Resort`}/><div><span className="availability-tag"><Check/> {6-i} preview rooms</span><h3>{room.name}</h3><p>{room.features.slice(0,2).join(" · ")}</p></div><div className="result-price"><small>Direct rate / night</small><b>₹{room.rate.toLocaleString("en-IN")}</b><Link className="gold-button" href={`/rooms/${room.slug}?in=${checkIn}&out=${checkOut}&guests=${Math.min(guests, room.maxGuests)}`}>View room</Link></div>
         </article>)}</div>
       </section>
     </div>}

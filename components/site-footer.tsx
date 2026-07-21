@@ -7,7 +7,7 @@ export function SiteFooter() {
     <div className="footer-glow"/>
     <div className="footer-main">
       <div className="footer-brand">
-        <span className="brand-orbit large" aria-hidden="true"><span>N</span></span>
+        <img className="footer-official-logo" src="/images/nakshatra-official-logo.jpg" alt="Nakshatra Hotel & Resort"/>
         <p className="kicker">NAKSHATRA HOTEL &amp; RESORT</p>
         <h2>Come away<br/><em>restored.</em></h2>
       </div>

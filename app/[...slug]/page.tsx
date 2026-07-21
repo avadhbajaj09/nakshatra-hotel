@@ -7,6 +7,8 @@ import { RoomCard } from "@/components/room-card";
 import { BookingWidget } from "@/components/booking-widget";
 import { EnquiryForm } from "@/components/enquiry-form";
 import { BookingConfirm } from "@/components/booking-confirm";
+import { BookingThankYou } from "@/components/booking-thank-you";
+import { RoomProductPage } from "@/components/room-product-page";
 
 type Props = { params: Promise<{ slug: string[] }> };
 
@@ -42,7 +44,7 @@ const legal: Record<string, { title: string; intro: string; sections: [string,st
   "cancellation-refund-policy": { title: "Cancellation & refund policy", intro: "Final cutoff windows and refund rules must be confirmed by the hotel before accepting payments.", sections: [["Preview status", "This page is a content placeholder and does not create a binding cancellation policy."],["Refunds", "Any eligible refund terms, processing times and deposit conditions will be shown clearly before payment."],["Assistance", "For an existing offline reservation, contact the hotel by phone or WhatsApp."]] },
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> { const { slug } = await params; const key = slug[0]; const content = pageContent[key]; return { title: content ? `${content.title} ${content.italic}` : key.replaceAll("-"," "), description: content?.copy }; }
+export async function generateMetadata({ params }: Props): Promise<Metadata> { const { slug } = await params; const key = slug[0]; if (key === "rooms" && slug[1]) { const room = rooms.find(item => item.slug === slug[1]); if (room) return { title: `${room.name} · Photos, Amenities & Meal Plans`, description: `${room.description} Explore real photos, guest-based dining packages and direct booking offers.` }; } if (key === "booking") return { title: slug[1] === "thank-you" ? "Booking Request Received" : "Complete Your Booking", description: "Complete a Nakshatra Hotel & Resort reservation request with pay-at-hotel convenience." }; const content = pageContent[key]; return { title: content ? `${content.title} ${content.italic}` : key.replaceAll("-"," "), description: content?.copy }; }
 
 function PageHero({ content }: { content: (typeof pageContent)[string] }) { return <section className="page-hero"><img src={content.image} alt={`${content.title} ${content.italic} at Nakshatra Hotel & Resort`}/><div className="page-hero-shade"/><div className="page-hero-copy"><p className="kicker">{content.eyebrow}</p><h1>{content.title}<br/><em>{content.italic}</em></h1><p>{content.copy}</p></div></section>; }
 
@@ -60,9 +62,9 @@ function RichDetail({ data, title }: { data: DetailPage; title: string }) {
 
 export default async function AnyPage({ params }: Props) {
   const { slug } = await params; const key = slug[0];
-  if (key === "booking" && slug[1] === "confirm") return <main className="subpage dark-top"><BookingConfirm/></main>;
-  if (key === "booking" && slug[1] === "success") return <main className="subpage dark-top"><section className="booking-complete"><div className="success-ring"><Check/></div><h1>Reservation<br/><em>received.</em></h1><p>Reference: {slug[2] || "NKS-DEMO-001"}</p></section></main>;
-  if (key === "rooms" && slug[1]) { const room = rooms.find(r => r.slug === slug[1]); if (!room) return notFound(); return <main className="subpage"><section className="room-detail-hero"><img src={room.image} alt={`${room.name} at Nakshatra Hotel & Resort`}/></section><section className="detail-layout section-shell"><div className="detail-copy"><p className="kicker">{room.eyebrow}</p><h1>{room.name.split(" ")[0]} <em>{room.name.split(" ").slice(1).join(" ")}</em></h1><p className="lead">{room.description}</p><div className="feature-list">{room.features.map(f => <span key={f}><Check/>{f}</span>)}</div><p>Explore genuine Nakshatra property photography and contact the hotel to confirm the exact room layout, measurements, occupancy and amenities available for your dates.</p></div><aside className="detail-book glass-panel"><p className="kicker">PREVIEW RATE FROM</p><b>₹{room.rate.toLocaleString("en-IN")}</b><small>per night · taxes and live availability pending</small><BookingWidget compact/></aside></section><section className="related section-shell"><h2>More ways <em>to stay.</em></h2><div className="room-grid">{rooms.filter(r => r.slug !== room.slug).slice(0,2).map(r => <RoomCard key={r.slug} room={r}/>)}</div></section></main>; }
+  if (key === "booking" && (slug[1] === "checkout" || slug[1] === "confirm")) return <BookingConfirm/>;
+  if (key === "booking" && (slug[1] === "thank-you" || slug[1] === "success")) return <BookingThankYou/>;
+  if (key === "rooms" && slug[1]) { const room = rooms.find(r => r.slug === slug[1]); if (!room) return notFound(); return <RoomProductPage room={room}/>; }
   if (key === "rooms") return <main className="subpage"><PageHero content={{ eyebrow:"SIX WAYS TO STAY", title:"Find your", italic:"perfect retreat.", copy:"From efficient comfort to an expansive family setting, every room is a considered place to pause.", image:"/images/room-luxury.jpg" }}/><section className="all-rooms section-shell"><div className="room-grid">{rooms.map(r => <RoomCard key={r.slug} room={r}/>)}</div></section><div className="mid-book"><BookingWidget/></div></main>;
   if (legal[key]) { const item = legal[key]; return <main className="subpage dark-top"><section className="legal-page section-shell"><p className="kicker">NAKSHATRA HOTEL &amp; RESORT</p><h1>{item.title}</h1><p className="lead">{item.intro}</p><div>{item.sections.map(([h,p]) => <article key={h}><h2>{h}</h2><p>{p}</p></article>)}</div></section></main>; }
   const content = pageContent[key]; if (!content) return notFound();

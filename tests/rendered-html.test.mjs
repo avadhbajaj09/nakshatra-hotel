@@ -28,7 +28,7 @@ test("ships brand metadata and no starter preview", async () => {
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
   assert.match(layout, /Nakshatra Hotel & Resort/);
-  assert.match(layout, /og-rooftop-v2\.png/);
+  assert.match(layout, /og-booking-v3\.png/);
   assert.match(page, /Stay, Weddings & Dining in Khargone/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(layout + page, /codex-preview|_sites-preview/);
@@ -50,4 +50,26 @@ test("publishes the confirmed two-pool offer", async () => {
   assert.match(html, /₹2,000/);
   assert.match(html, /third.floor/i);
   assert.match(html, /with(?:out)? a room|without a stay/i);
+});
+
+test("renders the room product, checkout and pay-at-hotel thank-you flow", async () => {
+  const product = await render("/rooms/classic");
+  assert.equal(product.status, 200);
+  const productHtml = await product.text();
+  assert.match(productHtml, /Choose your stay package/i);
+  assert.match(productHtml, /Breakfast \+ meal/i);
+  assert.match(productHtml, /private rooftop pool/i);
+
+  const checkout = await render("/booking/checkout?room=classic&in=2026-07-22&out=2026-07-24&guests=2&plan=breakfast&poolHours=1");
+  assert.equal(checkout.status, 200);
+  const checkoutHtml = await checkout.text();
+  assert.match(checkoutHtml, /Payment method/i);
+  assert.match(checkoutHtml, /Pay at hotel/i);
+  assert.match(checkoutHtml, /Cash/i);
+
+  const thankYou = await render("/booking/thank-you?reference=NKS-123456&room=classic&in=2026-07-22&out=2026-07-24&guests=2&plan=breakfast&total=9999");
+  assert.equal(thankYou.status, 200);
+  const thankYouHtml = await thankYou.text();
+  assert.match(thankYouHtml, /Thank you/i);
+  assert.match(thankYouHtml, /NKS-123456/);
 });
