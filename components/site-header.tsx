@@ -1,0 +1,39 @@
+"use client";
+
+import Link from "next/link";
+import { Menu, X, Phone, CalendarDays } from "lucide-react";
+import { useEffect, useState } from "react";
+import { nav } from "@/lib/content";
+
+export function SiteHeader() {
+  const [open, setOpen] = useState(false);
+  const [compact, setCompact] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setCompact(window.scrollY > 56);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return (
+    <header className={`site-header ${compact ? "is-compact" : ""}`}>
+      <div className="nav-shell glass-panel">
+        <Link className="brand" href="/" aria-label="Nakshatra Hotel & Resort home">
+          <span className="brand-orbit" aria-hidden="true"><span>N</span></span>
+          <span><b>NAKSHATRA</b><small>HOTEL &amp; RESORT</small></span>
+        </Link>
+        <nav className="desktop-nav" aria-label="Main navigation">
+          {nav.map((item) => <Link key={item.href} href={item.href}>{item.label}</Link>)}
+        </nav>
+        <div className="nav-actions">
+          <a className="icon-link" href="tel:+919425088369" aria-label="Call hotel"><Phone size={17}/></a>
+          <Link className="gold-button nav-book" href="/#book"><CalendarDays size={16}/> <span>Book your stay</span></Link>
+          <button className="menu-toggle" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Toggle menu">{open ? <X/> : <Menu/>}</button>
+        </div>
+      </div>
+      {open && <div className="mobile-nav glass-panel">
+        {nav.map((item) => <Link onClick={() => setOpen(false)} key={item.href} href={item.href}>{item.label}<span>↗</span></Link>)}
+        <a href="tel:+919425088369">Call +91 94250 88369</a>
+      </div>}
+    </header>
+  );
+}

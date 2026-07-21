@@ -1,0 +1,40 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import Link from "next/link";
+import { addDays, differenceInCalendarDays, format } from "date-fns";
+import { CalendarDays, Users, Minus, Plus, ArrowRight, Check, X } from "lucide-react";
+import { rooms } from "@/lib/content";
+
+export function BookingWidget({ compact = false }: { compact?: boolean }) {
+  const today = format(new Date(), "yyyy-MM-dd");
+  const tomorrow = format(addDays(new Date(), 1), "yyyy-MM-dd");
+  const [checkIn, setCheckIn] = useState(today);
+  const [checkOut, setCheckOut] = useState(tomorrow);
+  const [guests, setGuests] = useState(2);
+  const [showGuests, setShowGuests] = useState(false);
+  const [results, setResults] = useState(false);
+  const nights = useMemo(() => Math.max(1, differenceInCalendarDays(new Date(checkOut), new Date(checkIn))), [checkIn, checkOut]);
+  return <>
+    <div className={`booking-widget glass-panel ${compact ? "booking-compact" : ""}`} id="book">
+      <div className="booking-intro"><span className="star-glyph">✦</span><span><small>RESERVE YOUR ESCAPE</small><b>Best rate, direct</b></span></div>
+      <label><span>Check in</span><div><CalendarDays size={17}/><input aria-label="Check in date" min={today} value={checkIn} onChange={(e) => { setCheckIn(e.target.value); if (e.target.value >= checkOut) setCheckOut(format(addDays(new Date(e.target.value), 1), "yyyy-MM-dd")); }} type="date"/></div></label>
+      <label><span>Check out</span><div><CalendarDays size={17}/><input aria-label="Check out date" min={checkIn} value={checkOut} onChange={(e) => setCheckOut(e.target.value)} type="date"/></div></label>
+      <div className="guest-control">
+        <span>Guests</span><button onClick={() => setShowGuests(!showGuests)}><Users size={17}/>{guests} guests</button>
+        {showGuests && <div className="guest-pop glass-panel"><span>Guests</span><button onClick={() => setGuests(Math.max(1, guests - 1))}><Minus/></button><b>{guests}</b><button onClick={() => setGuests(Math.min(12, guests + 1))}><Plus/></button></div>}
+      </div>
+      <button className="gold-button availability" onClick={() => setResults(true)}>Check availability <ArrowRight size={18}/></button>
+    </div>
+    {results && <div className="results-backdrop" onMouseDown={(e) => e.target === e.currentTarget && setResults(false)}>
+      <section className="results-panel" aria-modal="true" role="dialog" aria-label="Available rooms">
+        <button className="close-results" onClick={() => setResults(false)} aria-label="Close"><X/></button>
+        <div className="results-head"><p className="kicker">YOUR STAY · {nights} {nights === 1 ? "NIGHT" : "NIGHTS"}</p><h2>Choose your <em>room.</em></h2><p>{format(new Date(checkIn), "dd MMM")} — {format(new Date(checkOut), "dd MMM yyyy")} · {guests} guests</p></div>
+        <p className="preview-note">Preview availability and rates — live inventory will activate when booking services are connected.</p>
+        <div className="result-list">{rooms.slice(0, 4).map((room, i) => <article key={room.slug}>
+          <img src={room.image} alt="Generic room placeholder"/><div><span className="availability-tag"><Check/> {6-i} preview rooms</span><h3>{room.name}</h3><p>{room.features.slice(0,2).join(" · ")}</p></div><div className="result-price"><small>Preview rate / night</small><b>₹{room.rate.toLocaleString("en-IN")}</b><Link className="gold-button" href={`/booking/confirm?room=${room.slug}&in=${checkIn}&out=${checkOut}&guests=${guests}`}>Select</Link></div>
+        </article>)}</div>
+      </section>
+    </div>}
+  </>;
+}

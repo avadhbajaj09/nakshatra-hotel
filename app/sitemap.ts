@@ -1,0 +1,3 @@
+import type { MetadataRoute } from "next";
+import { rooms } from "@/lib/content";
+export default function sitemap(): MetadataRoute.Sitemap { const base="https://nakshatrahotel.in"; const pages=["","rooms","about","amenities","experience","famous-spots","restaurant","menu","wedding","conference-and-meetings","personal-party","birthday-party","pool-party","offers","gallery","reviews","contact","faq","terms-conditions","privacy-policy","cancellation-refund-policy"]; return [...pages.map(p=>({url:`${base}/${p}`,lastModified:new Date(),changeFrequency:"monthly" as const,priority:p===""?1:.7})),...rooms.map(r=>({url:`${base}/rooms/${r.slug}`,lastModified:new Date(),changeFrequency:"weekly" as const,priority:.8}))]; }
