@@ -36,10 +36,10 @@ export function HomePage() {
           <span className="pulse-dot" />
           <span>✦ GRAND OPENING COMING SOON ✦</span>
         </motion.div>
-        <motion.p className="hero-eyebrow" key={heroSlides[activeHeroSlide].eyebrow} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .55 }}><span/>{heroSlides[activeHeroSlide].eyebrow}<span/></motion.p>
-        <h1>Ethereal stay<br/>in the lap of <em>luxury.</em></h1>
-        <p className="hero-copy">A resort-style retreat in Khargone, shaped for unhurried stays, luminous celebrations and memorable dining.</p>
-        <div className="hero-actions"><a href="#book" className="gold-button">Reserve your escape <ArrowRight/></a><Link href="/experience" className="text-link">Discover Nakshatra <span>↗</span></Link></div>
+        <motion.p className="hero-eyebrow" key={heroSlides[activeHeroSlide].eyebrow} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .55 }}><span/>UNVEILING KHARGONE'S PREMIER RESORT &amp; CELEBRATION DESTINATION<span/></motion.p>
+        <h1>Grand Opening<br/>Coming <em>Soon.</em></h1>
+        <p className="hero-copy">Nakshatra Hotel &amp; Resort is opening doors soon in Khargone! Featuring 60 luxury rooms, a 5,500 sq ft grand banquet, lush wedding garden, guest pool, fine dining and grand parking. Accepting advance stay &amp; wedding inquiries now.</p>
+        <div className="hero-actions"><a href="#coming-soon-board" className="gold-button">Inquire for Pre-Booking <ArrowRight/></a><Link href="/our-story" className="text-link">Explore Nakshatra <span>↗</span></Link></div>
         <div className="hero-slider-nav" aria-label="Choose hero image"><button onClick={() => changeHeroSlide(-1)} aria-label="Previous hero image"><ChevronLeft/></button><div>{heroSlides.map((slide, index) => <button className={index === activeHeroSlide ? "active" : ""} key={slide.label} onClick={() => setActiveHeroSlide(index)} aria-label={`Show ${slide.label} image`}><span/>{slide.label}</button>)}</div><button onClick={() => changeHeroSlide(1)} aria-label="Next hero image"><ChevronRight/></button></div>
       </motion.div>
       <div className="hero-location"><MapPin/>Sanawad Road · Jaitapur · Khargone</div>
