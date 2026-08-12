@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, ChevronDown, ChevronLeft, ChevronRight, MapPin, Star, Waves, UtensilsCrossed, PartyPopper, Wifi, Car, Flower2, Baby, Presentation, Gamepad2, Clock3, Sparkles, Coffee, Quote, Building2, Trees, BriefcaseBusiness, CarFront } from "lucide-react";
+import { ArrowRight, ChevronDown, ChevronLeft, ChevronRight, MapPin, Star, Waves, UtensilsCrossed, PartyPopper, Wifi, Car, Flower2, Baby, Presentation, Gamepad2, Clock3, Sparkles, Coffee, Quote, Building2, Trees, BriefcaseBusiness, CarFront, PhoneCall } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { amenities } from "@/lib/content";
 import { BookingWidget } from "./booking-widget";
@@ -32,6 +32,10 @@ export function HomePage() {
       <div className="hero-vignette"/><div className="hero-rays"/>
       <div className="orbital-art" aria-hidden="true"><span className="orbit orbit-one"/><span className="orbit orbit-two"/><span className="floating-star">✦</span></div>
       <motion.div className="hero-content" style={{ y: textY }}>
+        <motion.div initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} className="coming-soon-pill">
+          <span className="pulse-dot" />
+          <span>✦ GRAND OPENING COMING SOON ✦</span>
+        </motion.div>
         <motion.p className="hero-eyebrow" key={heroSlides[activeHeroSlide].eyebrow} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .55 }}><span/>{heroSlides[activeHeroSlide].eyebrow}<span/></motion.p>
         <h1>Ethereal stay<br/>in the lap of <em>luxury.</em></h1>
         <p className="hero-copy">A resort-style retreat in Khargone, shaped for unhurried stays, luminous celebrations and memorable dining.</p>
@@ -42,6 +46,62 @@ export function HomePage() {
       <a className="scroll-cue" href="#book" aria-label="Scroll to booking"><span>SCROLL</span><ChevronDown/></a>
     </section>
     <div className="booking-wrap"><BookingWidget/></div>
+
+    <section className="coming-soon-section section-shell" id="coming-soon-board">
+      <motion.div 
+        className="coming-soon-board"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+      >
+        <div className="coming-soon-header">
+          <span className="coming-soon-badge-tag">
+            <Sparkles /> GRAND OPENING COMING SOON · KHARGONE
+          </span>
+          <span className="coming-soon-location-tag">
+            SANAWAD ROAD · JAITAPUR
+          </span>
+        </div>
+        
+        <h2>Unveiling Khargone’s premier<br />resort &amp; celebration <em>destination.</em></h2>
+        <p className="lead">
+          Nakshatra Hotel &amp; Resort is opening doors soon! Experience 60 luxurious rooms, Khargone’s largest parking area, a 5,500 sq ft grand banquet hall, open-air wedding garden, guest swimming pool, and fine multi-cuisine dining. Accepting advance inquiry reservations for stay, weddings &amp; events.
+        </p>
+
+        <div className="coming-soon-features">
+          <div className="coming-soon-feature-item">
+            <Building2 /> <span>60 Luxury Rooms &amp; Suites</span>
+          </div>
+          <div className="coming-soon-feature-item">
+            <PartyPopper /> <span>5,500 Sq Ft Banquet Hall</span>
+          </div>
+          <div className="coming-soon-feature-item">
+            <Trees /> <span>Lush Wedding Garden</span>
+          </div>
+          <div className="coming-soon-feature-item">
+            <Waves /> <span>Guest Swimming Pool</span>
+          </div>
+          <div className="coming-soon-feature-item">
+            <UtensilsCrossed /> <span>Multi-Cuisine Restaurant</span>
+          </div>
+          <div className="coming-soon-feature-item">
+            <CarFront /> <span>Khargone’s Biggest Parking</span>
+          </div>
+        </div>
+
+        <div className="coming-soon-actions">
+          <a href="#book" className="gold-button">
+            Inquire for Advance Booking <ArrowRight />
+          </a>
+          <div className="coming-soon-contacts">
+            <a href="tel:+919425088369"><PhoneCall /> +91-94250-88369</a>
+            <a href="tel:+919893488369"><PhoneCall /> +91-98934-88369</a>
+          </div>
+        </div>
+      </motion.div>
+    </section>
+
 
     <section className="intro-section section-shell">
       <motion.div className="intro-copy" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .3 }}>
