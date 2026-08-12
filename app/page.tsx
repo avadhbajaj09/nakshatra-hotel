@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { HomePage } from "@/components/home-page";
+import { MaintenancePage } from "@/components/maintenance-page";
 
 export const metadata: Metadata = {
-  title: "Nakshatra Hotel & Resort | Stay, Weddings & Dining in Khargone",
-  description: "A 60-room resort-style hotel in Khargone with four room categories, a guest pool, restaurant, 5,500 sq ft wedding hall, wedding garden, business facilities and grand parking.",
+  title: "Website Under Maintenance | Nakshatra Hotel & Resort Khargone",
+  description: "Nakshatra Hotel & Resort's official website is currently under maintenance. Contact us directly at +91-94250-88369 for room bookings and wedding inquiries.",
 };
 
-export default function Home() { return <HomePage/>; }
+export default function Home() { return <MaintenancePage />; }

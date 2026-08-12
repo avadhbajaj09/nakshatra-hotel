@@ -28,8 +28,7 @@ const hotelSchema = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html lang="en"><body className={`${inter.variable} ${playfair.variable}`}>
-    <PageTransition/><SiteHeader/>{children}<GlobalDiscovery/><SiteFooter/>
-    <HotelChatbot/>
+    {children}
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(hotelSchema) }}/>
   </body></html>;
 }
