@@ -136,6 +136,38 @@ body:has(.results-backdrop) .site-header{z-index:1}
 @media(prefers-reduced-motion:reduce){.hero-slider:after,.hero-slider-nav>div button.active>span:after{animation:none}.hero-slide{transform:none!important}}
 @media(max-width:700px){.hero-slider-nav{display:none!important}}
 
+/* Top Persistent Announcement Bar */
+.top-coming-soon-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 70;
+  background: linear-gradient(90deg, #071f17, #1b4332, #071f17);
+  border-bottom: 1px solid rgba(225, 199, 129, 0.45);
+  color: var(--gold-100);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+.site-header {
+  top: 33px!important;
+}
+.footer-coming-soon-copy {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: rgba(245, 241, 232, 0.72);
+  margin-top: 10px;
+}
+
 /* Coming Soon Board & Pill Styles */
 .coming-soon-pill {
   display: inline-flex;

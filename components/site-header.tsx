@@ -15,24 +15,30 @@ export function SiteHeader() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
   return (
-    <header className={`site-header ${compact ? "is-compact" : ""}`}>
-      <div className="nav-shell glass-panel">
-        <Link className="brand" href="/" aria-label="Nakshatra Hotel & Resort home">
-          <img className="official-brand-logo" src="/images/nakshatra-logo-gold-transparent-v2.png" alt="Nakshatra Hotel & Resort"/>
-        </Link>
-        <nav className="desktop-nav" aria-label="Main navigation">
-          {nav.map((item) => <Link key={item.href} href={item.href}>{item.label}</Link>)}
-        </nav>
-        <div className="nav-actions">
-          <a className="icon-link" href="tel:+919425088369" aria-label="Call hotel"><Phone size={17}/></a>
-          <Link className="gold-button nav-book" href="/#book"><CalendarDays size={16}/> <span>Book your stay</span></Link>
-          <button className="menu-toggle" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Toggle menu">{open ? <X/> : <Menu/>}</button>
-        </div>
+    <>
+      <div className="top-coming-soon-bar">
+        <span className="pulse-dot" />
+        <span>✦ GRAND OPENING COMING SOON · ACCEPTING ADVANCE WEDDING &amp; STAY INQUIRIES · CALL +91 94250 88369 ✦</span>
       </div>
-      {open && <div className="mobile-nav glass-panel">
-        {nav.map((item) => <Link onClick={() => setOpen(false)} key={item.href} href={item.href}>{item.label}<span>↗</span></Link>)}
-        <a href="tel:+919425088369">Call +91 94250 88369</a>
-      </div>}
-    </header>
+      <header className={`site-header ${compact ? "is-compact" : ""}`}>
+        <div className="nav-shell glass-panel">
+          <Link className="brand" href="/" aria-label="Nakshatra Hotel & Resort home">
+            <img className="official-brand-logo" src="/images/nakshatra-logo-gold-transparent-v2.png" alt="Nakshatra Hotel & Resort"/>
+          </Link>
+          <nav className="desktop-nav" aria-label="Main navigation">
+            {nav.map((item) => <Link key={item.href} href={item.href}>{item.label}</Link>)}
+          </nav>
+          <div className="nav-actions">
+            <a className="icon-link" href="tel:+919425088369" aria-label="Call hotel"><Phone size={17}/></a>
+            <Link className="gold-button nav-book" href="/#coming-soon-board"><CalendarDays size={16}/> <span>Inquire (Coming Soon)</span></Link>
+            <button className="menu-toggle" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Toggle menu">{open ? <X/> : <Menu/>}</button>
+          </div>
+        </div>
+        {open && <div className="mobile-nav glass-panel">
+          {nav.map((item) => <Link onClick={() => setOpen(false)} key={item.href} href={item.href}>{item.label}<span>↗</span></Link>)}
+          <a href="tel:+919425088369">Call +91 94250 88369</a>
+        </div>}
+      </header>
+    </>
   );
 }
