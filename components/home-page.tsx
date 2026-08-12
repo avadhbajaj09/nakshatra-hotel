@@ -34,20 +34,20 @@ export function HomePage() {
       <motion.div className="hero-content" style={{ y: textY }}>
         <motion.div initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} className="coming-soon-pill">
           <span className="pulse-dot" />
-          <span>✦ GRAND OPENING COMING SOON ✦</span>
+          <span>✦ WEBSITE UNDER MAINTENANCE ✦</span>
         </motion.div>
-        <motion.p className="hero-eyebrow" key={heroSlides[activeHeroSlide].eyebrow} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .55 }}><span/>UNVEILING KHARGONE'S PREMIER RESORT &amp; CELEBRATION DESTINATION<span/></motion.p>
-        <h1>Grand Opening<br/>Coming <em>Soon.</em></h1>
-        <p className="hero-copy">Nakshatra Hotel &amp; Resort is opening doors soon in Khargone! Featuring 60 luxury rooms, a 5,500 sq ft grand banquet, lush wedding garden, guest pool, fine dining and grand parking. Accepting advance stay &amp; wedding inquiries now.</p>
-        <div className="hero-actions"><a href="#coming-soon-board" className="gold-button">Inquire for Pre-Booking <ArrowRight/></a><Link href="/our-story" className="text-link">Explore Nakshatra <span>↗</span></Link></div>
+        <motion.p className="hero-eyebrow" key={heroSlides[activeHeroSlide].eyebrow} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .55 }}><span/>NAKSHATRA HOTEL &amp; RESORT · KHARGONE<span/></motion.p>
+        <h1>Website Under<br/><em>Maintenance.</em></h1>
+        <p className="hero-copy">Our website is currently undergoing maintenance and updates to serve you better. For stays, wedding bookings, event inquiries and restaurant reservations, please contact us directly via phone or WhatsApp.</p>
+        <div className="hero-actions"><a href="tel:+919425088369" className="gold-button">Call for Inquiries <PhoneCall/></a><a href="https://wa.me/919425088369" target="_blank" rel="noreferrer" className="text-link">WhatsApp Us <span>↗</span></a></div>
         <div className="hero-slider-nav" aria-label="Choose hero image"><button onClick={() => changeHeroSlide(-1)} aria-label="Previous hero image"><ChevronLeft/></button><div>{heroSlides.map((slide, index) => <button className={index === activeHeroSlide ? "active" : ""} key={slide.label} onClick={() => setActiveHeroSlide(index)} aria-label={`Show ${slide.label} image`}><span/>{slide.label}</button>)}</div><button onClick={() => changeHeroSlide(1)} aria-label="Next hero image"><ChevronRight/></button></div>
       </motion.div>
       <div className="hero-location"><MapPin/>Sanawad Road · Jaitapur · Khargone</div>
-      <a className="scroll-cue" href="#book" aria-label="Scroll to booking"><span>SCROLL</span><ChevronDown/></a>
+      <a className="scroll-cue" href="#maintenance-board" aria-label="Scroll to details"><span>SCROLL</span><ChevronDown/></a>
     </section>
     <div className="booking-wrap"><BookingWidget/></div>
 
-    <section className="coming-soon-section section-shell" id="coming-soon-board">
+    <section className="coming-soon-section section-shell" id="maintenance-board">
       <motion.div 
         className="coming-soon-board"
         initial={{ opacity: 0, y: 30 }}
@@ -57,16 +57,16 @@ export function HomePage() {
       >
         <div className="coming-soon-header">
           <span className="coming-soon-badge-tag">
-            <Sparkles /> GRAND OPENING COMING SOON · KHARGONE
+            <Sparkles /> WEBSITE UNDER MAINTENANCE · KHARGONE
           </span>
           <span className="coming-soon-location-tag">
             SANAWAD ROAD · JAITAPUR
           </span>
         </div>
         
-        <h2>Unveiling Khargone’s premier<br />resort &amp; celebration <em>destination.</em></h2>
+        <h2>We are enhancing our digital<br />resort &amp; guest <em>experience.</em></h2>
         <p className="lead">
-          Nakshatra Hotel &amp; Resort is opening doors soon! Experience 60 luxurious rooms, Khargone’s largest parking area, a 5,500 sq ft grand banquet hall, open-air wedding garden, guest swimming pool, and fine multi-cuisine dining. Accepting advance inquiry reservations for stay, weddings &amp; events.
+          Nakshatra Hotel &amp; Resort's official website is currently under maintenance. Our 60 luxury rooms, 5,500 sq ft grand banquet hall, open-air wedding garden, guest swimming pool, multi-cuisine restaurant, and grand parking are all available for inquiries and reservations via phone or WhatsApp.
         </p>
 
         <div className="coming-soon-features">
@@ -91,12 +91,12 @@ export function HomePage() {
         </div>
 
         <div className="coming-soon-actions">
-          <a href="#book" className="gold-button">
-            Inquire for Advance Booking <ArrowRight />
+          <a href="tel:+919425088369" className="gold-button">
+            Call +91-94250-88369 <PhoneCall />
           </a>
           <div className="coming-soon-contacts">
-            <a href="tel:+919425088369"><PhoneCall /> +91-94250-88369</a>
             <a href="tel:+919893488369"><PhoneCall /> +91-98934-88369</a>
+            <a href="https://wa.me/919425088369" target="_blank" rel="noreferrer">WhatsApp Inquiry ↗</a>
           </div>
         </div>
       </motion.div>

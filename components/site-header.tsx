@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, X, Phone, CalendarDays } from "lucide-react";
+import { Menu, X, Phone, Wrench } from "lucide-react";
 import { useEffect, useState } from "react";
 import { nav } from "@/lib/content";
 
@@ -18,7 +18,7 @@ export function SiteHeader() {
     <>
       <div className="top-coming-soon-bar">
         <span className="pulse-dot" />
-        <span>✦ GRAND OPENING COMING SOON · ACCEPTING ADVANCE WEDDING &amp; STAY INQUIRIES · CALL +91 94250 88369 ✦</span>
+        <span>✦ WEBSITE UNDER MAINTENANCE · FOR INQUIRIES CALL +91 94250 88369 / +91 98934 88369 ✦</span>
       </div>
       <header className={`site-header ${compact ? "is-compact" : ""}`}>
         <div className="nav-shell glass-panel">
@@ -30,7 +30,7 @@ export function SiteHeader() {
           </nav>
           <div className="nav-actions">
             <a className="icon-link" href="tel:+919425088369" aria-label="Call hotel"><Phone size={17}/></a>
-            <Link className="gold-button nav-book" href="/#coming-soon-board"><CalendarDays size={16}/> <span>Inquire (Coming Soon)</span></Link>
+            <a className="gold-button nav-book" href="tel:+919425088369"><Wrench size={16}/> <span>Under Maintenance</span></a>
             <button className="menu-toggle" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Toggle menu">{open ? <X/> : <Menu/>}</button>
           </div>
         </div>
