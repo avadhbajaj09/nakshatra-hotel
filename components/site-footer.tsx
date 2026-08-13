@@ -9,8 +9,7 @@ export function SiteFooter() {
       <div className="footer-brand">
         <img className="footer-official-logo" src="/images/nakshatra-logo-gold-transparent-v2.png" alt="Nakshatra Hotel & Resort"/>
         <p className="kicker">NAKSHATRA HOTEL &amp; RESORT · KHARGONE</p>
-        <h2>Website Under<br/><em>Maintenance.</em></h2>
-        <p className="footer-coming-soon-copy">For room reservations, wedding bookings, and event inquiries, please call +91 94250 88369 or +91 98934 88369.</p>
+        <h2>Come away<br/><em>restored.</em></h2>
       </div>
       <div className="footer-links">
         <div><p className="footer-title">Explore</p><Link href="/our-story">Our story</Link><Link href="/rooms">Rooms & suites</Link><Link href="/ground-floor-pool">Guest pool</Link><Link href="/amenities">Amenities</Link><Link href="/restaurant">Restaurant</Link><Link href="/gallery">Gallery</Link><Link href="/parking">Grand parking & arrival</Link></div>

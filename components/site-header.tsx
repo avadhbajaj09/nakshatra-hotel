@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, X, Phone, Wrench } from "lucide-react";
+import { Menu, X, Phone, MessageCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { nav } from "@/lib/content";
 
@@ -14,31 +14,26 @@ export function SiteHeader() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+  const whatsappUrl = "https://wa.me/919425088369?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%20would%20like%20to%20inquire%20about%20room%20availability%20and%20booking.";
   return (
-    <>
-      <div className="top-coming-soon-bar">
-        <span className="pulse-dot" />
-        <span>✦ WEBSITE UNDER MAINTENANCE · FOR INQUIRIES CALL +91 94250 88369 / +91 98934 88369 ✦</span>
-      </div>
-      <header className={`site-header ${compact ? "is-compact" : ""}`}>
-        <div className="nav-shell glass-panel">
-          <Link className="brand" href="/" aria-label="Nakshatra Hotel & Resort home">
-            <img className="official-brand-logo" src="/images/nakshatra-logo-gold-transparent-v2.png" alt="Nakshatra Hotel & Resort"/>
-          </Link>
-          <nav className="desktop-nav" aria-label="Main navigation">
-            {nav.map((item) => <Link key={item.href} href={item.href}>{item.label}</Link>)}
-          </nav>
-          <div className="nav-actions">
-            <a className="icon-link" href="tel:+919425088369" aria-label="Call hotel"><Phone size={17}/></a>
-            <a className="gold-button nav-book" href="tel:+919425088369"><Wrench size={16}/> <span>Under Maintenance</span></a>
-            <button className="menu-toggle" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Toggle menu">{open ? <X/> : <Menu/>}</button>
-          </div>
+    <header className={`site-header ${compact ? "is-compact" : ""}`}>
+      <div className="nav-shell glass-panel">
+        <Link className="brand" href="/" aria-label="Nakshatra Hotel & Resort home">
+          <img className="official-brand-logo" src="/images/nakshatra-logo-gold-transparent-v2.png" alt="Nakshatra Hotel & Resort"/>
+        </Link>
+        <nav className="desktop-nav" aria-label="Main navigation">
+          {nav.map((item) => <Link key={item.href} href={item.href}>{item.label}</Link>)}
+        </nav>
+        <div className="nav-actions">
+          <a className="icon-link" href="tel:+919425088369" aria-label="Call hotel"><Phone size={17}/></a>
+          <a className="gold-button nav-book" href={whatsappUrl} target="_blank" rel="noreferrer"><MessageCircle size={16}/> <span>Book via WhatsApp</span></a>
+          <button className="menu-toggle" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Toggle menu">{open ? <X/> : <Menu/>}</button>
         </div>
-        {open && <div className="mobile-nav glass-panel">
-          {nav.map((item) => <Link onClick={() => setOpen(false)} key={item.href} href={item.href}>{item.label}<span>↗</span></Link>)}
-          <a href="tel:+919425088369">Call +91 94250 88369</a>
-        </div>}
-      </header>
-    </>
+      </div>
+      {open && <div className="mobile-nav glass-panel">
+        {nav.map((item) => <Link onClick={() => setOpen(false)} key={item.href} href={item.href}>{item.label}<span>↗</span></Link>)}
+        <a href={whatsappUrl} target="_blank" rel="noreferrer">Book via WhatsApp</a>
+      </div>}
+    </header>
   );
 }

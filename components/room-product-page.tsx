@@ -83,24 +83,25 @@ export function RoomProductPage({ room }: { room: Room }) {
         </div>
 
         <aside className="room-booking-card">
-          <div className="direct-rate-label"><span>DIRECT BOOKING</span><b>Save {plan.discount}%</b></div>
-          <div className="room-card-price"><small>From, per night</small><span><s>₹{listNightly.toLocaleString("en-IN")}</s><b>₹{nightly.toLocaleString("en-IN")}</b></span><p>For {guests} {guests === 1 ? "guest" : "guests"} · taxes confirmed by hotel</p></div>
+          <div className="direct-rate-label"><span>DIRECT INQUIRY</span><b>Fast Response</b></div>
+          <div className="room-card-price"><small>Rate &amp; Availability</small><span><b>Inquire on WhatsApp</b></span><p>For {guests} {guests === 1 ? "guest" : "guests"} · direct hotel confirmation</p></div>
 
           <div className="product-date-grid">
-            <label><span>Check in</span><div><CalendarDays/><input type="date" min={today} value={checkIn} onChange={(event) => { setCheckIn(event.target.value); if (event.target.value >= checkOut) setCheckOut(format(addDays(new Date(event.target.value), 1), "yyyy-MM-dd")); }}/></div></label>
+            <label><span>Check in</span><div><CalendarDays/><input type="date" min={today} value={checkIn} onChange={(event) => { setCheckIn(event.target.value); if (event.target.value >= checkOut) setCheckOut(format(addDays(event.target.value, 1), "yyyy-MM-dd")); }}/></div></label>
             <label><span>Check out</span><div><CalendarDays/><input type="date" min={checkIn} value={checkOut} onChange={(event) => setCheckOut(event.target.value)}/></div></label>
           </div>
 
           <div className="product-guests"><span>Guests</span><div><button type="button" onClick={() => setGuests(Math.max(1, guests - 1))} aria-label="Remove one guest"><Minus/></button><b>{guests}</b><button type="button" onClick={() => setGuests(Math.min(effectiveRoom.maxGuests, guests + 1))} aria-label="Add one guest"><Plus/></button><small>Maximum {effectiveRoom.maxGuests}</small></div></div>
 
-          <fieldset className="meal-plan-picker"><legend>Choose your stay package</legend>{liveMealPlans.map((item) => {
-            const itemNightly = effectiveRoom.rate + item.addonPerGuest * guests;
-            return <button type="button" key={item.slug} className={plan.slug === item.slug ? "selected" : ""} onClick={() => setPlanSlug(item.slug)}><span className="plan-radio">{plan.slug === item.slug && <Check/>}</span><span><b>{item.shortName}</b><small>{item.addonPerGuest ? `+₹${item.addonPerGuest.toLocaleString("en-IN")} / guest / night` : "Room only"}</small></span><strong>₹{itemNightly.toLocaleString("en-IN")}</strong><em>Save {item.discount}%</em></button>;
+          <fieldset className="meal-plan-picker"><legend>Choose stay package</legend>{liveMealPlans.map((item) => {
+            return <button type="button" key={item.slug} className={plan.slug === item.slug ? "selected" : ""} onClick={() => setPlanSlug(item.slug)}><span className="plan-radio">{plan.slug === item.slug && <Check/>}</span><span><b>{item.shortName}</b><small>{item.description}</small></span></button>;
           })}</fieldset>
 
-          <div className="booking-total-lines"><span><small>{nights} {nights === 1 ? "night" : "nights"} · {plan.shortName}</small><b>₹{stayTotal.toLocaleString("en-IN")}</b></span><span className="grand-total"><small>Estimated total</small><b>₹{stayTotal.toLocaleString("en-IN")}</b></span></div>
-          <Link className="gold-button product-checkout" href={checkoutHref}>Continue to checkout <ArrowRight/></Link>
-          <p className="product-assurance"><ShieldCheck/> No online payment required. Pay at the hotel after confirmation.</p>
+          <button type="button" className="gold-button product-checkout" onClick={() => {
+            const msg = `Hello Nakshatra Hotel %26 Resort, I would like to inquire about booking the ${encodeURIComponent(effectiveRoom.name)} from ${format(new Date(checkIn), "dd MMM yyyy")} to ${format(new Date(checkOut), "dd MMM yyyy")} for ${guests} guests (${encodeURIComponent(plan.name)}).`;
+            window.open(`https://wa.me/919425088369?text=${msg}`, "_blank");
+          }}>Inquire &amp; Book on WhatsApp <ArrowRight/></button>
+          <p className="product-assurance"><ShieldCheck/> Direct WhatsApp inquiry. Contact our team instantly.</p>
         </aside>
       </div>
     </section>

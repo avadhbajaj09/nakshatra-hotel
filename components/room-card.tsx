@@ -8,7 +8,7 @@ export function RoomCard({ room, priority = false }: { room: Room; priority?: bo
     <div className="room-overlay glass-panel">
       <p className="kicker">{room.eyebrow}</p><h3>{room.name}</h3><p>{room.description}</p>
       <div className="room-meta"><span><BedDouble/>Room</span><span><Wifi/>WiFi</span><span><Coffee/>Breakfast</span></div>
-      <div className="room-bottom"><span><small>Preview rate from</small><b>₹{room.rate.toLocaleString("en-IN")}</b></span><Link href={`/rooms/${room.slug}`} aria-label={`Explore ${room.name}`}>Explore <ArrowUpRight/></Link></div>
+      <div className="room-bottom"><span><small>STAY &amp; RESERVATIONS</small><b>Inquire Rates</b></span><Link href={`/rooms/${room.slug}`} aria-label={`Explore ${room.name}`}>Explore <ArrowUpRight/></Link></div>
     </div>
   </article>;
 }

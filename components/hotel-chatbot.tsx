@@ -46,8 +46,8 @@ function answerFor(raw: string): Omit<ChatMessage, "id" | "role"> {
   };
 
   if (wantsImages && /room|stay|suite|कमरा/.test(query)) return {
-    text: "Here are real room photographs from Nakshatra. Open any room to view its complete slider gallery, amenities, guest count, meal packages and booking total.",
-    cards: rooms.slice(0, 4).map(room => ({ title: room.name, copy: `From ₹${room.rate.toLocaleString("en-IN")} · up to ${room.maxGuests} guests`, image: room.image, href: `/rooms/${room.slug}` })),
+    text: "Here are real room photographs from Nakshatra. Open any room to view its complete gallery and amenities.",
+    cards: rooms.slice(0, 4).map(room => ({ title: room.name, copy: `Up to ${room.maxGuests} guests · Inquire rates on WhatsApp`, image: room.image, href: `/rooms/${room.slug}` })),
     actions: [{ label: "View all rooms", href: "/rooms" }],
   };
 
@@ -63,13 +63,13 @@ function answerFor(raw: string): Omit<ChatMessage, "id" | "role"> {
   };
 
   if (/wedding|marriage|shaadi|shadi|वेडिंग|शादी/.test(query)) return {
-    text: "Nakshatra can bring your celebration together in one address: an approximately 5,500 sq ft banquet hall, wedding garden and lawns, 60 guest rooms, in-house dining, event planning and grand free parking. Share your date and approximate guest count on the wedding enquiry page.",
+    text: "Nakshatra can bring your celebration together in one address: an approximately 5,500 sq ft banquet hall, wedding garden and lawns, 60 guest rooms, in-house dining, event planning and grand free parking. Share your date and approximate guest count on WhatsApp or via our wedding inquiry page.",
     cards: [
       { title: "The Nakshatra Grand Hall", copy: "Grand indoor celebrations in an approximately 5,500 sq ft setting.", image: "/images/grand-hall-gallery/nakshatra69.jpeg", href: "/wedding-hall" },
       { title: "Wedding garden", copy: "Open-air ceremonies, receptions and evening dining.", image: "/images/wedding-garden.jpg", href: "/wedding-garden" },
       { title: "Complete planning", copy: "Bring venue, rooms, dining and arrival needs into one plan.", image: "/images/celebration-table.jpg", href: "/event-planning" },
     ],
-    actions: [{ label: "Start wedding enquiry", href: "/wedding" }, { label: "Call hotel", href: "tel:+919425088369" }],
+    actions: [{ label: "Inquire on WhatsApp", href: "https://wa.me/919425088369?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%20would%20like%20to%20inquire%20about%20wedding%20venue%20booking." }, { label: "Call hotel", href: "tel:+919425088369" }],
   };
 
   if (/birthday|anniversary|personal party|celebration|जन्मदिन/.test(query)) return {
@@ -97,15 +97,15 @@ function answerFor(raw: string): Omit<ChatMessage, "id" | "role"> {
   };
 
   if (/room|stay|suite|hotel|accommodation|कमरा/.test(query) && !/book|booking|reserve|availability|बुक/.test(query)) return {
-    text: `Nakshatra offers 60 rooms across four categories: Executive, Deluxe, Family and Suite. Rates begin at ₹${Math.min(...rooms.map(room => room.rate)).toLocaleString("en-IN")} per night. Every room includes practical comforts, and you can add breakfast, one daily meal or complete dining per registered guest.`,
-    cards: rooms.slice(0, 3).map(room => ({ title: room.name, copy: `${room.bed} · up to ${room.maxGuests} guests · from ₹${room.rate.toLocaleString("en-IN")}`, image: room.image, href: `/rooms/${room.slug}` })),
-    actions: [{ label: "Compare every room", href: "/rooms" }, { label: "Check room offers", href: "/offers" }],
+    text: "Nakshatra offers 60 rooms across four categories: Executive, Deluxe, Family and Suite. Every room includes practical comforts, and you can add breakfast, one daily meal or complete dining. Contact us directly on WhatsApp for room rates and direct bookings.",
+    cards: rooms.slice(0, 3).map(room => ({ title: room.name, copy: `${room.bed} · up to ${room.maxGuests} guests`, image: room.image, href: `/rooms/${room.slug}` })),
+    actions: [{ label: "Compare every room", href: "/rooms" }, { label: "Book via WhatsApp", href: "https://wa.me/919425088369?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%20would%20like%20to%20inquire%20about%20room%20availability." }],
   };
 
   if (/book|booking|reserve|availability|date|बुक/.test(query)) return {
-    text: "I can take you to the correct booking path. For a stay, choose a room, dates, guests and meal package, then complete the pay-at-hotel checkout. For weddings, parties or meetings, open the matching planner and send the hotel your date and guest details.",
+    text: "For instant bookings and stay inquiries, message our hotel team directly on WhatsApp. Share your check-in date, check-out date, and guest count for direct confirmation.",
     cards: allOccasions,
-    actions: [{ label: "Book a room", href: "/rooms" }, { label: "Plan any event", href: "/event-planning" }],
+    actions: [{ label: "Book via WhatsApp", href: "https://wa.me/919425088369?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%20would%20like%20to%20inquire%20about%20room%20availability%20and%20booking." }, { label: "Call Hotel", href: "tel:+919425088369" }],
   };
 
   if (/food|restaurant|breakfast|lunch|dinner|meal|menu|खाना/.test(query)) return {
@@ -121,8 +121,8 @@ function answerFor(raw: string): Omit<ChatMessage, "id" | "role"> {
   };
 
   if (/price|rate|cost|discount|offer|₹|कितना/.test(query)) return {
-    text: "Current room rates range from ₹2,999 for an Executive Room to ₹7,499 for a Family Room before selected meal add-ons. Direct-booking package discounts are shown during room selection. Event prices depend on date, venue, guests, food and inclusions.",
-    actions: [{ label: "See room prices", href: "/rooms" }, { label: "View offers", href: "/offers" }, { label: "Request event pricing", href: "/event-planning" }],
+    text: "For live room rates, package offers, or event pricing, please contact our team directly on WhatsApp or call us at +91 94250 88369. We will provide direct quotes for your travel dates.",
+    actions: [{ label: "Inquire on WhatsApp", href: "https://wa.me/919425088369?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%20would%20like%20to%20inquire%20about%20room%20rates." }, { label: "Call +91 94250 88369", href: "tel:+919425088369" }],
   };
 
   return {
