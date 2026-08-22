@@ -14,7 +14,7 @@ export function SiteHeader() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  const whatsappUrl = "https://wa.me/919425088369?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%20would%20like%20to%20inquire%20about%20room%20availability%20and%20booking.";
+  const whatsappUrl = "https://wa.me/919479793778?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%20would%20like%20to%20inquire%20about%20room%20availability%20and%20booking.";
   return (
     <header className={`site-header ${compact ? "is-compact" : ""}`}>
       <div className="nav-shell glass-panel">

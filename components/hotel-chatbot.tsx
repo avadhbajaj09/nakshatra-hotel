@@ -69,7 +69,7 @@ function answerFor(raw: string): Omit<ChatMessage, "id" | "role"> {
       { title: "Wedding garden", copy: "Open-air ceremonies, receptions and evening dining.", image: "/images/wedding-garden.jpg", href: "/wedding-garden" },
       { title: "Complete planning", copy: "Bring venue, rooms, dining and arrival needs into one plan.", image: "/images/celebration-table.jpg", href: "/event-planning" },
     ],
-    actions: [{ label: "Inquire on WhatsApp", href: "https://wa.me/919425088369?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%20would%20like%20to%20inquire%20about%20wedding%20venue%20booking." }, { label: "Call hotel", href: "tel:+919425088369" }],
+    actions: [{ label: "Inquire on WhatsApp", href: "https://wa.me/919479793778?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%20would%20like%20to%20inquire%20about%20wedding%20venue%20booking." }, { label: "Call hotel", href: "tel:+919425088369" }],
   };
 
   if (/birthday|anniversary|personal party|celebration|जन्मदिन/.test(query)) return {
@@ -99,13 +99,13 @@ function answerFor(raw: string): Omit<ChatMessage, "id" | "role"> {
   if (/room|stay|suite|hotel|accommodation|कमरा/.test(query) && !/book|booking|reserve|availability|बुक/.test(query)) return {
     text: "Nakshatra offers 60 rooms across four categories: Executive, Deluxe, Family and Suite. Every room includes practical comforts, and you can add breakfast, one daily meal or complete dining. Contact us directly on WhatsApp for room rates and direct bookings.",
     cards: rooms.slice(0, 3).map(room => ({ title: room.name, copy: `${room.bed} · up to ${room.maxGuests} guests`, image: room.image, href: `/rooms/${room.slug}` })),
-    actions: [{ label: "Compare every room", href: "/rooms" }, { label: "Book via WhatsApp", href: "https://wa.me/919425088369?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%20would%20like%20to%20inquire%20about%20room%20availability." }],
+    actions: [{ label: "Compare every room", href: "/rooms" }, { label: "Book via WhatsApp", href: "https://wa.me/919479793778?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%20would%20like%20to%20inquire%20about%20room%20availability." }],
   };
 
   if (/book|booking|reserve|availability|date|बुक/.test(query)) return {
     text: "For instant bookings and stay inquiries, message our hotel team directly on WhatsApp. Share your check-in date, check-out date, and guest count for direct confirmation.",
     cards: allOccasions,
-    actions: [{ label: "Book via WhatsApp", href: "https://wa.me/919425088369?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%20would%20like%20to%20inquire%20about%20room%20availability%20and%20booking." }, { label: "Call Hotel", href: "tel:+919425088369" }],
+    actions: [{ label: "Book via WhatsApp", href: "https://wa.me/919479793778?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%20would%20like%20to%20inquire%20about%20room%20availability%20and%20booking." }, { label: "Call Hotel", href: "tel:+919425088369" }],
   };
 
   if (/food|restaurant|breakfast|lunch|dinner|meal|menu|खाना/.test(query)) return {
@@ -122,7 +122,7 @@ function answerFor(raw: string): Omit<ChatMessage, "id" | "role"> {
 
   if (/price|rate|cost|discount|offer|₹|कितना/.test(query)) return {
     text: "For live room rates, package offers, or event pricing, please contact our team directly on WhatsApp or call us at +91 94250 88369. We will provide direct quotes for your travel dates.",
-    actions: [{ label: "Inquire on WhatsApp", href: "https://wa.me/919425088369?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%20would%20like%20to%20inquire%20about%20room%20rates." }, { label: "Call +91 94250 88369", href: "tel:+919425088369" }],
+    actions: [{ label: "Inquire on WhatsApp", href: "https://wa.me/919479793778?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%20would%20like%20to%20inquire%20about%20room%20rates." }, { label: "Call +91 94250 88369", href: "tel:+919425088369" }],
   };
 
   return {

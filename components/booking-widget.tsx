@@ -16,7 +16,7 @@ export function BookingWidget({ compact = false }: { compact?: boolean }) {
     const formattedIn = format(new Date(checkIn), "dd MMM yyyy");
     const formattedOut = format(new Date(checkOut), "dd MMM yyyy");
     const message = `Hello Nakshatra Hotel %26 Resort, I would like to inquire about room availability and booking from ${formattedIn} to ${formattedOut} for ${guests} guests.`;
-    window.open(`https://wa.me/919425088369?text=${message}`, "_blank");
+    window.open(`https://wa.me/919479793778?text=${message}`, "_blank");
   };
 
   return (

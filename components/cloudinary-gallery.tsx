@@ -430,7 +430,7 @@ export function CloudinaryGallery() {
           <h2>Every photo tells<br/><em>a real story.</em></h2>
           <p>60 rooms, private pools, grand banquet hall, fine dining &amp; resort grounds — all in Khargone, Madhya Pradesh.</p>
           <a
-            href="https://wa.me/919425088369?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%20saw%20your%20gallery%20and%20would%20like%20to%20inquire%20about%20availability."
+            href="https://wa.me/919479793778?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%20saw%20your%20gallery%20and%20would%20like%20to%20inquire%20about%20availability."
             target="_blank"
             rel="noreferrer"
             className="gold-button"

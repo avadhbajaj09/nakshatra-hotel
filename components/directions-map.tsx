@@ -223,7 +223,7 @@ export function DirectionsMap() {
               <p className="kicker">BY ROAD</p>
               <h3>Easy to reach</h3>
               <p>~3 km from Khargone Bus Stand<br/>~95 km from Indore via NH3<br/>Grand free parking on arrival</p>
-              <a href={`https://wa.me/919425088369?text=Hello%20Nakshatra%2C%20I%20need%20directions%20to%20the%20hotel.`} target="_blank" rel="noreferrer">
+              <a href={`https://wa.me/919479793778?text=Hello%20Nakshatra%2C%20I%20need%20directions%20to%20the%20hotel.`} target="_blank" rel="noreferrer">
                 Ask on WhatsApp →
               </a>
             </div>
@@ -239,7 +239,7 @@ export function DirectionsMap() {
               <p className="kicker">CONTACT US</p>
               <h3>We&apos;ll help you arrive</h3>
               <p>Call or WhatsApp our front desk for live directions, pickup arrangements or any questions.</p>
-              <a href="https://wa.me/919425088369?text=Hello%20Nakshatra%2C%20I%20need%20help%20finding%20the%20hotel." target="_blank" rel="noreferrer">
+              <a href="https://wa.me/919479793778?text=Hello%20Nakshatra%2C%20I%20need%20help%20finding%20the%20hotel." target="_blank" rel="noreferrer">
                 WhatsApp Us →
               </a>
             </div>

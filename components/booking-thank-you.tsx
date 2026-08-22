@@ -31,7 +31,7 @@ export function BookingThankYou() {
 
       <div className="thank-you-next"><article><span><Clock3/></span><div><b>Hotel confirmation</b><p>The team confirms availability, final taxes and booking conditions by phone or WhatsApp.</p></div></article><article><span><Phone/></span><div><b>Keep your phone nearby</b><p>Use the mobile number entered at checkout when speaking with the hotel.</p></div></article><article><span><WalletCards/></span><div><b>Pay at the hotel</b><p>Bring cash for payment after your reservation has been confirmed.</p></div></article></div>
 
-      <div className="thank-you-actions"><a className="gold-button" href={`https://wa.me/919770370076?text=${message}`} target="_blank" rel="noreferrer"><MessageCircle/> Confirm on WhatsApp <ArrowRight/></a><Link className="arrow-link" href="/rooms">Explore more rooms <ArrowRight/></Link></div>
+      <div className="thank-you-actions"><a className="gold-button" href={`https://wa.me/919479793778?text=${message}`} target="_blank" rel="noreferrer"><MessageCircle/> Confirm on WhatsApp <ArrowRight/></a><Link className="arrow-link" href="/rooms">Explore more rooms <ArrowRight/></Link></div>
       <p className="thank-you-note">Your booking is saved in the hotel control centre. WhatsApp or phone confirmation is still required before travel.</p>
     </section>
   </main>;

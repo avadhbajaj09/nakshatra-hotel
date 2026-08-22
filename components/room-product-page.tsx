@@ -99,7 +99,7 @@ export function RoomProductPage({ room }: { room: Room }) {
 
           <button type="button" className="gold-button product-checkout" onClick={() => {
             const msg = `Hello Nakshatra Hotel %26 Resort, I would like to inquire about booking the ${encodeURIComponent(effectiveRoom.name)} from ${format(new Date(checkIn), "dd MMM yyyy")} to ${format(new Date(checkOut), "dd MMM yyyy")} for ${guests} guests (${encodeURIComponent(plan.name)}).`;
-            window.open(`https://wa.me/919425088369?text=${msg}`, "_blank");
+            window.open(`https://wa.me/919479793778?text=${msg}`, "_blank");
           }}>Inquire &amp; Book on WhatsApp <ArrowRight/></button>
           <p className="product-assurance"><ShieldCheck/> Direct WhatsApp inquiry. Contact our team instantly.</p>
         </aside>

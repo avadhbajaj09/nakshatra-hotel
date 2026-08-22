@@ -94,7 +94,7 @@ export function MaintenancePage() {
             <a href="tel:+919425088369" className="gold-button">
               <Phone size={18} /> Call Us Now
             </a>
-            <a href="https://wa.me/919425088369" target="_blank" rel="noreferrer" className="whatsapp-button">
+            <a href="https://wa.me/919479793778" target="_blank" rel="noreferrer" className="whatsapp-button">
               <MessageCircle size={18} /> WhatsApp Inquiry
             </a>
           </div>
