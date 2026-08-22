@@ -44,6 +44,7 @@ export const nav = [
   { label: "Our Story", href: "/our-story" },
   { label: "Gallery", href: "/gallery" },
   { label: "Contact", href: "/contact" },
+  { label: "Directions", href: "/directions" },
 ];
 
 export const address = "Sanawad Rd, Jaitapur, Khargone, Madhya Pradesh 451001";

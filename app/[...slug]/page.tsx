@@ -12,6 +12,7 @@ import { RoomProductPage } from "@/components/room-product-page";
 import { PropertyGallery } from "@/components/property-gallery";
 import { propertyGalleries, type GallerySet } from "@/lib/galleries";
 import { CloudinaryGallery } from "@/components/cloudinary-gallery";
+import { DirectionsMap } from "@/components/directions-map";
 
 type Props = { params: Promise<{ slug: string[] }> };
 
@@ -83,6 +84,7 @@ export default async function AnyPage({ params }: Props) {
     <div className="mid-book"><BookingWidget/></div></main>;
   if (legal[key]) { const item = legal[key]; return <main className="subpage dark-top"><section className="legal-page section-shell"><p className="kicker">NAKSHATRA HOTEL &amp; RESORT</p><h1>{item.title}</h1><p className="lead">{item.intro}</p><div>{item.sections.map(([h,p]) => <article key={h}><h2>{h}</h2><p>{p}</p></article>)}</div></section></main>; }
   if (key === "gallery") return <main><CloudinaryGallery/></main>;
+  if (key === "directions") return <main><DirectionsMap/></main>;
   const content = pageContent[key]; if (!content) return notFound();
   if (key === "amenities") return <main className="subpage amenities-page"><PageHero content={content}/><section className="full-amenities section-shell"><p className="kicker">AT YOUR SERVICE</p><h2>Stay with <em>everything in reach.</em></h2><p className="amenities-lead">A resort stay should feel effortless. From the moment you arrive, rooms, dining, recreation, events and everyday guest services come together within one Khargone address.</p><div>{amenities.map(([icon,name],i) => { const AmenityIcon = amenityIcons[icon as keyof typeof amenityIcons] || Sparkles; return <article key={name} className="glass-panel"><span className="luxury-icon"><AmenityIcon/></span><h3>{name}</h3><p>{i < 2 ? "Two distinct pool experiences, each with its own access arrangement." : i < 6 ? "Designed to support dining, celebrations and productive gatherings." : "A practical comfort that keeps every stay running smoothly."}</p></article>; })}</div></section>
     <section className="pool-amenity-story"><article><img src="/images/ground-floor-pool-gallery/nakshatra10.jpeg" alt="Ground-floor swimming pool at Nakshatra"/><div className="glass-panel"><p className="kicker">FOR STAYING GUESTS</p><h2>Ground-floor pool</h2><p>Included access for registered room guests, offering an easy place to cool down, unwind and spend time together during the stay.</p><Link href="/ground-floor-pool">View all 10 photographs <ArrowRight/></Link></div></article><article><img src="/images/parking.jpg" alt="Grand parking area at Nakshatra"/><div className="glass-panel"><p className="kicker">ARRIVE WITH EASE</p><h2>Grand parking</h2><p>Khargone’s biggest parking area supports stays, weddings, conferences and large celebrations.</p><Link href="/parking">Explore parking &amp; arrivals <ArrowRight/></Link></div></article></section>
