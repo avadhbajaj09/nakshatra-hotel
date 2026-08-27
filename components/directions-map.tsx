@@ -105,7 +105,7 @@ export function DirectionsMap() {
           <p className="kicker">✦ NAKSHATRA HOTEL &amp; RESORT · KHARGONE</p>
           <h1 className="dir-title">Find your way<br/><em>to Nakshatra.</em></h1>
           <p className="dir-subtitle">
-            We are on Sanawad Road, Jaitapur, Khargone, Madhya Pradesh — about 3 km from Khargone Bus Stand.
+            We are conveniently located Near D-Mart on Sanawad Road, Jaitapur, Khargone, Madhya Pradesh 451001.
           </p>
           <div className="dir-quick-links">
             <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(HOTEL_ADDRESS)}`} target="_blank" rel="noreferrer" className="dir-app-btn google">
@@ -222,7 +222,7 @@ export function DirectionsMap() {
               <span className="dir-info-icon"><Car size={24}/></span>
               <p className="kicker">BY ROAD</p>
               <h3>Easy to reach</h3>
-              <p>~3 km from Khargone Bus Stand<br/>~95 km from Indore via NH3<br/>Grand free parking on arrival</p>
+              <p>Near D-Mart, Sanawad Road<br/>~95 km from Indore via NH3<br/>Grand free parking on arrival</p>
               <a href={`https://wa.me/919479793778?text=Hello%20Nakshatra%2C%20I%20need%20directions%20to%20the%20hotel.`} target="_blank" rel="noreferrer">
                 Ask on WhatsApp →
               </a>

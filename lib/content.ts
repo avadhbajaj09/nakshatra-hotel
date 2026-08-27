@@ -86,10 +86,10 @@ export const detailPages: Record<string, DetailPage> = {
     introTitle: "A complete address for stays, celebrations and connection.",
     intro: [
       "Nakshatra Hotel & Resort brings many reasons to arrive under one roof: a comfortable stay, an important business visit, a family meal, a wedding celebration or a few quiet days by the water.",
-      "Located on Sanawad Road in Jaitapur, approximately 3 km from Khargone Bus Stand, the resort combines 60 rooms with dining, a guest pool, lawns, event venues, meeting facilities and grand on-site parking.",
+      "Located on Sanawad Road in Jaitapur, conveniently near D-Mart, the resort combines 60 rooms with dining, a guest pool, lawns, event venues, meeting facilities and grand on-site parking.",
       "Our approach is simple: understand the occasion, make every space feel welcoming and help guests move through their visit with ease.",
     ], image2: "/images/story-resort.jpg", image3: "/images/lobby.jpg",
-    highlights: [{ value: "60", label: "Rooms across four categories" }, { value: "~3 km", label: "From Khargone Bus Stand" }, { value: "24/7", label: "Front desk assistance" }],
+    highlights: [{ value: "60", label: "Rooms across four categories" }, { value: "Prime", label: "Near D-Mart, Sanawad Road" }, { value: "24/7", label: "Front desk assistance" }],
     features: [
       { title: "A place to stay", text: "Four room categories support business travellers, couples, families and larger groups with daily housekeeping, fast WiFi and flexible meal plans." },
       { title: "A place to gather", text: "The banquet hall, wedding garden, lawns, restaurant, poolside and meeting facilities offer different settings for meaningful occasions." },
@@ -130,9 +130,9 @@ export const detailPages: Record<string, DetailPage> = {
   },
   parking: {
     introTitle: "A generous arrival experience for stays and large gatherings.",
-    intro: ["Nakshatra offers grand, free on-site self-parking—Khargone’s biggest parking area and an important practical advantage for weddings, conferences, parties and group stays.", "For larger events, share expected vehicle volumes and arrival windows with the hotel team so parking and guest movement can be considered as part of the overall event plan.", "The property’s Sanawad Road location, approximately 3 km from Khargone Bus Stand, also supports a more straightforward arrival for local and visiting guests."],
+    intro: ["Nakshatra offers grand, free on-site self-parking—Khargone’s biggest parking area and an important practical advantage for weddings, conferences, parties and group stays.", "For larger events, share expected vehicle volumes and arrival windows with the hotel team so parking and guest movement can be considered as part of the overall event plan.", "The property’s Sanawad Road location, near D-Mart in Jaitapur, also supports a more straightforward arrival for local and visiting guests."],
     image2: "/images/parking.jpg", image3: "/images/hero-resort.jpg",
-    highlights: [{ value: "Free", label: "On-site self-parking" }, { value: "Grand", label: "Khargone’s biggest parking" }, { value: "~3 km", label: "From Khargone Bus Stand" }],
+    highlights: [{ value: "Free", label: "On-site self-parking" }, { value: "Grand", label: "Khargone’s biggest parking" }, { value: "Prime", label: "Near D-Mart, Sanawad Road" }],
     features: [{ title: "For hotel guests", text: "Park on site while staying, dining or using the resort facilities." }, { title: "For celebrations", text: "A large parking area helps simplify arrivals for weddings and social functions." }, { title: "For business groups", text: "Meeting organisers can discuss expected vehicles and group-arrival requirements in advance." }],
     journey: [{ title: "Share expected arrivals", text: "Tell the hotel the approximate number and type of vehicles expected for your function." }, { title: "Plan peak timings", text: "Arrival and departure windows help the team consider a smoother guest flow." }, { title: "Welcome with ease", text: "Clear communication before a large event makes the first and last moments more comfortable." }],
     related: [{ label: "Weddings", href: "/wedding", image: "/images/wedding.jpg" }, { label: "Business Meetings", href: "/business-meetings", image: "/images/business-meeting.jpg" }, { label: "Contact", href: "/contact", image: "/images/lobby.jpg" }], formType: "parking and group arrival",

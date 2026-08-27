@@ -114,8 +114,8 @@ function answerFor(raw: string): Omit<ChatMessage, "id" | "role"> {
     actions: [{ label: "Explore dining", href: "/restaurant" }, { label: "View room meal plans", href: "/rooms" }],
   };
 
-  if (/parking|car|arrival|bus stand|location|address|where|पता/.test(query)) return {
-    text: "Nakshatra Hotel & Resort is on Sanawad Road, Jaitapur, Khargone, Madhya Pradesh 451001—approximately 3 km from Khargone Bus Stand. Grand free self-parking—Khargone’s biggest parking area—supports hotel guests and large events.",
+  if (/parking|car|arrival|d-mart|dmart|location|address|where|पता/.test(query)) return {
+    text: "Nakshatra Hotel & Resort is conveniently located Near D-Mart on Sanawad Road, Jaitapur, Khargone, Madhya Pradesh 451001. Grand free self-parking—Khargone’s biggest parking area—supports hotel guests and large celebrations.",
     cards: [{ title: "Parking & arrival", copy: "Free on-site parking for stays, weddings, parties and meetings.", image: "/images/parking.jpg", href: "/parking" }],
     actions: [{ label: "Open directions", href: "https://maps.google.com/?q=Nakshatra+Hotel+Resort+Khargone" }, { label: "Call +91 94250 88369", href: "tel:+919425088369" }],
   };

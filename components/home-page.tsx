@@ -38,7 +38,7 @@ export function HomePage() {
         <div className="hero-actions"><a href="https://wa.me/919479793778?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%20would%20like%20to%20inquire%20about%20room%20availability%20and%20booking." target="_blank" rel="noreferrer" className="gold-button">Book via WhatsApp <ArrowRight/></a><Link href="/our-story" className="text-link">Discover Nakshatra <span>↗</span></Link></div>
         <div className="hero-slider-nav" aria-label="Choose hero image"><button onClick={() => changeHeroSlide(-1)} aria-label="Previous hero image"><ChevronLeft/></button><div>{heroSlides.map((slide, index) => <button className={index === activeHeroSlide ? "active" : ""} key={slide.label} onClick={() => setActiveHeroSlide(index)} aria-label={`Show ${slide.label} image`}><span/>{slide.label}</button>)}</div><button onClick={() => changeHeroSlide(1)} aria-label="Next hero image"><ChevronRight/></button></div>
       </motion.div>
-      <div className="hero-location"><MapPin/>Sanawad Road · Jaitapur · Khargone</div>
+      <div className="hero-location"><MapPin/>Near D-Mart · Sanawad Road · Khargone</div>
       <a className="scroll-cue" href="#book" aria-label="Scroll to booking"><span>SCROLL</span><ChevronDown/></a>
     </section>
     <div className="booking-wrap"><BookingWidget/></div>
@@ -49,7 +49,7 @@ export function HomePage() {
         <p className="kicker">A SANCTUARY IN KHARGONE</p>
         <h2>Where every arrival<br/>feels <em>written in the stars.</em></h2>
       </motion.div>
-      <div className="intro-aside"><p>Just ~3 km from Khargone Bus Stand, Nakshatra brings together 60 rooms, generous leisure spaces and thoughtful hospitality in one serene address.</p><Link className="arrow-link" href="/our-story">Our story <ArrowRight/></Link></div>
+      <div className="intro-aside"><p>Conveniently located Near D-Mart on Sanawad Road, Nakshatra brings together 60 luxury rooms, grand celebration lawns, swimming pools and multi-cuisine dining in Khargone.</p><Link className="arrow-link" href="/our-story">Our story <ArrowRight/></Link></div>
       <div className="stats-row"><div><b>60</b><span>ROOMS &amp; SUITES</span></div><div><b>4</b><span>ROOM CATEGORIES</span></div><div><b>5,500</b><span>SQ FT BANQUET HALL</span></div><div><b>24/7</b><span>FRONT DESK</span></div></div>
     </section>
 

@@ -12,9 +12,9 @@ export function SiteFooter() {
         <h2>Come away<br/><em>restored.</em></h2>
       </div>
       <div className="footer-links">
-        <div><p className="footer-title">Explore</p><Link href="/our-story">Our story</Link><Link href="/rooms">Rooms & suites</Link><Link href="/ground-floor-pool">Guest pool</Link><Link href="/amenities">Amenities</Link><Link href="/restaurant">Restaurant</Link><Link href="/gallery">Gallery</Link><Link href="/parking">Grand parking & arrival</Link></div>
+        <div><p className="footer-title">Explore</p><Link href="/our-story">Our story</Link><Link href="/rooms">Rooms &amp; suites</Link><Link href="/ground-floor-pool">Guest pool</Link><Link href="/amenities">Amenities</Link><Link href="/restaurant">Restaurant</Link><Link href="/gallery">Gallery</Link><Link href="/explore-khargone">Explore Khargone</Link><Link href="/parking">Grand parking</Link></div>
         <div><p className="footer-title">Celebrate</p><Link href="/wedding">Weddings</Link><Link href="/wedding-hall">The Nakshatra Grand Hall</Link><Link href="/wedding-garden">Wedding garden</Link><Link href="/event-planning">Event planning</Link><Link href="/business-meetings">Business meetings</Link><Link href="/birthday-party">Birthdays</Link></div>
-        <div><p className="footer-title">Visit</p><a href="https://maps.google.com/?q=Nakshatra+Hotel+Resort+Khargone" target="_blank" rel="noreferrer"><MapPin size={15}/>{address}</a><a href="tel:+919425088369"><Phone size={15}/>+91 94250 88369</a></div>
+        <div><p className="footer-title">Visit</p><Link href="/directions">Directions &amp; Map</Link><a href="https://maps.google.com/?q=Nakshatra+Hotel+Resort+Khargone" target="_blank" rel="noreferrer"><MapPin size={15}/>{address}</a><a href="tel:+919425088369"><Phone size={15}/>+91 94250 88369</a></div>
       </div>
     </div>
     <div className="footer-bottom">
