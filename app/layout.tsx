@@ -43,6 +43,9 @@ export const metadata: Metadata = {
   creator: "Hotel Nakshatra & Resort",
   publisher: "Hotel Nakshatra & Resort",
   formatDetection: { telephone: true, address: true, email: true },
+  verification: {
+    google: "OZex8qtAN_xn5zdDxY9JHmsLlc_gXU7aK2-pDoYE9Ck",
+  },
   alternates: {
     canonical: "https://www.nakshatrahotel.in",
   },
