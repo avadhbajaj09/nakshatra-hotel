@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { address } from "@/lib/content";
-import { Camera, MessageCircleMore, Video, MapPin, Phone } from "lucide-react";
+import { Camera, MessageCircleMore, Video, MapPin, Phone, Paintbrush, Heart } from "lucide-react";
 
 export function SiteFooter() {
   return <footer className="footer">
@@ -20,6 +20,20 @@ export function SiteFooter() {
     <div className="footer-bottom">
       <p>© {new Date().getFullYear()} Nakshatra Hotel &amp; Resort</p>
       <div><Link href="/privacy-policy">Privacy</Link><Link href="/terms-conditions">Terms</Link><Link href="/cancellation-refund-policy">Cancellation</Link></div>
+      <div className="footer-credit">
+        <a
+          href="https://avadhbajaj.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Designed & Developed by Avadh Bajaj — Luxury Web & Brand Architecture"
+          className="designer-credit-link"
+        >
+          <Paintbrush size={12} className="credit-brush-icon" />
+          <span>Designed with</span>
+          <Heart size={12} className="credit-heart-icon" />
+          <span>by <strong className="designer-name">Avadh Bajaj</strong></span>
+        </a>
+      </div>
       <div className="socials"><a href="https://www.instagram.com/nakshatrahotel/" target="_blank" rel="noreferrer" aria-label="Instagram"><Camera/></a><a href="#" aria-label="Facebook link pending confirmation"><MessageCircleMore/></a><a href="#" aria-label="YouTube link pending confirmation"><Video/></a></div>
     </div>
   </footer>;

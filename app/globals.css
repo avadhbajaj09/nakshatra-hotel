@@ -1639,3 +1639,94 @@ body:has(.results-backdrop) .site-header{z-index:1}
     padding: 110px 16px 50px;
   }
 }
+
+/* ═══════════════════════════════════════════════════
+   DESIGNER FOOTER CREDIT STATEMENT (AVADH BAJAJ)
+═══════════════════════════════════════════════════ */
+
+.footer-bottom {
+  display: flex !important;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px 24px;
+}
+
+.footer-credit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.designer-credit-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 100px;
+  background: rgba(225, 199, 129, 0.06);
+  border: 1px solid rgba(225, 199, 129, 0.22);
+  font-size: 8.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(245, 241, 232, 0.7);
+  transition: all 0.25s ease;
+  text-decoration: none;
+}
+
+.designer-credit-link:hover {
+  background: rgba(225, 199, 129, 0.16);
+  border-color: rgba(225, 199, 129, 0.55);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+}
+
+.credit-brush-icon {
+  color: var(--gold-300);
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.designer-credit-link:hover .credit-brush-icon {
+  transform: rotate(-15deg) scale(1.18);
+  color: var(--gold-100);
+}
+
+.credit-heart-icon {
+  color: #e57373;
+  fill: #e57373;
+  flex-shrink: 0;
+  animation: heartPulse 2s ease-in-out infinite;
+}
+
+@keyframes heartPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.22); }
+}
+
+.designer-name {
+  color: var(--gold-200, var(--gold-300));
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid rgba(225, 199, 129, 0.4);
+  padding-bottom: 1px;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.designer-credit-link:hover .designer-name {
+  color: #fff;
+  border-color: #fff;
+}
+
+@media (max-width: 768px) {
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+  .footer-bottom > div,
+  .socials {
+    justify-content: center !important;
+  }
+}
