@@ -14,6 +14,9 @@ import { propertyGalleries, type GallerySet } from "@/lib/galleries";
 import { CloudinaryGallery } from "@/components/cloudinary-gallery";
 import { DirectionsMap } from "@/components/directions-map";
 import { ExploreKhargonePage } from "@/components/explore-khargone-page";
+import { FaqPage } from "@/components/faq-page";
+import { GuidesPage, type GuideKey } from "@/components/guides-page";
+import { FoodSeoPage } from "@/components/food-seo-page";
 
 type Props = { params: Promise<{ slug: string[] }> };
 
@@ -88,6 +91,18 @@ export default async function AnyPage({ params }: Props) {
   if (key === "gallery") return <main><CloudinaryGallery/></main>;
   if (key === "directions") return <main><DirectionsMap/></main>;
   if (key === "explore-khargone" || key === "famous-spots" || key === "guide") return <main><ExploreKhargonePage/></main>;
+  if (key === "faq") return <main><FaqPage/></main>;
+  if (key === "best-food-in-khargone") return <main><FoodSeoPage/></main>;
+  if (key === "guides" && slug[1]) {
+    const guideMap: Record<string, GuideKey> = {
+      "hotel-near-maheshwar": "maheshwar",
+      "hotel-near-omkareshwar": "omkareshwar",
+      "indore-to-khargone-road-trip": "indore",
+      "wedding-cost-in-khargone": "wedding-cost",
+    };
+    const guideKey = guideMap[slug[1]];
+    if (guideKey) return <main><GuidesPage guide={guideKey}/></main>;
+  }
   const content = pageContent[key]; if (!content) return notFound();
   if (key === "amenities") return <main className="subpage amenities-page"><PageHero content={content}/><section className="full-amenities section-shell"><p className="kicker">AT YOUR SERVICE</p><h2>Stay with <em>everything in reach.</em></h2><p className="amenities-lead">A resort stay should feel effortless. From the moment you arrive, rooms, dining, recreation, events and everyday guest services come together within one Khargone address.</p><div>{amenities.map(([icon,name],i) => { const AmenityIcon = amenityIcons[icon as keyof typeof amenityIcons] || Sparkles; return <article key={name} className="glass-panel"><span className="luxury-icon"><AmenityIcon/></span><h3>{name}</h3><p>{i < 2 ? "Two distinct pool experiences, each with its own access arrangement." : i < 6 ? "Designed to support dining, celebrations and productive gatherings." : "A practical comfort that keeps every stay running smoothly."}</p></article>; })}</div></section>
     <section className="pool-amenity-story"><article><img src="/images/ground-floor-pool-gallery/nakshatra10.jpeg" alt="Ground-floor swimming pool at Nakshatra"/><div className="glass-panel"><p className="kicker">FOR STAYING GUESTS</p><h2>Ground-floor pool</h2><p>Included access for registered room guests, offering an easy place to cool down, unwind and spend time together during the stay.</p><Link href="/ground-floor-pool">View all 10 photographs <ArrowRight/></Link></div></article><article><img src="/images/parking.jpg" alt="Grand parking area at Nakshatra"/><div className="glass-panel"><p className="kicker">ARRIVE WITH EASE</p><h2>Grand parking</h2><p>Khargone’s biggest parking area supports stays, weddings, conferences and large celebrations.</p><Link href="/parking">Explore parking &amp; arrivals <ArrowRight/></Link></div></article></section>
