@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -17,7 +17,9 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
-export default function NewBookingPage() {
+export const dynamic = "force-dynamic";
+
+function NewBookingForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -374,5 +376,13 @@ export default function NewBookingPage() {
         </div>
       </form>
     </div>
+  );
+}
+
+export default function NewBookingPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center text-xs text-[#9c7c3c] flex items-center justify-center gap-2"><Loader2 className="w-4 h-4 animate-spin" /> Loading booking form…</div>}>
+      <NewBookingForm />
+    </Suspense>
   );
 }
