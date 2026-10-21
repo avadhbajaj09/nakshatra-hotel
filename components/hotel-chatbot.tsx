@@ -256,125 +256,152 @@ export function HotelChatbot() {
 
     setInputValue("");
 
-    // If currentNode is asking for free text (Question path)
-    if (currentNode.id === "question_prompt" || (!currentNode.field && currentNode.kind === "text")) {
+    // Case 1: Current node is asking for WhatsApp phone number
+    if (currentNode.kind === "phone") {
+      const newAnswers = { ...answers, phone: text };
+      setAnswers(newAnswers);
+
       const userMsg: MessageItem = {
         id: "usr_" + Date.now(),
         sender: "user",
         text,
         timestamp: Date.now(),
       };
-      setMessages((prev) => [...prev, userMsg]);
-      setIsLoading(true);
 
-      try {
-        const chatRes = await fetch("/api/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            messages: [{ role: "user", content: text }],
-            sessionId,
-          }),
-        });
-
-        const chatData = await chatRes.json();
-        const aiReply =
-          chatData.message ||
-          "We offer luxury stays, wedding banquet halls, swimming pools, and fine dining. How can we help you?";
-
-        const botReply: MessageItem = {
-          id: "bot_" + Date.now(),
-          sender: "bot",
-          text: aiReply,
-          isAiResponse: true,
-          quickActions: [
-            {
-              label: "🛏 Room Booking",
-              action: () => jumpToNode("room_date"),
-            },
-            {
-              label: "🍽 Restaurant",
-              action: () => jumpToNode("restaurant_when"),
-            },
-            {
-              label: "🎉 Banquet",
-              action: () => jumpToNode("banquet_type"),
-            },
-            {
-              label: "💬 Talk to Team",
-              action: () => jumpToNode("question_name"),
-            },
-          ],
-          timestamp: Date.now(),
+      const nextNodeId = currentNode.next || "room_end";
+      const nextNode =
+        CHAT_FLOW[nextNodeId] || {
+          id: "end",
+          message: (ans: Record<string, string>) =>
+            `Thank you, ${ans.name || "Guest"}! 🙏 Our team will contact you soon on WhatsApp.`,
+          kind: "end" as const,
         };
 
-        setMessages((prev) => [...prev, botReply]);
-      } catch {
-        const errorBotMsg: MessageItem = {
-          id: "bot_" + Date.now(),
+      const nextMsgText =
+        typeof nextNode.message === "function" ? nextNode.message(newAnswers) : nextNode.message;
+
+      const botMsg: MessageItem = {
+        id: "bot_" + (Date.now() + 1),
+        sender: "bot",
+        text: nextMsgText,
+        nodeId: nextNode.id,
+        timestamp: Date.now() + 1,
+      };
+
+      setMessages((prev) => [...prev, userMsg, botMsg]);
+      setCurrentNodeId(nextNode.id);
+      await submitFinalLead(newAnswers, nextNode);
+      return;
+    }
+
+    // Case 2: Current node is asking for Guest Name
+    if (currentNode.kind === "text" && currentNode.field === "name") {
+      const newAnswers = { ...answers, name: text };
+      setAnswers(newAnswers);
+
+      const userMsg: MessageItem = {
+        id: "usr_" + Date.now(),
+        sender: "user",
+        text,
+        timestamp: Date.now(),
+      };
+
+      const nextNodeId = currentNode.next || "room_phone";
+      const nextNode = CHAT_FLOW[nextNodeId];
+
+      if (nextNode) {
+        const nextMsgText =
+          typeof nextNode.message === "function" ? nextNode.message(newAnswers) : nextNode.message;
+
+        const botMsg: MessageItem = {
+          id: "bot_" + (Date.now() + 1),
           sender: "bot",
-          text: "Our team would be delighted to assist you directly with any details.",
-          quickActions: [
-            {
-              label: "💬 Talk to Team",
-              action: () => jumpToNode("question_name"),
-            },
-            {
-              label: "🛏 Room Booking",
-              action: () => jumpToNode("room_date"),
-            },
-          ],
-          timestamp: Date.now(),
+          text: nextMsgText,
+          nodeId: nextNode.id,
+          options: nextNode.options,
+          timestamp: Date.now() + 1,
         };
-        setMessages((prev) => [...prev, errorBotMsg]);
-      } finally {
-        setIsLoading(false);
+
+        setMessages((prev) => [...prev, userMsg, botMsg]);
+        setCurrentNodeId(nextNode.id);
+        sendPartialLead(newAnswers, nextNode);
       }
       return;
     }
 
-    // Normal text or phone node
-    const newAnswers = { ...answers };
-    if (currentNode.field) {
-      newAnswers[currentNode.field] = text;
-      setAnswers(newAnswers);
-    }
-
+    // Case 3: Free-text AI question (at welcome node, buttons node, or any general query)
     const userMsg: MessageItem = {
       id: "usr_" + Date.now(),
       sender: "user",
       text,
       timestamp: Date.now(),
     };
+    setMessages((prev) => [...prev, userMsg]);
+    setIsLoading(true);
 
-    const nextNodeId = currentNode.next || "welcome";
-    const nextNode = CHAT_FLOW[nextNodeId];
+    try {
+      const chatRes = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [{ role: "user", content: text }],
+          sessionId,
+        }),
+      });
 
-    if (!nextNode) {
-      setMessages((prev) => [...prev, userMsg]);
-      return;
-    }
+      const chatData = await chatRes.json();
+      const aiReply =
+        chatData.reply ||
+        chatData.message ||
+        "We offer luxury stays, private pool suites, grand banquet halls, and fine dining. How can our team assist you today?";
 
-    const nextMsgText =
-      typeof nextNode.message === "function" ? nextNode.message(newAnswers) : nextNode.message;
+      const botReply: MessageItem = {
+        id: "bot_" + Date.now(),
+        sender: "bot",
+        text: aiReply,
+        isAiResponse: true,
+        quickActions: [
+          {
+            label: "🛏 Room Booking",
+            action: () => jumpToNode("room_date"),
+          },
+          {
+            label: "🍽 Restaurant",
+            action: () => jumpToNode("restaurant_when"),
+          },
+          {
+            label: "🎉 Banquet",
+            action: () => jumpToNode("banquet_type"),
+          },
+          {
+            label: "💬 Talk to Team",
+            action: () => jumpToNode("question_name"),
+          },
+        ],
+        timestamp: Date.now(),
+      };
 
-    const botMsg: MessageItem = {
-      id: "bot_" + (Date.now() + 1),
-      sender: "bot",
-      text: nextMsgText,
-      nodeId: nextNode.id,
-      options: nextNode.options,
-      timestamp: Date.now() + 1,
-    };
-
-    setMessages((prev) => [...prev, userMsg, botMsg]);
-    setCurrentNodeId(nextNode.id);
-
-    // If nextNode is the End node, submit full lead
-    if (nextNode.kind === "end" || currentNode.kind === "phone") {
-      await submitFinalLead(newAnswers, nextNode);
-    } else {
-      sendPartialLead(newAnswers, nextNode);
+      setMessages((prev) => [...prev, botReply]);
+    } catch {
+      const errorBotMsg: MessageItem = {
+        id: "bot_" + Date.now(),
+        sender: "bot",
+        text: "Our team would be delighted to assist you directly with any details.",
+        quickActions: [
+          {
+            label: "💬 Talk to Team",
+            action: () => jumpToNode("question_name"),
+          },
+          {
+            label: "🛏 Room Booking",
+            action: () => jumpToNode("room_date"),
+          },
+        ],
+        timestamp: Date.now(),
+      };
+      setMessages((prev) => [...prev, errorBotMsg]);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -597,8 +624,8 @@ export function HotelChatbot() {
           </div>
         )}
 
-        {/* Input Form for Text / Phone Nodes / General questions */}
-        {(currentNode.kind === "text" || currentNode.kind === "phone") && !leadSubmitted && (
+        {/* Input Form for Text / Phone / Free-text AI questions (Always visible when active) */}
+        {!leadSubmitted && currentNode.kind !== "end" && (
           <form
             onSubmit={handleTextSubmit}
             className="p-3 bg-white border-t border-slate-200 space-y-2"
@@ -625,7 +652,9 @@ export function HotelChatbot() {
                 placeholder={
                   currentNode.kind === "phone"
                     ? "Enter 10-digit WhatsApp number…"
-                    : "Type your name or question…"
+                    : currentNode.kind === "text" && currentNode.field === "name"
+                    ? "May we have your name…"
+                    : "Ask about rooms, banquets, pool, dining…"
                 }
                 className="flex-1 border border-slate-300 rounded-full px-4 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-hidden focus:border-[#9c7c3c]"
                 required

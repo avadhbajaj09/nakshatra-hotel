@@ -63,37 +63,45 @@ export async function POST(req: Request) {
       })),
     ];
 
-    const model = process.env.LLM_MODEL || "gemini-2.0-flash";
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents,
-          generationConfig: {
-            temperature: 0.2,
-            maxOutputTokens: 150,
-          },
-        }),
-      }
-    );
+    const modelsToTry = [process.env.LLM_MODEL || "gemini-2.5-flash", "gemini-flash-latest", "gemini-3.8-flash"];
+    let replyText = "";
 
-    if (!res.ok) {
-      console.error("[api/chat] Gemini API error:", res.status, await res.text());
-      return NextResponse.json({
-        reply: "Our team would be happy to help with that! Would you like to check rooms, banquet halls, or speak with our manager?",
-        showMenu: true,
-      });
+    for (const model of modelsToTry) {
+      try {
+        const res = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contents,
+              generationConfig: {
+                temperature: 0.2,
+                maxOutputTokens: 150,
+              },
+            }),
+          }
+        );
+
+        if (res.ok) {
+          const data = await res.json();
+          replyText = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "";
+          if (replyText) break;
+        } else {
+          console.warn(`[api/chat] Model ${model} returned status ${res.status}`);
+        }
+      } catch (e) {
+        console.warn(`[api/chat] Error calling model ${model}:`, e);
+      }
     }
 
-    const data = await res.json();
-    const replyText =
-      data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ||
-      "Welcome to Nakshatra Hotel & Resort! How can our team assist you today?";
+    if (!replyText) {
+      replyText = "Our team would be happy to help with that! Would you like to check rooms, banquet halls, or speak with our manager?";
+    }
 
     return NextResponse.json({
       reply: replyText,
+      message: replyText,
       showMenu: true,
     });
   } catch (err) {
