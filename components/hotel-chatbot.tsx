@@ -1,189 +1,686 @@
 "use client";
 
-import Link from "next/link";
-import { FormEvent, useEffect, useRef, useState } from "react";
-import { ArrowRight, CalendarDays, Image as ImageIcon, MessageCircle, RotateCcw, Send, Sparkles, X } from "lucide-react";
-import { rooms } from "@/lib/content";
+import { useEffect, useRef, useState, useId } from "react";
+import {
+  MessageCircle,
+  X,
+  RotateCcw,
+  Send,
+  Sparkles,
+  Calendar,
+  CheckCircle2,
+  Loader2,
+  ArrowRight,
+} from "lucide-react";
+import { CHAT_FLOW, FlowNode, FlowOption } from "@/lib/chat-flow";
 
-type Card = { title: string; copy: string; image: string; href: string };
-type Action = { label: string; href: string };
-type ChatMessage = { id: number; role: "assistant" | "guest"; text: string; cards?: Card[]; actions?: Action[] };
-
-const welcome: ChatMessage = {
-  id: 1,
-  role: "assistant",
-  text: "Namaste! I’m your Nakshatra concierge. Ask me about rooms, prices, weddings, birthday parties, business meetings, pools, dining, parking or booking—and I can show you the right images too.",
+type MessageItem = {
+  id: string;
+  sender: "bot" | "user";
+  text: string;
+  nodeId?: string;
+  options?: FlowOption[];
+  isDatePicker?: boolean;
+  isAiResponse?: boolean;
+  quickActions?: { label: string; action: () => void }[];
+  timestamp: number;
 };
 
-const prompts = ["Guest pool photos", "Grand Hall photos", "Show room photos", "Plan my wedding", "Birthday party", "Business meeting", "Book a stay"];
-
-const allOccasions: Card[] = [
-  { title: "Rooms & stays", copy: "60 rooms across four categories with flexible meal packages.", image: "/images/rooms/nakshatra1.jpeg", href: "/rooms" },
-  { title: "The Nakshatra Grand Hall", copy: "Grand Hall, garden, rooms, dining and parking together.", image: "/images/grand-hall-gallery/nakshatra69.jpeg", href: "/wedding-hall" },
-  { title: "Birthday parties", copy: "Flexible indoor, lawn, restaurant and poolside possibilities.", image: "/images/party.jpg", href: "/birthday-party" },
-  { title: "Business meetings", copy: "Meeting space, WiFi, dining, rooms and parking.", image: "/images/business-meeting.jpg", href: "/business-meetings" },
-];
-
-function answerFor(raw: string): Omit<ChatMessage, "id" | "role"> {
-  const query = raw.toLowerCase();
-  const wantsImages = /image|images|photo|photos|gallery|picture|pictures|फोटो/.test(query);
-
-  if (wantsImages && /pool|swim/.test(query)) return {
-    text: "Here are real photographs of Nakshatra’s ground-floor guest pool, included for registered room guests during confirmed operating hours.",
-    cards: ["nakshatra10.jpeg", "nakshatra24.jpeg", "nakshatra43.jpeg", "nakshatra14.jpeg"].map((name) => ({ title: "Ground-floor guest pool", copy: "A refreshing resort moment included with your stay.", image: `/images/ground-floor-pool-gallery/${name}`, href: "/ground-floor-pool" })),
-    actions: [{ label: "View all guest pool photos", href: "/ground-floor-pool" }],
-  };
-
-  if (wantsImages && /wedding|banquet|hall|grand/.test(query)) return {
-    text: "Welcome to The Nakshatra Grand Hall—an approximately 5,500 sq ft indoor setting for weddings, banquets and business gatherings. These are real photographs; open the hall page to browse all 11 images full screen.",
-    cards: ["nakshatra69.jpeg", "nakshatra42.jpeg", "nakshatra74.jpeg", "nakshatra73.jpeg"].map((name, index) => ({
-      title: ["Wedding celebration", "Elegant banquet dining", "Conference layout", "Grand Hall details"][index],
-      copy: "A real view of The Nakshatra Grand Hall.",
-      image: `/images/grand-hall-gallery/${name}`,
-      href: "/wedding-hall",
-    })),
-    actions: [{ label: "View all 11 Grand Hall photos", href: "/wedding-hall" }, { label: "Plan a wedding", href: "/wedding" }],
-  };
-
-  if (wantsImages && /room|stay|suite|कमरा/.test(query)) return {
-    text: "Here are real room photographs from Nakshatra. Open any room to view its complete gallery and amenities.",
-    cards: rooms.slice(0, 4).map(room => ({ title: room.name, copy: `Up to ${room.maxGuests} guests · Inquire rates on WhatsApp`, image: room.image, href: `/rooms/${room.slug}` })),
-    actions: [{ label: "View all rooms", href: "/rooms" }],
-  };
-
-  if (wantsImages) return {
-    text: "Here is a quick visual tour of Nakshatra. You can also open the full gallery for rooms, pools, dining, weddings and the resort grounds.",
-    cards: [
-      { title: "Hotel & resort", copy: "The main arrival façade in Khargone.", image: "/images/main-front-facade.webp", href: "/our-story" },
-      { title: "Guest pool", copy: "Included for registered room guests.", image: "/images/ground-floor-pool-gallery/nakshatra10.jpeg", href: "/ground-floor-pool" },
-      { title: "The Nakshatra Grand Hall", copy: "Indoor celebrations and elegant event layouts.", image: "/images/grand-hall-gallery/nakshatra69.jpeg", href: "/wedding-hall" },
-      { title: "Rooms", copy: "Real room galleries for every category.", image: "/images/rooms/nakshatra56.jpeg", href: "/rooms" },
-    ],
-    actions: [{ label: "Open full gallery", href: "/gallery" }],
-  };
-
-  if (/wedding|marriage|shaadi|shadi|वेडिंग|शादी/.test(query)) return {
-    text: "Nakshatra can bring your celebration together in one address: an approximately 5,500 sq ft banquet hall, wedding garden and lawns, 60 guest rooms, in-house dining, event planning and grand free parking. Share your date and approximate guest count on WhatsApp or via our wedding inquiry page.",
-    cards: [
-      { title: "The Nakshatra Grand Hall", copy: "Grand indoor celebrations in an approximately 5,500 sq ft setting.", image: "/images/grand-hall-gallery/nakshatra69.jpeg", href: "/wedding-hall" },
-      { title: "Wedding garden", copy: "Open-air ceremonies, receptions and evening dining.", image: "/images/wedding-garden.jpg", href: "/wedding-garden" },
-      { title: "Complete planning", copy: "Bring venue, rooms, dining and arrival needs into one plan.", image: "/images/celebration-table.jpg", href: "/event-planning" },
-    ],
-    actions: [{ label: "Inquire on WhatsApp", href: "https://wa.me/919479793778?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%20would%20like%20to%20inquire%20about%20wedding%20venue%20booking." }, { label: "Call hotel", href: "tel:+919425088369" }],
-  };
-
-  if (/birthday|anniversary|personal party|celebration|जन्मदिन/.test(query)) return {
-    text: "Birthday celebrations can be planned around an indoor venue, lawn, restaurant or a confirmed poolside setting, with food, rooms and parking discussed together. Final space, timing and inclusions are confirmed for your date and guest count.",
-    cards: [
-      { title: "Birthday celebrations", copy: "Family birthdays, children’s celebrations and milestone evenings.", image: "/images/party.jpg", href: "/birthday-party" },
-      { title: "Poolside celebration", copy: "Planned date-by-date with food and room options.", image: "/images/ground-floor-pool-gallery/nakshatra14.jpeg", href: "/pool-party" },
-    ],
-    actions: [{ label: "Plan a birthday", href: "/birthday-party" }, { label: "Explore event planning", href: "/event-planning" }],
-  };
-
-  if (/business|meeting|conference|corporate|training|मीटिंग/.test(query)) return {
-    text: "For business groups, Nakshatra combines meeting and conference facilities with 50+ Mbps WiFi, in-house dining, 60 rooms and free on-site parking. Tell the team your date, schedule, approximate attendance, room requirement and meal needs.",
-    cards: [
-      { title: "Meetings & conferences", copy: "Focused sessions, presentations, training and team gatherings.", image: "/images/business-meeting.jpg", href: "/business-meetings" },
-      { title: "Group accommodation", copy: "Four room categories with breakfast and dining packages.", image: "/images/rooms/nakshatra36.jpeg", href: "/rooms" },
-    ],
-    actions: [{ label: "Start meeting enquiry", href: "/business-meetings" }, { label: "View conference details", href: "/conference-and-meetings" }],
-  };
-
-  if (/pool|swim|swimming|पूल/.test(query)) return {
-    text: "Nakshatra’s ground-floor guest pool is included for registered room guests according to confirmed hotel operating hours and safety rules.",
-    cards: [{ title: "Ground-floor guest pool", copy: "Open to registered staying guests during their visit.", image: "/images/ground-floor-pool-gallery/nakshatra10.jpeg", href: "/ground-floor-pool" }],
-    actions: [{ label: "View guest pool", href: "/ground-floor-pool" }],
-  };
-
-  if (/room|stay|suite|hotel|accommodation|कमरा/.test(query) && !/book|booking|reserve|availability|बुक/.test(query)) return {
-    text: "Nakshatra offers 60 rooms across four categories: Executive, Deluxe, Family and Suite. Every room includes practical comforts, and you can add breakfast, one daily meal or complete dining. Contact us directly on WhatsApp for room rates and direct bookings.",
-    cards: rooms.slice(0, 3).map(room => ({ title: room.name, copy: `${room.bed} · up to ${room.maxGuests} guests`, image: room.image, href: `/rooms/${room.slug}` })),
-    actions: [{ label: "Compare every room", href: "/rooms" }, { label: "Book via WhatsApp", href: "https://wa.me/919479793778?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%20would%20like%20to%20inquire%20about%20room%20availability." }],
-  };
-
-  if (/book|booking|reserve|availability|date|बुक/.test(query)) return {
-    text: "For instant bookings and stay inquiries, message our hotel team directly on WhatsApp. Share your check-in date, check-out date, and guest count for direct confirmation.",
-    cards: allOccasions,
-    actions: [{ label: "Book via WhatsApp", href: "https://wa.me/919479793778?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%20would%20like%20to%20inquire%20about%20room%20availability%20and%20booking." }, { label: "Call Hotel", href: "tel:+919425088369" }],
-  };
-
-  if (/food|restaurant|breakfast|lunch|dinner|meal|menu|खाना/.test(query)) return {
-    text: "Nakshatra has an in-house multi-cuisine restaurant. Room bookings can include breakfast, breakfast plus lunch or dinner, or a complete dining stay. Wedding, party and meeting meals are planned separately for each event.",
-    cards: [{ title: "Restaurant & dining", copy: "Everyday meals, guest packages and occasion dining.", image: "/images/restaurant.jpg", href: "/restaurant" }],
-    actions: [{ label: "Explore dining", href: "/restaurant" }, { label: "View room meal plans", href: "/rooms" }],
-  };
-
-  if (/parking|car|arrival|d-mart|dmart|location|address|where|पता/.test(query)) return {
-    text: "Nakshatra Hotel & Resort is conveniently located Near D-Mart on Sanawad Road, Jaitapur, Khargone, Madhya Pradesh 451001. Grand free self-parking—Khargone’s biggest parking area—supports hotel guests and large celebrations.",
-    cards: [{ title: "Parking & arrival", copy: "Free on-site parking for stays, weddings, parties and meetings.", image: "/images/parking.jpg", href: "/parking" }],
-    actions: [{ label: "Open directions", href: "https://maps.google.com/?q=Nakshatra+Hotel+Resort+Khargone" }, { label: "Call +91 94250 88369", href: "tel:+919425088369" }],
-  };
-
-  if (/price|rate|cost|discount|offer|₹|कितना/.test(query)) return {
-    text: "For live room rates, package offers, or event pricing, please contact our team directly on WhatsApp or call us at +91 94250 88369. We will provide direct quotes for your travel dates.",
-    actions: [{ label: "Inquire on WhatsApp", href: "https://wa.me/919479793778?text=Hello%20Nakshatra%20Hotel%20%26%20Resort%2C%20I%20would%20like%20to%20inquire%20about%20room%20rates." }, { label: "Call +91 94250 88369", href: "tel:+919425088369" }],
-  };
-
-  return {
-    text: "I can help with room photos and prices, stay booking, weddings, birthday or poolside parties, business meetings, dining, amenities, parking and directions. Choose one below, or ask a more specific question such as “show Suite Room images” or “plan a wedding for 300 guests.”",
-    cards: allOccasions,
-  };
-}
+const STORAGE_KEY = "nakshatra_chat_state_v2";
 
 export function HotelChatbot() {
-  const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([welcome]);
-  const [input, setInput] = useState("");
-  const [typing, setTyping] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const feedRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentNodeId, setCurrentNodeId] = useState<string>("welcome");
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [messages, setMessages] = useState<MessageItem[]>([]);
+  const [inputValue, setInputValue] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [honeypot, setHoneypot] = useState("");
+  const [marketingOptIn, setMarketingOptIn] = useState(true);
+  const [sessionId, setSessionId] = useState<string>("");
+  const [leadSubmitted, setLeadSubmitted] = useState(false);
 
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const honeypotId = useId();
+
+  // Initialize or restore session
   useEffect(() => {
-    const saved = window.localStorage.getItem("nakshatra-concierge-history");
-    if (saved) try { setMessages(JSON.parse(saved)); } catch { window.localStorage.removeItem("nakshatra-concierge-history"); }
+    let sid = "";
+    try {
+      const stored = sessionStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed.sessionId) {
+          setSessionId(parsed.sessionId);
+          sid = parsed.sessionId;
+          setCurrentNodeId(parsed.currentNodeId || "welcome");
+          setAnswers(parsed.answers || {});
+          setMessages(parsed.messages || []);
+          setLeadSubmitted(Boolean(parsed.leadSubmitted));
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to restore chat session:", e);
+    }
+
+    if (!sid) {
+      const newSid = "sess_" + Math.random().toString(36).substring(2, 11) + "_" + Date.now();
+      setSessionId(newSid);
+      const rootNode = CHAT_FLOW["welcome"];
+      const welcomeMsg: MessageItem = {
+        id: "msg_welcome",
+        sender: "bot",
+        text: typeof rootNode.message === "function" ? rootNode.message({}) : rootNode.message,
+        nodeId: "welcome",
+        options: rootNode.options,
+        timestamp: Date.now(),
+      };
+      setMessages([welcomeMsg]);
+      setCurrentNodeId("welcome");
+    }
   }, []);
 
+  // Save session state to sessionStorage
   useEffect(() => {
-    window.localStorage.setItem("nakshatra-concierge-history", JSON.stringify(messages.slice(-20)));
-    feedRef.current?.scrollTo({ top: feedRef.current.scrollHeight, behavior: "smooth" });
-  }, [messages, typing]);
+    if (!sessionId) return;
+    try {
+      sessionStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({
+          sessionId,
+          currentNodeId,
+          answers,
+          messages: messages.slice(-30),
+          leadSubmitted,
+        })
+      );
+    } catch (e) {
+      console.warn("Failed to save chat state:", e);
+    }
+  }, [sessionId, currentNodeId, answers, messages, leadSubmitted]);
 
+  // Scroll to bottom on new messages
   useEffect(() => {
-    if (open) window.setTimeout(() => inputRef.current?.focus(), 180);
-    const escape = (event: KeyboardEvent) => { if (event.key === "Escape") setOpen(false); };
-    window.addEventListener("keydown", escape);
-    return () => window.removeEventListener("keydown", escape);
-  }, [open]);
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, isLoading]);
 
-  const send = (text: string) => {
-    const clean = text.trim();
-    if (!clean || typing) return;
-    setMessages(current => [...current, { id: Date.now(), role: "guest", text: clean }]);
-    setInput("");
-    setTyping(true);
-    window.setTimeout(() => {
-      setMessages(current => [...current, { id: Date.now() + 1, role: "assistant", ...answerFor(clean) }]);
-      setTyping(false);
-    }, 520);
+  // Focus input when open
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => inputRef.current?.focus(), 200);
+    }
+  }, [isOpen, currentNodeId]);
+
+  const currentNode: FlowNode = CHAT_FLOW[currentNodeId] || CHAT_FLOW["welcome"];
+
+  const sendPartialLead = async (updatedAnswers: Record<string, string>, node: FlowNode) => {
+    if (leadSubmitted) return;
+    try {
+      await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId,
+          type: node.leadType || "other",
+          answers: updatedAnswers,
+          name: updatedAnswers.name,
+          phone: updatedAnswers.phone,
+          pageUrl: typeof window !== "undefined" ? window.location.href : "",
+          honeypot,
+          partial: true,
+          marketingOptIn,
+        }),
+      });
+    } catch {
+      // Non-critical, ignore
+    }
   };
 
-  const submit = (event: FormEvent) => { event.preventDefault(); send(input); };
-  const reset = () => { setMessages([{ ...welcome, id: Date.now() }]); setInput(""); };
+  const handleOptionClick = (option: FlowOption) => {
+    const nextNode = CHAT_FLOW[option.next];
+    if (!nextNode) return;
 
-  return <>
-    <button className={`chatbot-launcher ${open ? "is-open" : ""}`} onClick={() => setOpen(value => !value)} aria-label={open ? "Close Nakshatra concierge" : "Ask Nakshatra concierge anything"} aria-expanded={open}>
-      <span className="chatbot-launcher-icon">{open ? <X/> : <MessageCircle/>}</span><span><small>NAKSHATRA CONCIERGE</small><b>{open ? "Close assistant" : "Ask me anything"}</b></span>
-    </button>
-    <aside className={`hotel-chatbot glass-panel ${open ? "is-open" : ""}`} aria-hidden={!open} aria-label="Nakshatra hotel assistant">
-      <header><div className="chatbot-brand"><img src="/images/nakshatra-logo-gold-transparent-v2.png" alt="Nakshatra Hotel & Resort"/><span><b>Nakshatra Concierge</b><small><i/>Online · instant hotel guide</small></span></div><div><button onClick={reset} aria-label="Start a new conversation"><RotateCcw/></button><button onClick={() => setOpen(false)} aria-label="Close assistant"><X/></button></div></header>
-      <div className="chatbot-feed" ref={feedRef} aria-live="polite">{messages.map(message => <div className={`chat-message ${message.role}`} key={message.id}>
-        {message.role === "assistant" && <span className="assistant-glyph"><Sparkles/></span>}
-        <div className="chat-message-body"><p>{message.text}</p>{message.cards && <div className="chat-card-rail">{message.cards.map(card => <Link href={card.href} key={`${message.id}-${card.href}`} onClick={() => setOpen(false)}><img src={card.image} alt={card.title}/><div><b>{card.title}</b><small>{card.copy}</small><span>Explore <ArrowRight/></span></div></Link>)}</div>}{message.actions && <div className="chat-actions">{message.actions.map(action => <a href={action.href} key={action.href} onClick={() => setOpen(false)}>{action.label}<ArrowRight/></a>)}</div>}</div>
-      </div>)}{typing && <div className="chat-message assistant"><span className="assistant-glyph"><Sparkles/></span><div className="typing-dots"><i/><i/><i/></div></div>}</div>
-      <div className="chatbot-prompts">{prompts.map(prompt => <button key={prompt} onClick={() => send(prompt)}>{/photo|gallery/i.test(prompt) ? <ImageIcon/> : prompt.includes("Book") ? <CalendarDays/> : null}{prompt}</button>)}</div>
-      <form className="chatbot-input" onSubmit={submit}><input ref={inputRef} value={input} onChange={event => setInput(event.target.value)} placeholder="Ask about rooms, events, prices…" aria-label="Ask the Nakshatra concierge"/><button type="submit" disabled={!input.trim() || typing} aria-label="Send message"><Send/></button></form>
-      <p className="chatbot-footnote">For final availability and event quotations, the hotel team confirms every request directly.</p>
-    </aside>
-  </>;
+    const newAnswers = { ...answers };
+    if (currentNode.field) {
+      newAnswers[currentNode.field] = option.value;
+      setAnswers(newAnswers);
+    }
+
+    const userMsg: MessageItem = {
+      id: "usr_" + Date.now(),
+      sender: "user",
+      text: option.label,
+      timestamp: Date.now(),
+    };
+
+    const nextMsgText =
+      typeof nextNode.message === "function" ? nextNode.message(newAnswers) : nextNode.message;
+
+    const botMsg: MessageItem = {
+      id: "bot_" + (Date.now() + 1),
+      sender: "bot",
+      text: nextMsgText,
+      nodeId: nextNode.id,
+      options: nextNode.options,
+      isDatePicker: nextNode.kind === "date",
+      timestamp: Date.now() + 1,
+    };
+
+    setMessages((prev) => [...prev, userMsg, botMsg]);
+    setCurrentNodeId(nextNode.id);
+
+    // Save partial progress
+    if (currentNode.field) {
+      sendPartialLead(newAnswers, nextNode);
+    }
+  };
+
+  const handleDateConfirm = () => {
+    if (!selectedDate) return;
+    const nextNodeId = currentNode.next || "welcome";
+    const nextNode = CHAT_FLOW[nextNodeId];
+    if (!nextNode) return;
+
+    const newAnswers = { ...answers };
+    if (currentNode.field) {
+      newAnswers[currentNode.field] = selectedDate;
+      setAnswers(newAnswers);
+    }
+
+    const userMsg: MessageItem = {
+      id: "usr_" + Date.now(),
+      sender: "user",
+      text: selectedDate,
+      timestamp: Date.now(),
+    };
+
+    const nextMsgText =
+      typeof nextNode.message === "function" ? nextNode.message(newAnswers) : nextNode.message;
+
+    const botMsg: MessageItem = {
+      id: "bot_" + (Date.now() + 1),
+      sender: "bot",
+      text: nextMsgText,
+      nodeId: nextNode.id,
+      options: nextNode.options,
+      timestamp: Date.now() + 1,
+    };
+
+    setMessages((prev) => [...prev, userMsg, botMsg]);
+    setCurrentNodeId(nextNode.id);
+    setSelectedDate("");
+
+    sendPartialLead(newAnswers, nextNode);
+  };
+
+  const submitFinalLead = async (finalAnswers: Record<string, string>, node: FlowNode) => {
+    setIsLoading(true);
+    try {
+      const res = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId,
+          type: node.leadType || "other",
+          answers: finalAnswers,
+          name: finalAnswers.name || "Guest",
+          phone: finalAnswers.phone,
+          pageUrl: typeof window !== "undefined" ? window.location.href : "",
+          honeypot,
+          partial: false,
+          marketingOptIn,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to submit enquiry");
+      }
+
+      setLeadSubmitted(true);
+    } catch (err: unknown) {
+      console.error("Lead submission error:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleTextSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const text = inputValue.trim();
+    if (!text || isLoading) return;
+
+    setInputValue("");
+
+    // If currentNode is asking for free text (Question path)
+    if (currentNode.id === "question_prompt" || (!currentNode.field && currentNode.kind === "text")) {
+      const userMsg: MessageItem = {
+        id: "usr_" + Date.now(),
+        sender: "user",
+        text,
+        timestamp: Date.now(),
+      };
+      setMessages((prev) => [...prev, userMsg]);
+      setIsLoading(true);
+
+      try {
+        const chatRes = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            messages: [{ role: "user", content: text }],
+            sessionId,
+          }),
+        });
+
+        const chatData = await chatRes.json();
+        const aiReply =
+          chatData.message ||
+          "We offer luxury stays, wedding banquet halls, swimming pools, and fine dining. How can we help you?";
+
+        const botReply: MessageItem = {
+          id: "bot_" + Date.now(),
+          sender: "bot",
+          text: aiReply,
+          isAiResponse: true,
+          quickActions: [
+            {
+              label: "🛏 Room Booking",
+              action: () => jumpToNode("room_date"),
+            },
+            {
+              label: "🍽 Restaurant",
+              action: () => jumpToNode("restaurant_when"),
+            },
+            {
+              label: "🎉 Banquet",
+              action: () => jumpToNode("banquet_type"),
+            },
+            {
+              label: "💬 Talk to Team",
+              action: () => jumpToNode("question_name"),
+            },
+          ],
+          timestamp: Date.now(),
+        };
+
+        setMessages((prev) => [...prev, botReply]);
+      } catch {
+        const errorBotMsg: MessageItem = {
+          id: "bot_" + Date.now(),
+          sender: "bot",
+          text: "Our team would be delighted to assist you directly with any details.",
+          quickActions: [
+            {
+              label: "💬 Talk to Team",
+              action: () => jumpToNode("question_name"),
+            },
+            {
+              label: "🛏 Room Booking",
+              action: () => jumpToNode("room_date"),
+            },
+          ],
+          timestamp: Date.now(),
+        };
+        setMessages((prev) => [...prev, errorBotMsg]);
+      } finally {
+        setIsLoading(false);
+      }
+      return;
+    }
+
+    // Normal text or phone node
+    const newAnswers = { ...answers };
+    if (currentNode.field) {
+      newAnswers[currentNode.field] = text;
+      setAnswers(newAnswers);
+    }
+
+    const userMsg: MessageItem = {
+      id: "usr_" + Date.now(),
+      sender: "user",
+      text,
+      timestamp: Date.now(),
+    };
+
+    const nextNodeId = currentNode.next || "welcome";
+    const nextNode = CHAT_FLOW[nextNodeId];
+
+    if (!nextNode) {
+      setMessages((prev) => [...prev, userMsg]);
+      return;
+    }
+
+    const nextMsgText =
+      typeof nextNode.message === "function" ? nextNode.message(newAnswers) : nextNode.message;
+
+    const botMsg: MessageItem = {
+      id: "bot_" + (Date.now() + 1),
+      sender: "bot",
+      text: nextMsgText,
+      nodeId: nextNode.id,
+      options: nextNode.options,
+      timestamp: Date.now() + 1,
+    };
+
+    setMessages((prev) => [...prev, userMsg, botMsg]);
+    setCurrentNodeId(nextNode.id);
+
+    // If nextNode is the End node, submit full lead
+    if (nextNode.kind === "end" || currentNode.kind === "phone") {
+      await submitFinalLead(newAnswers, nextNode);
+    } else {
+      sendPartialLead(newAnswers, nextNode);
+    }
+  };
+
+  const jumpToNode = (targetNodeId: string) => {
+    const targetNode = CHAT_FLOW[targetNodeId];
+    if (!targetNode) return;
+
+    const botMsg: MessageItem = {
+      id: "bot_" + Date.now(),
+      sender: "bot",
+      text:
+        typeof targetNode.message === "function"
+          ? targetNode.message(answers)
+          : targetNode.message,
+      nodeId: targetNode.id,
+      options: targetNode.options,
+      isDatePicker: targetNode.kind === "date",
+      timestamp: Date.now(),
+    };
+
+    setMessages((prev) => [...prev, botMsg]);
+    setCurrentNodeId(targetNode.id);
+  };
+
+  const handleReset = () => {
+    const newSid = "sess_" + Math.random().toString(36).substring(2, 11) + "_" + Date.now();
+    setSessionId(newSid);
+    setAnswers({});
+    setLeadSubmitted(false);
+    setSelectedDate("");
+    setInputValue("");
+
+    const rootNode = CHAT_FLOW["welcome"];
+    const welcomeMsg: MessageItem = {
+      id: "msg_welcome_" + Date.now(),
+      sender: "bot",
+      text: typeof rootNode.message === "function" ? rootNode.message({}) : rootNode.message,
+      nodeId: "welcome",
+      options: rootNode.options,
+      timestamp: Date.now(),
+    };
+
+    setMessages([welcomeMsg]);
+    setCurrentNodeId("welcome");
+  };
+
+  // Min and max dates for date picker
+  const todayStr = new Date().toISOString().split("T")[0];
+  const nextYearStr = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
+    .toISOString()
+    .split("T")[0];
+
+  return (
+    <>
+      {/* Floating Launcher Button */}
+      <button
+        type="button"
+        className={`chatbot-launcher ${isOpen ? "is-open" : ""}`}
+        onClick={() => setIsOpen((prev) => !prev)}
+        aria-label={isOpen ? "Close Nakshatra Concierge" : "Chat with Nakshatra Concierge"}
+        aria-expanded={isOpen}
+      >
+        <span className="chatbot-launcher-icon">
+          {isOpen ? <X className="w-5 h-5 text-forest-950" /> : <MessageCircle className="w-5 h-5 text-forest-950" />}
+        </span>
+        <span className="flex flex-col text-left">
+          <small className="text-[10px] tracking-widest text-[#d4af37] font-semibold uppercase">
+            Nakshatra Concierge
+          </small>
+          <b className="text-sm font-serif text-white">
+            {isOpen ? "Close chat" : "Enquire & Book"}
+          </b>
+        </span>
+      </button>
+
+      {/* Chat Window Panel */}
+      <aside
+        className={`hotel-chatbot glass-panel ${isOpen ? "is-open" : ""}`}
+        aria-hidden={!isOpen}
+        aria-label="Nakshatra Hotel Concierge Chat"
+        style={{
+          display: isOpen ? "grid" : "none",
+        }}
+      >
+        {/* Header */}
+        <header className="flex items-center justify-between p-3.5 bg-[#092218] border-b border-[#c9a961]/30 text-white">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#c9a961] to-[#9c7c3c] flex items-center justify-center text-[#092218] font-bold text-lg shadow">
+              ✦
+            </div>
+            <div>
+              <b className="block font-serif text-sm tracking-wide text-[#e1c781]">
+                Nakshatra Concierge
+              </b>
+              <small className="flex items-center gap-1.5 text-[11px] text-[#f5f1e8]/70">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                Live · Instant WhatsApp Confirmation
+              </small>
+            </div>
+          </div>
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={handleReset}
+              className="p-1.5 text-white/70 hover:text-white rounded-full hover:bg-white/10 transition"
+              title="Reset conversation"
+              aria-label="Start over"
+            >
+              <RotateCcw className="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsOpen(false)}
+              className="p-1.5 text-white/70 hover:text-white rounded-full hover:bg-white/10 transition"
+              aria-label="Close chat"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </header>
+
+        {/* Messages Feed */}
+        <div className="chatbot-feed p-4 overflow-y-auto space-y-3.5 bg-[#fcfbfa]/95 text-slate-800 text-sm">
+          {messages.map((msg) => (
+            <div
+              key={msg.id}
+              className={`flex flex-col ${msg.sender === "user" ? "items-end" : "items-start"}`}
+            >
+              <div
+                className={`max-w-[85%] rounded-2xl p-3 shadow-sm ${
+                  msg.sender === "user"
+                    ? "bg-[#0b2b1f] text-white rounded-br-xs"
+                    : "bg-white border border-slate-200 text-slate-800 rounded-bl-xs"
+                }`}
+              >
+                {msg.sender === "bot" && (
+                  <div className="flex items-center gap-1 text-[11px] text-[#9c7c3c] font-semibold mb-1">
+                    <Sparkles className="w-3 h-3" />
+                    <span>Nakshatra Concierge</span>
+                  </div>
+                )}
+                <p className="whitespace-pre-line leading-relaxed text-[13px]">{msg.text}</p>
+              </div>
+
+              {/* Quick AI Options / Buttons */}
+              {msg.quickActions && (
+                <div className="flex flex-wrap gap-1.5 mt-2 max-w-[90%]">
+                  {msg.quickActions.map((action, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={action.action}
+                      className="text-xs bg-white hover:bg-[#0b2b1f] hover:text-white text-[#0b2b1f] border border-[#0b2b1f]/20 rounded-full px-3 py-1.5 font-medium transition shadow-xs flex items-center gap-1"
+                    >
+                      {action.label}
+                      <ArrowRight className="w-3 h-3" />
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+
+          {/* Typing Indicator */}
+          {isLoading && (
+            <div className="flex items-center gap-2 text-slate-500 text-xs py-1">
+              <Loader2 className="w-4 h-4 animate-spin text-[#9c7c3c]" />
+              <span>Checking details…</span>
+            </div>
+          )}
+
+          {/* Date Picker Interface for current node */}
+          {currentNode.kind === "date" && !leadSubmitted && (
+            <div className="bg-white p-3 rounded-xl border border-[#c9a961]/40 shadow-sm mt-2">
+              <label className="block text-xs font-semibold text-slate-700 mb-1.5 flex items-center gap-1.5">
+                <Calendar className="w-4 h-4 text-[#9c7c3c]" />
+                Select date:
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="date"
+                  min={todayStr}
+                  max={nextYearStr}
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                  className="flex-1 border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:outline-hidden focus:border-[#9c7c3c]"
+                />
+                <button
+                  type="button"
+                  onClick={handleDateConfirm}
+                  disabled={!selectedDate}
+                  className="bg-[#0b2b1f] hover:bg-[#124231] disabled:opacity-50 text-white text-xs px-3.5 py-1.5 rounded-lg font-medium transition"
+                >
+                  Confirm
+                </button>
+              </div>
+            </div>
+          )}
+
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Buttons Rail for Current Active Node */}
+        {currentNode.kind === "buttons" && currentNode.options && !leadSubmitted && (
+          <div className="p-3 bg-[#f3eee5] border-t border-slate-200 flex flex-wrap gap-2">
+            {currentNode.options.map((opt) => (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => handleOptionClick(opt)}
+                className="bg-white hover:bg-[#0b2b1f] hover:text-white text-[#0b2b1f] text-xs font-medium px-3.5 py-2 rounded-xl border border-slate-200 hover:border-[#0b2b1f] transition shadow-xs"
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Input Form for Text / Phone Nodes / General questions */}
+        {(currentNode.kind === "text" || currentNode.kind === "phone") && !leadSubmitted && (
+          <form
+            onSubmit={handleTextSubmit}
+            className="p-3 bg-white border-t border-slate-200 space-y-2"
+          >
+            {/* Honeypot hidden input for bot detection */}
+            <input
+              type="text"
+              id={honeypotId}
+              name="hotel_website_verify"
+              tabIndex={-1}
+              autoComplete="off"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+              style={{ display: "none", position: "absolute", left: "-9999px" }}
+              aria-hidden="true"
+            />
+
+            <div className="flex items-center gap-2">
+              <input
+                ref={inputRef}
+                type={currentNode.kind === "phone" ? "tel" : "text"}
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder={
+                  currentNode.kind === "phone"
+                    ? "Enter 10-digit WhatsApp number…"
+                    : "Type your name or question…"
+                }
+                className="flex-1 border border-slate-300 rounded-full px-4 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-hidden focus:border-[#9c7c3c]"
+                required
+              />
+              <button
+                type="submit"
+                disabled={!inputValue.trim() || isLoading}
+                className="w-9 h-9 rounded-full bg-[#0b2b1f] hover:bg-[#124231] disabled:opacity-40 text-[#e1c781] flex items-center justify-center transition shadow-xs"
+                aria-label="Send"
+              >
+                <Send className="w-4 h-4" />
+              </button>
+            </div>
+
+            {currentNode.kind === "phone" && (
+              <label className="flex items-center gap-2 text-[11px] text-slate-500 cursor-pointer pt-0.5">
+                <input
+                  type="checkbox"
+                  checked={marketingOptIn}
+                  onChange={(e) => setMarketingOptIn(e.target.checked)}
+                  className="rounded text-[#0b2b1f] focus:ring-[#9c7c3c]"
+                />
+                <span>Receive booking confirmation &amp; exclusive offers on WhatsApp</span>
+              </label>
+            )}
+          </form>
+        )}
+
+        {/* End Node State or Quick Action bar */}
+        {currentNode.kind === "end" && (
+          <div className="p-4 bg-emerald-50 border-t border-emerald-200 text-center space-y-2">
+            <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 mx-auto">
+              <CheckCircle2 className="w-5 h-5" />
+            </div>
+            <p className="text-xs text-emerald-900 font-medium">
+              Enquiry received! Our manager will message you shortly.
+            </p>
+            <a
+              href={`https://wa.me/918878933778?text=Hello%20Nakshatra%20Hotel%2C%20I%20just%20submitted%20an%20enquiry%20on%20your%20website.`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs text-emerald-800 underline font-medium hover:text-emerald-950"
+            >
+              Need immediate help? Message us directly on WhatsApp &rarr;
+            </a>
+          </div>
+        )}
+
+        {/* Footer fallback */}
+        <footer className="p-2.5 bg-[#f8f6f0] border-t border-slate-200 text-center flex items-center justify-between text-[11px] text-slate-500 px-4">
+          <span>Hotel &amp; Resort Khargone</span>
+          <a
+            href="https://wa.me/918878933778?text=Hello%20Nakshatra%20Hotel%2C%20I%20have%20a%20query."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-emerald-700 font-semibold hover:underline"
+          >
+            Direct WhatsApp
+          </a>
+        </footer>
+      </aside>
+    </>
+  );
 }

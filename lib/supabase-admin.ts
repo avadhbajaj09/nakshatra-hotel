@@ -1,13 +1,12 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import type { Database } from "@/lib/database.types";
 
-let adminClient: SupabaseClient<Database> | undefined;
+let adminClient: SupabaseClient | undefined;
 
 export function getSupabaseAdmin() {
-  const url = process.env.SUPABASE_URL;
-  const secretKey = process.env.SUPABASE_SECRET_KEY;
+  const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const secretKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY;
   if (!url || !secretKey) throw new Error("Supabase server configuration is missing.");
-  adminClient ??= createClient<Database>(url, secretKey, {
+  adminClient ??= createClient(url, secretKey, {
     auth: { autoRefreshToken: false, persistSession: false },
   });
   return adminClient;
