@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useId } from "react";
+import { usePathname } from "next/navigation";
 import {
   MessageCircle,
   X,
@@ -29,6 +30,7 @@ type MessageItem = {
 const STORAGE_KEY = "nakshatra_chat_state_v2";
 
 export function HotelChatbot() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [currentNodeId, setCurrentNodeId] = useState<string>("welcome");
   const [answers, setAnswers] = useState<Record<string, string>>({});
@@ -424,6 +426,10 @@ export function HotelChatbot() {
   const nextYearStr = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
     .toISOString()
     .split("T")[0];
+
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
 
   return (
     <>

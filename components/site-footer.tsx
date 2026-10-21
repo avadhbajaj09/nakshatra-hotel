@@ -1,8 +1,15 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { address } from "@/lib/content";
 import { Camera, MessageCircleMore, Video, MapPin, Phone, Paintbrush, Heart } from "lucide-react";
 
 export function SiteFooter() {
+  const pathname = usePathname();
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
   return <footer className="footer">
     <div className="footer-glow"/>
     <div className="footer-main">
