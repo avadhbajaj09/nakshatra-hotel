@@ -102,6 +102,9 @@ const structuredData = {
       name: "Hotel Nakshatra & Resort",
       alternateName: ["Nakshatra Resort Khargone", "Nakshatra Hotel Khargone"],
       url: "https://www.nakshatrahotel.in",
+      sameAs: [
+        "https://www.instagram.com/nakshatrahotel/",
+      ],
       logo: "https://res.cloudinary.com/qtah71h2/image/upload/v1786616778/nakshatra-new-photoshoot-2026-08-13/hotel-nakshatra-logo-01.jpg",
       image: [
         "https://res.cloudinary.com/qtah71h2/image/upload/v1786616862/nakshatra-new-photoshoot-2026-08-13/dmb2yozmtgjcs3dtvbmn.jpg",

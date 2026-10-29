@@ -47,6 +47,7 @@ export function buildHotelSchema() {
       longitude: siteConfig.geo.lng,
     },
     hasMap: siteConfig.socials.googleMapsUrl,
+    sameAs: siteConfig.sameAs,
     contactPoint: [
       {
         "@type": "ContactPoint",

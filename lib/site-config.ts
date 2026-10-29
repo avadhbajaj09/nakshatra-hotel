@@ -119,13 +119,14 @@ export const siteConfig = {
     },
   ],
 
-  /** TODO: add real social URLs when client provides them */
-  sameAs: [] as string[],
+  sameAs: [
+    "https://www.instagram.com/nakshatrahotel/",
+  ] as string[],
 
   socials: {
     googleMapsUrl:
       "https://maps.google.com/?q=Nakshatra+Hotel+Resort+Khargone",
-    instagram: "TODO: confirm with client",
+    instagram: "https://www.instagram.com/nakshatrahotel/",
     facebook: "TODO: confirm with client",
   },
 
