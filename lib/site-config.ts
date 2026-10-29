@@ -120,14 +120,15 @@ export const siteConfig = {
   ],
 
   sameAs: [
-    "https://www.instagram.com/nakshatrahotel/",
+    "https://www.instagram.com/nakshatrahotel",
+    "https://www.facebook.com/NakshatraHotelResort",
+    "https://maps.app.goo.gl/nK6cpALdyBtz5MfP9",
   ] as string[],
 
   socials: {
-    googleMapsUrl:
-      "https://maps.google.com/?q=Nakshatra+Hotel+Resort+Khargone",
-    instagram: "https://www.instagram.com/nakshatrahotel/",
-    facebook: "TODO: confirm with client",
+    googleMapsUrl: "https://maps.app.goo.gl/nK6cpALdyBtz5MfP9",
+    instagram: "https://www.instagram.com/nakshatrahotel",
+    facebook: "https://www.facebook.com/NakshatraHotelResort",
   },
 
   policies: {

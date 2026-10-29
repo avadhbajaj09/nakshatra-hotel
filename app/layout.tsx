@@ -103,7 +103,9 @@ const structuredData = {
       alternateName: ["Nakshatra Resort Khargone", "Nakshatra Hotel Khargone"],
       url: "https://www.nakshatrahotel.in",
       sameAs: [
-        "https://www.instagram.com/nakshatrahotel/",
+        "https://www.instagram.com/nakshatrahotel",
+        "https://www.facebook.com/NakshatraHotelResort",
+        "https://maps.app.goo.gl/nK6cpALdyBtz5MfP9",
       ],
       logo: "https://res.cloudinary.com/qtah71h2/image/upload/v1786616778/nakshatra-new-photoshoot-2026-08-13/hotel-nakshatra-logo-01.jpg",
       image: [
@@ -135,7 +137,7 @@ const structuredData = {
         latitude: 22.0121,
         longitude: 75.6206,
       },
-      hasMap: "https://maps.google.com/?q=Nakshatra+Hotel+Resort+Khargone",
+      hasMap: "https://maps.app.goo.gl/nK6cpALdyBtz5MfP9",
       contactPoint: [
         {
           "@type": "ContactPoint",

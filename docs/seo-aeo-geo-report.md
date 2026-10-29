@@ -111,8 +111,9 @@ All new pages include:
 |------|--------------|---------------|
 | Hotel email address | `"TODO: confirm with client"` | Get official email from client |
 | Restaurant seating capacity | `"TODO: confirm with client"` | Confirm seating count |
-| Instagram URL | `"TODO: confirm with client"` | Get handle/URL from client |
-| Facebook URL | `"TODO: confirm with client"` | Get handle/URL from client |
+| Instagram URL | `https://www.instagram.com/nakshatrahotel` | ✅ Confirmed & Wired |
+| Facebook URL | `https://www.facebook.com/NakshatraHotelResort` | ✅ Confirmed & Wired |
+| Google Maps / GMB URL | `https://maps.app.goo.gl/nK6cpALdyBtz5MfP9` | ✅ Confirmed & Wired |
 | Khargone Bus Stand distance | `"approximately 3–4 km"` | Confirm exact distance |
 | Mandu distance from Khargone | `"~115 km"` | Verify exact distance |
 | NH3 toll amounts | Not included | Confirm current toll rates |
