@@ -161,11 +161,6 @@ const structuredData = {
         { "@type": "LocationFeatureSpecification", name: "Air Conditioning", value: true },
         { "@type": "LocationFeatureSpecification", name: "Kids Play Area & Outdoor Sports", value: true },
       ],
-      starRating: {
-        "@type": "Rating",
-        ratingValue: "4.8",
-        bestRating: "5",
-      },
     },
     {
       "@type": "Restaurant",
@@ -250,7 +245,7 @@ const structuredData = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en-IN">
       <head>
         <meta name="geo.region" content="IN-MP" />
         <meta name="geo.placename" content="Khargone" />

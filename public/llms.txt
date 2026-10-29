@@ -1,36 +1,116 @@
 # Hotel Nakshatra & Resort — Khargone, Madhya Pradesh
 
-> Premier luxury resort, hotel, destination wedding venue, banquet hall, and multi-cuisine dining destination in Khargone, Madhya Pradesh.
+> Premier luxury resort, hotel, destination wedding venue, banquet hall, and multi-cuisine dining destination in Khargone, Madhya Pradesh, India.
+> This file is maintained for LLM/AI crawler discovery. Canonical entity: Hotel Nakshatra & Resort (https://www.nakshatrahotel.in)
 
-## Key Facts & Direct Contacts
-- **Property Name**: Hotel Nakshatra & Resort
-- **Address**: Sanawad Road, Jaitapur, Near D-Mart, Khargone, Madhya Pradesh 451001, India
-- **Official Website**: https://www.nakshatrahotel.in
-- **24/7 WhatsApp Booking & Rates**: +91 94797 93778 (Direct WhatsApp: https://wa.me/919479793778)
-- **Management & Call Desk**: +91 94250 88369 (Direct Call: tel:+919425088369)
-- **Number of Rooms**: 60 luxury rooms across Executive, Deluxe, Family, and Luxury Suites
-- **Check-in / Check-out**: 12:00 PM / 10:00 AM
+## Entity Definition
+
+**Property Name**: Hotel Nakshatra & Resort (also known as Nakshatra Hotel Khargone, Nakshatra Resort Khargone)
+**Type**: Hotel / Resort / Restaurant / Banquet Venue / Event Venue
+**Address**: Sanawad Road, Jaitapur, Near D-Mart, Khargone, Madhya Pradesh 451001, India
+**Geo**: 22.0121° N, 75.6206° E
+**Official Website**: https://www.nakshatrahotel.in
+**24/7 WhatsApp Booking & Rates**: +91 94797 93778 (Direct WhatsApp: https://wa.me/919479793778)
+**Management & Call Desk**: +91 94250 88369 (Direct Call: tel:+919425088369)
+**Email**: TODO: confirm with client
+**Check-in / Check-out**: 12:00 PM / 10:00 AM
+
+## Rooms & Pricing
+
+- **Total Rooms**: 60 guest rooms across four categories
+- **Executive Room**: ₹2,999/night — max 2 guests
+- **Deluxe Room**: ₹3,799/night — max 3 guests
+- **Family Room**: ₹7,499/night — max 4 guests
+- **Suite Room**: ₹6,499/night — max 3 guests
+- All rooms: AC, private bathroom, hot water, WiFi, TV, daily housekeeping, in-room dining, power backup
 
 ## Facilities & Amenities
-- **Swimming Pools**: Ground-floor swimming pool for all registered staying guests + exclusive 3rd-floor private pool suites.
-- **Wedding & Banquet Venues**: ~5,500 sq ft grand indoor air-conditioned banquet hall + lush open-air wedding garden & celebration lawns.
-- **Dining**: Pure vegetarian & multi-cuisine restaurant serving North Indian, Continental, Chinese, and regional specialties.
-- **Parking**: Khargone's biggest dedicated on-site parking area with 24/7 security for 200+ vehicles.
-- **Connectivity**: High-speed WiFi (50+ Mbps), power backup, 24-hour front desk.
 
-## Nearby Tourism & Pilgrimage Connectivity
-- **Near D-Mart, Khargone**: 0.2 km (walking distance on Sanawad Road)
-- **Navgraha Mandir, Khargone**: 4 km (10 minutes)
-- **Maheshwar Fort & Ahilya Ghat (Narmada River)**: 50 km (1 hour 10 minutes)
-- **Omkareshwar Jyotirlinga Temple**: 75 km (1 hour 45 minutes)
-- **Khandwa Junction**: 85 km (2 hours)
-- **Indore Airport (IDR)**: 95 km (2 hours 15 minutes via NH3)
+- **Swimming Pools**: Ground-floor swimming pool (included for all registered staying guests) + exclusive 3rd-floor private pool suites for luxury couple stays
+- **Wedding & Banquet Venues**: ~5,500 sq ft grand indoor air-conditioned banquet hall (Nakshatra Grand Hall, capacity 1,200 guests) + lush open-air wedding garden & celebration lawns
+- **Dining**: In-house multi-cuisine restaurant — North Indian, Chinese, Continental, Mughlai, with vegetarian options. Meal plans available (room-only, breakfast, half-board, full-board)
+- **Parking**: Khargone's biggest dedicated on-site parking area for 200+ vehicles with 24/7 security (free)
+- **Connectivity**: High-speed WiFi (50+ Mbps), power backup, 24-hour front desk
+- **Recreation**: Kids play area, outdoor sports, resort grounds
 
-## Direct Links
-- [Home Page](https://www.nakshatrahotel.in)
-- [3D Photo Gallery](https://www.nakshatrahotel.in/gallery): 82 real photoshoot images of rooms, pools, lawns, dining, and banquets
-- [Rooms & Suites](https://www.nakshatrahotel.in/rooms): Executive, Deluxe, Family, and Suite room details
-- [Weddings & Celebrations](https://www.nakshatrahotel.in/wedding): 5,500 sq ft hall & marriage garden
-- [Restaurant & Dining](https://www.nakshatrahotel.in/restaurant): In-house dining & meal plans
-- [Directions & Map](https://www.nakshatrahotel.in/directions): Interactive Google Map route planner
-- [Explore Khargone & Stay Guide](https://www.nakshatrahotel.in/explore-khargone): Regional tourism, distance matrix, and pilgrimage guide
+## Banquet & Events
+
+Nakshatra Grand Hall:
+- ~5,500 sq ft indoor AC banquet hall
+- Capacity: up to 1,200 guests
+- Event types: weddings, receptions, engagements, birthday parties, anniversary celebrations, corporate conferences, meetings, social gatherings
+- Adjacent open-air wedding garden lawns for ceremonies and outdoor events
+- On-site: 60 guest rooms for wedding party accommodation, multi-cuisine catering, free parking
+
+## Restaurant Details
+
+- **Name**: Nakshatra Multi-Cuisine Restaurant
+- **Cuisines**: North Indian, Chinese, Continental, Mughlai
+- **Dietary**: Vegetarian and non-vegetarian options available
+- **Seating**: TODO: confirm with client
+- Open to hotel guests and walk-in visitors
+
+## Hotel Policies
+
+- Check-in: 12:00 PM | Check-out: 10:00 AM
+- Minimum guest age: 18 years
+- Local IDs not accepted
+- Unmarried couples not allowed
+- Pets not allowed
+- Outside food not allowed
+- Payment: Cash, Credit Card, Debit Card, UPI, Net Banking
+
+## How to Reach
+
+- **From Indore**: ~95 km via NH3 (National Highway 3 / Agra-Mumbai Highway) — approximately 2 hours
+- **From Maheshwar**: ~50 km — approximately 1 hour 10 minutes by road
+- **From Omkareshwar**: ~75 km — approximately 1 hour 45 minutes by road
+- **From Khandwa Junction** (nearest major railway station): ~85 km — approximately 2 hours
+  - Note: Khargone city does not have its own major railway station
+- **From Khargone Bus Stand**: approximately 3–4 km (TODO: confirm exact distance)
+- **Landmark**: Near D-Mart on Sanawad Road, Jaitapur, Khargone
+
+## Nearby Tourism & Pilgrimage
+
+- **D-Mart, Khargone**: 0.2 km (walking distance on Sanawad Road)
+- **Navgraha Mandir, Khargone**: ~4 km (~10 minutes)
+- **Maheshwar Fort & Ahilya Ghat (Narmada River)**: ~50 km (~1 hour 10 minutes)
+- **Omkareshwar Jyotirlinga Temple**: ~75 km (~1 hour 45 minutes)
+- **Mandu (Mandavgarh)**: ~115 km (TODO: verify exact distance)
+- **Khandwa Junction**: ~85 km (~2 hours)
+- **Indore Airport (IDR) & City**: ~95 km (~2 hours 15 minutes via NH3)
+
+## Online Presence
+
+- **Google Maps**: https://maps.google.com/?q=Nakshatra+Hotel+Resort+Khargone
+- **Instagram**: TODO: confirm with client
+- **Facebook**: TODO: confirm with client
+
+## Website Pages
+
+- [Home](https://www.nakshatrahotel.in) — Main property overview
+- [Rooms & Suites](https://www.nakshatrahotel.in/rooms) — Executive, Deluxe, Family and Suite room details + pricing
+- [Restaurant & Dining](https://www.nakshatrahotel.in/restaurant) — In-house multi-cuisine dining & meal plans
+- [Banquet Hall](https://www.nakshatrahotel.in/banquet-hall) — Nakshatra Grand Hall details, capacity, event types
+- [Weddings](https://www.nakshatrahotel.in/wedding) — Wedding venue, banquet hall & lawns
+- [Party Venue](https://www.nakshatrahotel.in/party-venue) — Birthday & anniversary party venue options
+- [Gallery](https://www.nakshatrahotel.in/gallery) — Real photoshoot images of property
+- [About](https://www.nakshatrahotel.in/about) — Entity definition page
+- [Contact](https://www.nakshatrahotel.in/contact) — Contact details, directions & Google Maps
+- [Directions](https://www.nakshatrahotel.in/directions) — Interactive map & route planner
+- [FAQ](https://www.nakshatrahotel.in/faq) — Frequently asked questions
+- [Best Food in Khargone](https://www.nakshatrahotel.in/best-food-in-khargone) — Restaurant SEO page
+- [Explore Khargone](https://www.nakshatrahotel.in/explore-khargone) — Travel guide for the Khargone region
+- [Blog](https://www.nakshatrahotel.in/blog) — Travel guides, wedding planning and local tips
+  - [How to Choose a Banquet Hall in Khargone for Your Wedding](https://www.nakshatrahotel.in/blog/banquet-hall-in-khargone-wedding)
+  - [Best Places to Visit Near Khargone](https://www.nakshatrahotel.in/blog/places-to-visit-near-khargone)
+  - [Where to Eat in Khargone with Family](https://www.nakshatrahotel.in/blog/where-to-eat-in-khargone)
+  - [Indore to Khargone: Distance, Route & Where to Stay](https://www.nakshatrahotel.in/blog/indore-to-khargone-distance-route)
+  - [Planning a Birthday or Anniversary Party in Khargone](https://www.nakshatrahotel.in/blog/birthday-party-khargone)
+- [Hotel Near Maheshwar](https://www.nakshatrahotel.in/guides/hotel-near-maheshwar) — Guide for Maheshwar visitors
+- [Hotel Near Omkareshwar](https://www.nakshatrahotel.in/guides/hotel-near-omkareshwar) — Guide for Omkareshwar pilgrims
+- [Indore to Khargone Road Trip](https://www.nakshatrahotel.in/guides/indore-to-khargone-road-trip) — Road trip guide
+- [Wedding Cost in Khargone](https://www.nakshatrahotel.in/guides/wedding-cost-in-khargone) — Wedding budget guide
+
+---
+*Last updated: October 2025 | This file is maintained for AI/LLM discovery purposes.*
