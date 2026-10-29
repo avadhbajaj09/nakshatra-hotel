@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter, Playfair_Display } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { GlobalDiscovery } from "@/components/global-discovery";
 import { PageTransition } from "@/components/page-transition";
 import { HotelChatbot } from "@/components/hotel-chatbot";
+import { AnalyticsTracker } from "@/components/analytics-tracker";
+import { GA_TRACKING_ID } from "@/lib/analytics";
 import "./globals.css";
 
 const inter = Inter({ variable: "--font-sans", subsets: ["latin"], display: "swap" });
@@ -258,6 +261,26 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <meta name="ICBM" content="22.0121, 75.6206" />
       </head>
       <body className={`${inter.variable} ${playfair.variable}`}>
+        {/* Google Analytics 4 (GA4) */}
+        <Script
+          strategy="afterInteractive"
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${GA_TRACKING_ID}', {
+                page_path: window.location.pathname,
+              });
+            `,
+          }}
+        />
+        <AnalyticsTracker />
         <PageTransition />
         <SiteHeader />
         {children}
